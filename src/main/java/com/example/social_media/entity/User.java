@@ -1,11 +1,14 @@
 package com.example.social_media.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="user")
 public class User {
@@ -45,7 +48,7 @@ public class User {
     private List<User> followingUsers;
 
     // follower
-    @ManyToMany(mappedBy = "followingUser")
+    @ManyToMany(mappedBy = "followingUsers")
     private List<User> followers;
 
     // user'post
@@ -61,11 +64,19 @@ public class User {
     @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
     private List<Group> memberGroups;
 
-
-
-
-
-
-
-
+    public User(String userId, String phone, Date createDate, Date lastLogin, String firstName, String midName, String lastName, String address, String biography, String major, String department, String text, int role) {
+        this.userId = userId;
+        this.phone = phone;
+        this.createDate = createDate;
+        this.lastLogin = lastLogin;
+        this.firstName = firstName;
+        this.midName = midName;
+        this.lastName = lastName;
+        this.address = address;
+        this.biography = biography;
+        this.major = major;
+        this.department = department;
+        this.text = text;
+        this.role = role;
+    }
 }
