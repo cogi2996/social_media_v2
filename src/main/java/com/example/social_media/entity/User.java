@@ -36,8 +36,6 @@ public class User {
     private String major;
     @Column(name="department")
     private String department;
-    @Column(name="text")
-    private String text;
     @Column(name="role")
     private int role;
 
@@ -76,7 +74,6 @@ public class User {
         this.biography = biography;
         this.major = major;
         this.department = department;
-        this.text = text;
         this.role = role;
     }
 }

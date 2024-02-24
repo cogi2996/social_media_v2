@@ -1,5 +1,21 @@
 package com.example.social_media.DTO;
 
-public class UserDTO {
+import lombok.Data;
 
+import java.util.Date;
+@Data
+public class UserDTO {
+    private String userId;
+    private String phone;
+    private Date createDate;
+    private Date lastLogin;
+    private String firstName;
+    private String midName;
+    private String lastName;
+    private String address;
+    private String biography;
+    private String major;
+    private String department;
+    private String text;
+    private int role;
 }
