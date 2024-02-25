@@ -62,18 +62,5 @@ public class User {
     @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
     private List<Group> memberGroups;
 
-    public User(String userId, String phone, Date createDate, Date lastLogin, String firstName, String midName, String lastName, String address, String biography, String major, String department, String text, int role) {
-        this.userId = userId;
-        this.phone = phone;
-        this.createDate = createDate;
-        this.lastLogin = lastLogin;
-        this.firstName = firstName;
-        this.midName = midName;
-        this.lastName = lastName;
-        this.address = address;
-        this.biography = biography;
-        this.major = major;
-        this.department = department;
-        this.role = role;
-    }
+
 }
