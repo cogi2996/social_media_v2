@@ -1,5 +1,6 @@
 package com.example.social_media.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,7 @@ public class User {
     private String major;
     @Column(name="department")
     private String department;
+    @JsonIgnore
     @Column(name="role")
     private int role;
 

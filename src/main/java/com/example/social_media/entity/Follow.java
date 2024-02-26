@@ -4,23 +4,29 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "Follow")
 public class Follow {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "source_id")
-    private String sourceId;
-    @Column(name = "target_id")
-    private String targetId;
+    @EmbeddedId
+    private FollowId followId;
     @Column(name = "follow_create_time")
-    private Date followCreateTime;
-    @Column(name = "follow_status")
+    private LocalDateTime followCreateTime;
+    @Column(name = "follow_status", columnDefinition = "BOOLEAN DEFAULT false")
     private Boolean followStatus;
+
+    public Follow(FollowId followId ){
+        this.followId  = followId;
+        this.followCreateTime = LocalDateTime.now();
+        this.followStatus =false;
+    }
 
 }
