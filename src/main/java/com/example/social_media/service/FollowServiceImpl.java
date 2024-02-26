@@ -2,7 +2,7 @@ package com.example.social_media.service;
 
 import com.example.social_media.dao.FollowRepository;
 import com.example.social_media.entity.Follow;
-import com.example.social_media.entity.FollowId;
+import com.example.social_media.entity.EntityId.FollowId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

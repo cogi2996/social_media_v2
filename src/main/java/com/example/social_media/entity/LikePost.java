@@ -1,23 +1,21 @@
 package com.example.social_media.entity;
 
+import com.example.social_media.entity.EntityId.LikePostId;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
-@Table(name="LikePost")
+@Table(name = "likepost")
 public class LikePost {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private String userId;
-    @Column(name="post_id")
-    private int postId;
+    @EmbeddedId
+    private LikePostId likePostId;
     @Column(name="like_time")
-    private Date likeTime;
+    private LocalDateTime likeTime;
 }

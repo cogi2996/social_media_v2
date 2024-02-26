@@ -1,12 +1,11 @@
 package com.example.social_media.entity;
 
+import com.example.social_media.entity.EntityId.FollowId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 

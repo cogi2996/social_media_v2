@@ -64,5 +64,7 @@ public class User {
     @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
     private List<Group> memberGroups;
 
+    // các bài viết mà user like
+
 
 }

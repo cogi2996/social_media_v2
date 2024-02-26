@@ -1,4 +1,4 @@
-package com.example.social_media.entity;
+package com.example.social_media.entity.EntityId;
 
 import jakarta.persistence.*;
 import lombok.*;
