@@ -21,8 +21,6 @@ public class Group {
     private String groupName;
     @Column(name= "create_time")
     private Date createTime;
-//    @Column(name="create_id")
-//    private String createId;
 
     @ManyToOne
     @JoinColumn(name="create_id",referencedColumnName = "user_id")

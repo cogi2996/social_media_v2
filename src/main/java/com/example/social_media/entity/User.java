@@ -9,6 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="user")
@@ -16,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
-    private String userId;
+    private int userId;
     @Column(name="phone")
     private String phone;
     @Column(name="create_date")
@@ -37,9 +39,9 @@ public class User {
     private String major;
     @Column(name="department")
     private String department;
-    @JsonIgnore
-    @Column(name="role")
-    private int role;
+//    @JsonIgnore
+//    @Column(name="role")
+//    private int role;
 
 
     // following
@@ -65,6 +67,11 @@ public class User {
     private List<Group> memberGroups;
 
     // các bài viết mà user like
+
+    // account của user
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id")
+    private Account account;
 
 
 }

@@ -1,0 +1,6 @@
+package com.example.social_media.security;
+
+import org.springframework.security.core.Authentication;
+public interface IAuthenticationFacade {
+    Authentication getAuthentication();
+}
