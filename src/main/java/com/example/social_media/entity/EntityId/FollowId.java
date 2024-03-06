@@ -13,10 +13,10 @@ import java.util.Objects;
 @ToString
 public class FollowId  {
     @Column(name = "source_id")
-    private String sourceId;
+    private int sourceId;
 
     @Column(name = "target_id")
-    private String targetId;
+    private int targetId;
 
     // Constructors, getters, setters
 

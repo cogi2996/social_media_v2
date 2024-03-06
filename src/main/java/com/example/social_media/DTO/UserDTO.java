@@ -1,11 +1,11 @@
 package com.example.social_media.DTO;
 
+import com.example.social_media.security.Role;
 import lombok.Data;
 
 import java.util.Date;
 @Data
 public class UserDTO {
-    private String userId;
     private String phone;
     private Date createDate;
     private Date lastLogin;
@@ -17,5 +17,5 @@ public class UserDTO {
     private String major;
     private String department;
     private String text;
-    private int role;
+    private Role role;
 }

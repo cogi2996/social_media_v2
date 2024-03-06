@@ -1,16 +1,22 @@
 package com.example.social_media.rest;
 
 
+import com.example.social_media.DTO.UserDTO;
 import com.example.social_media.entity.EntityId.LikePostId;
 import com.example.social_media.entity.Follow;
 import com.example.social_media.entity.EntityId.FollowId;
 import com.example.social_media.entity.LikePost;
 import com.example.social_media.entity.Post;
 import com.example.social_media.entity.User;
+import com.example.social_media.security.AuthenticationFacade;
+import com.example.social_media.security.IAuthenticationFacade;
+import com.example.social_media.security.Role;
 import com.example.social_media.service.FollowService;
 import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
 import com.example.social_media.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +26,30 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserRestController {
-    @Autowired
     private UserService userService;
-    @Autowired
     private PostService postService;
-
-    @Autowired
     private FollowService followService;
-
-    @Autowired
     private LikePostService likePostService;
+    private IAuthenticationFacade authenticationFacade;
+    private ModelMapper modelMapper;
+
+//    @PostMapping
+//    public ResponseEntity<Void> createNewUser(@RequestBody UserDTO newUser){
+//        Role role = authenticationFacade.getRole();
+//        if(!(role == Role.ADMIN)){
+//            newUser.setRole(Role.USER);
+//            User user = convertToEntity(newUser);
+//            user.
+//        }
+//
+//        return null;
+//
+//    }
 
     @PostMapping("/{userId}/followingUsers")
-    public ResponseEntity<Follow> follow(@PathVariable String userId, @Param("targetId") String targetId) {
+    public ResponseEntity<Follow> follow(@PathVariable int userId, @Param("targetId") int targetId) {
         User sourceUser = userService.findUserById(userId);
         User targetUser = userService.findUserById(targetId);
         System.out.println(targetId);
@@ -47,7 +63,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/{userId}/followingUsers")
-    public ResponseEntity<Void> unfollow(@PathVariable String userId, @Param("targetId") String targetId) {
+    public ResponseEntity<Void> unfollow(@PathVariable int userId, @Param("targetId") int targetId) {
         User sourceUser = userService.findUserById(userId);
         User targetUser = userService.findUserById(targetId);
         if (sourceUser == null || targetUser == null) {
@@ -58,7 +74,7 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
     @PatchMapping("/{userId}/followers")
-    public ResponseEntity<Void> acceptFollow(@PathVariable String userId, @Param("targetId") String targetId) {
+    public ResponseEntity<Void> acceptFollow(@PathVariable int userId, @Param("targetId") int targetId) {
 
         try {
             FollowId follow = new FollowId(targetId,userId);
@@ -71,7 +87,7 @@ public class UserRestController {
 
     }
     @PostMapping("/{userId}/likeList/posts/{postId}")
-    public ResponseEntity<Void> likePost(@PathVariable String userId,@PathVariable int postId){
+    public ResponseEntity<Void> likePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
@@ -81,11 +97,25 @@ public class UserRestController {
         // nếu tìm thấy user và post
         LikePostId likePostId = new LikePostId(userId,postId);
         LikePost likePost = new LikePost(likePostId, LocalDateTime.now());
-        System.out.println("likepost" + likePost);
-//        System.out.println(likePostService.save(likePost));;
         likePostService.save(likePost);
-        System.out.println("end");
         return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/{userId}/likeList/posts/{postId}")
+    public ResponseEntity<Void> unlikePost(@PathVariable int userId,@PathVariable int postId){
+        // Kiểm tra tồn tại của user và post
+        User user = userService.findUserById(userId);
+        Post post = postService.findPostById(postId);
+        if(user == null || post == null){
+            return ResponseEntity.noContent().build();
+        }
+        // nếu tìm thấy user và post
+        LikePostId likePostId = new LikePostId(userId,postId);
+        likePostService.deleteById(likePostId);
+        return ResponseEntity.ok().build();
+    }
+
+    private User convertToEntity(UserDTO userDTO){
+        return modelMapper.map(userDTO,User.class);
     }
 
 

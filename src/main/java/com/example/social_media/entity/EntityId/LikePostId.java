@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class LikePostId {
     @Column(name="user_id")
-    private String userId;
+    private int userId;
     @Column(name="post_id")
     private int postId;
 

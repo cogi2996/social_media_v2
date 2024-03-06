@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/alohcmute_v2
+    username: root
+    password: 29092003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    banner-mode: "off"
+  jpa:
+#    hibernate:
+#      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+#logging:
+#  level:
+#    root: warn
+#    org.hibernate.SQL: trace
+#    org.hibernate.orm.jdbc.bind: trace
+#
+
