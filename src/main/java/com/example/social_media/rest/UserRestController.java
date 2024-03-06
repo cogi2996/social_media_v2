@@ -8,16 +8,15 @@ import com.example.social_media.entity.EntityId.FollowId;
 import com.example.social_media.entity.LikePost;
 import com.example.social_media.entity.Post;
 import com.example.social_media.entity.User;
-import com.example.social_media.security.AuthenticationFacade;
 import com.example.social_media.security.IAuthenticationFacade;
-import com.example.social_media.security.Role;
 import com.example.social_media.service.FollowService;
 import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
-import com.example.social_media.service.UserService;
+import com.example.social_media.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,33 +24,22 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserRestController {
-    private UserService userService;
-    private PostService postService;
-    private FollowService followService;
-    private LikePostService likePostService;
-    private IAuthenticationFacade authenticationFacade;
+
+    private final IUserService IUserService;
+    private final PostService postService;
+    private final  FollowService followService;
+    private final LikePostService likePostService;
+    private final IAuthenticationFacade authenticationFacade;
     private ModelMapper modelMapper;
 
-//    @PostMapping
-//    public ResponseEntity<Void> createNewUser(@RequestBody UserDTO newUser){
-//        Role role = authenticationFacade.getRole();
-//        if(!(role == Role.ADMIN)){
-//            newUser.setRole(Role.USER);
-//            User user = convertToEntity(newUser);
-//            user.
-//        }
-//
-//        return null;
-//
-//    }
 
     @PostMapping("/{userId}/followingUsers")
     public ResponseEntity<Follow> follow(@PathVariable int userId, @Param("targetId") int targetId) {
-        User sourceUser = userService.findUserById(userId);
-        User targetUser = userService.findUserById(targetId);
+        User sourceUser = IUserService.findUserById(userId);
+        User targetUser = IUserService.findUserById(targetId);
         System.out.println(targetId);
 
         if (sourceUser == null || targetUser == null) {
@@ -64,8 +52,8 @@ public class UserRestController {
 
     @DeleteMapping("/{userId}/followingUsers")
     public ResponseEntity<Void> unfollow(@PathVariable int userId, @Param("targetId") int targetId) {
-        User sourceUser = userService.findUserById(userId);
-        User targetUser = userService.findUserById(targetId);
+        User sourceUser = IUserService.findUserById(userId);
+        User targetUser = IUserService.findUserById(targetId);
         if (sourceUser == null || targetUser == null) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -89,7 +77,7 @@ public class UserRestController {
     @PostMapping("/{userId}/likeList/posts/{postId}")
     public ResponseEntity<Void> likePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
-        User user = userService.findUserById(userId);
+        User user = IUserService.findUserById(userId);
         Post post = postService.findPostById(postId);
         if(user == null || post == null){
             return ResponseEntity.noContent().build();
@@ -103,7 +91,7 @@ public class UserRestController {
     @DeleteMapping("/{userId}/likeList/posts/{postId}")
     public ResponseEntity<Void> unlikePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
-        User user = userService.findUserById(userId);
+        User user = IUserService.findUserById(userId);
         Post post = postService.findPostById(postId);
         if(user == null || post == null){
             return ResponseEntity.noContent().build();

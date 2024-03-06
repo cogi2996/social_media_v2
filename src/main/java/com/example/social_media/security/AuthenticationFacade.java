@@ -1,6 +1,7 @@
 package com.example.social_media.security;
 
 import com.example.social_media.entity.Account;
+import com.example.social_media.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationFacade implements IAuthenticationFacade {
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public Authentication getAuthentication() {
@@ -34,6 +35,8 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
 
+
+
     @Override
     public Role getRole() {
         if (this.getUserDetails() == null) {
@@ -41,6 +44,12 @@ public class AuthenticationFacade implements IAuthenticationFacade {
         }
         Account account = (Account) this.getUserDetails();
         return account.getRole();
+    }
+
+    @Override
+    public User getUser() {
+        Account account = (Account) this.getUserDetails();
+        return account.getUser();
     }
 
 
