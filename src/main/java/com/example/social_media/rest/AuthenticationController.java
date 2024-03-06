@@ -27,6 +27,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final IAuthenticationFacade authenticationFacade;
     private final ModelMapper modelMapper;
+    //
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AccountDTO accountDTO){
         System.out.println(accountDTO);
