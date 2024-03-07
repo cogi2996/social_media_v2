@@ -1,6 +1,7 @@
 package com.example.social_media.rest;
 
 
+import com.example.social_media.DTO.GroupDTO;
 import com.example.social_media.DTO.UserDTO;
 import com.example.social_media.entity.EntityId.LikePostId;
 import com.example.social_media.entity.Follow;
@@ -35,6 +36,16 @@ public class UserRestController {
     private final IAuthenticationFacade authenticationFacade;
     private ModelMapper modelMapper;
 
+
+    @GetMapping("/{userId}/groups")
+    public ResponseEntity<GroupDTO> getUserGroups(@PathVariable int userId) {
+        User user = IUserService.findUserById(userId);
+
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return null;
+    }
 
     @PostMapping("/{userId}/followingUsers")
     public ResponseEntity<Follow> follow(@PathVariable int userId, @Param("targetId") int targetId) {

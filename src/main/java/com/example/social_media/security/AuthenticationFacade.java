@@ -48,6 +48,9 @@ public class AuthenticationFacade implements IAuthenticationFacade {
 
     @Override
     public User getUser() {
+        if (this.getUserDetails() == null) {
+            return null;
+        }
         Account account = (Account) this.getUserDetails();
         return account.getUser();
     }

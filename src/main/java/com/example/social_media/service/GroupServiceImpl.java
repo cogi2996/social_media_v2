@@ -15,6 +15,11 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
+    public Group saveAndFlush(Group group) {
+        return groupRepository.saveAndFlush(group);
+    }
+
+    @Override
     public void deleteGroupByGroupId(int groupId) {
         groupRepository.deleteById(groupId);
     }
