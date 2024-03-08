@@ -46,23 +46,28 @@ public class User {
 
     // following
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name="Follow", joinColumns = @JoinColumn(name="source_id"),inverseJoinColumns = @JoinColumn(name = "target_id"))
     private List<User> followingUsers;
 
     // follower
     @ManyToMany(mappedBy = "followingUsers")
+    @JsonIgnore
     private List<User> followers;
 
     // user'post
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Post> posts;
 
     // groups which user created
     @OneToMany(mappedBy = "adminGroup")
+    @JsonIgnore
     private List<Group> groupCreates;
 
     //group which user joined
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
     private List<Group> memberGroups;
 
@@ -70,6 +75,7 @@ public class User {
 
     // account của user
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name="account_id")
     private Account account;
 

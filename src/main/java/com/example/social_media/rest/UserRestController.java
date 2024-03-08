@@ -14,32 +14,60 @@ import com.example.social_media.service.FollowService;
 import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
 import com.example.social_media.service.IUserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final IUserService IUserService;
+    private final IUserService userService;
     private final PostService postService;
     private final  FollowService followService;
     private final LikePostService likePostService;
     private final IAuthenticationFacade authenticationFacade;
     private ModelMapper modelMapper;
+    @GetMapping
+    public String getAllEmployees(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "2") Integer pageSize,
+            @RequestParam(defaultValue = "userId") String sortBy)
+    {
+        int list = userService.findAll(pageNo, pageSize, sortBy);
+
+        return list+"";
+    }
+
+
+//    @GetMapping
+//    public ResponseEntity<List<User>> getAllEmployees(
+//            @RequestParam(defaultValue = "0") Integer pageNo,
+//            @RequestParam(defaultValue = "2") Integer pageSize,
+//            @RequestParam(defaultValue = "userId") String sortBy)
+//    {
+//        List<User> list = userService.findAll(pageNo, pageSize, sortBy);
+//
+//        return new ResponseEntity<List<User>>(list, new HttpHeaders(), HttpStatus.OK);
+//    }
 
 
     @GetMapping("/{userId}/groups")
     public ResponseEntity<GroupDTO> getUserGroups(@PathVariable int userId) {
-        User user = IUserService.findUserById(userId);
+        User user = userService.findUserById(userId);
 
         if (user == null) {
             return ResponseEntity.noContent().build();
@@ -49,8 +77,8 @@ public class UserRestController {
 
     @PostMapping("/{userId}/followingUsers")
     public ResponseEntity<Follow> follow(@PathVariable int userId, @Param("targetId") int targetId) {
-        User sourceUser = IUserService.findUserById(userId);
-        User targetUser = IUserService.findUserById(targetId);
+        User sourceUser = userService.findUserById(userId);
+        User targetUser = userService.findUserById(targetId);
         System.out.println(targetId);
 
         if (sourceUser == null || targetUser == null) {
@@ -63,8 +91,8 @@ public class UserRestController {
 
     @DeleteMapping("/{userId}/followingUsers")
     public ResponseEntity<Void> unfollow(@PathVariable int userId, @Param("targetId") int targetId) {
-        User sourceUser = IUserService.findUserById(userId);
-        User targetUser = IUserService.findUserById(targetId);
+        User sourceUser = userService.findUserById(userId);
+        User targetUser = userService.findUserById(targetId);
         if (sourceUser == null || targetUser == null) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -88,7 +116,7 @@ public class UserRestController {
     @PostMapping("/{userId}/likeList/posts/{postId}")
     public ResponseEntity<Void> likePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
-        User user = IUserService.findUserById(userId);
+        User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
         if(user == null || post == null){
             return ResponseEntity.noContent().build();
@@ -102,7 +130,7 @@ public class UserRestController {
     @DeleteMapping("/{userId}/likeList/posts/{postId}")
     public ResponseEntity<Void> unlikePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
-        User user = IUserService.findUserById(userId);
+        User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
         if(user == null || post == null){
             return ResponseEntity.noContent().build();
