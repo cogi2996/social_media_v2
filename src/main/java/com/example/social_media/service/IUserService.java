@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IUserService {
     User findUserById(int userId);
-    int findAll(Integer pageNum, Integer pageSize, String sortBy);
+    Page<User> findAll(int pageNum, int pageSize, String sortBy);
 }

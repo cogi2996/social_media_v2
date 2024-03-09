@@ -24,16 +24,9 @@ public class IUserServiceImpl implements IUserService {
     }
 
     @Override
-    public int findAll(Integer pageNum, Integer pageSize, String sortBy) {
+    public Page<User> findAll(int pageNum, int pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
-        Page<User> pagedResult = userRepository.findAll(paging);
-        if(pagedResult.hasContent()){
-            return pagedResult.getSize();
-        }
-        else{
-//            return new ArrayList<User>();
-            return -1;
-        }
+        return userRepository.findAll(paging);
     }
 
 
