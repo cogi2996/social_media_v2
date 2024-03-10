@@ -23,9 +23,8 @@ public class AuthenticationFacade implements IAuthenticationFacade {
 
     @Override
     public UserDetails getUserDetails() {
-        System.out.println("start here");
         System.out.println(this.getAuthentication());
-        System.out.println("end here");
+        System.out.println("end here !");
         Authentication authentication = getAuthentication();
         // không authen hoặc authen nhưng là người dùng ẩn danh ( chưa có trong db )
         if (this.getAuthentication() == null ||authentication instanceof AnonymousAuthenticationToken) {
@@ -48,10 +47,11 @@ public class AuthenticationFacade implements IAuthenticationFacade {
 
     @Override
     public User getUser() {
-        if (this.getUserDetails() == null) {
+        UserDetails userDetails = this.getUserDetails();
+        if (userDetails == null) {
             return null;
         }
-        Account account = (Account) this.getUserDetails();
+        Account account = (Account) userDetails;
         return account.getUser();
     }
 

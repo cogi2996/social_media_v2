@@ -19,8 +19,7 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public User findUserById(int userId) {
-        User user = userRepository.findUserByUserId(userId);
-        return user;
+        return userRepository.findUserByUserId(userId);
     }
 
     @Override

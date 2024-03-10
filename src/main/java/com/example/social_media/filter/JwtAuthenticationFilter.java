@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
 
-        System.out.println(authHeader);
+        System.out.println("Authorization header : " + authHeader);
         final String jwt;
         final String userEmail;
 
@@ -43,10 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwt);
         System.out.println("userEmail: " + userEmail);
         // có email --> kiểm tra authen
-        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            if(jwtService.isTokenValid(jwt, userDetails)){
+            if (jwtService.isTokenValid(jwt, userDetails)) {
                 System.out.println("jwt hop le");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
