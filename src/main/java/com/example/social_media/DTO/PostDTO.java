@@ -12,4 +12,5 @@ public class PostDTO {
     private String postText;
     private Date postCreateTime;
     private String postImage;
+    private UserDTO userDTO;
 }

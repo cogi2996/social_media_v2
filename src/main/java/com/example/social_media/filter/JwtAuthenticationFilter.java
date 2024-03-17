@@ -1,5 +1,6 @@
 package com.example.social_media.filter;
 
+import com.example.social_media.dao.TokenRepository;
 import com.example.social_media.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -45,8 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // có email --> kiểm tra authen
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            var isTokenValid = tokenRepository.findByToken(jwt)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+            System.out.println("isTokenValid: " + isTokenValid);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 System.out.println("jwt hop le");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

@@ -40,7 +40,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *24)) // hết hạn sau 24 phút
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 // compact() để tạo ra chuỗi token
                 .compact();

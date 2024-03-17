@@ -34,8 +34,6 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
 
-
-
     @Override
     public Role getRole() {
         if (this.getUserDetails() == null) {

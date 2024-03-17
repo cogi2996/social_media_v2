@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,13 +22,17 @@ import java.util.Collection;
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer account_id;
+    @Column(name="account_id")
+    private Integer id;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToOne(mappedBy = "account")
     private User user;
+    // các token của account
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
