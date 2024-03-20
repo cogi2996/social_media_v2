@@ -79,6 +79,9 @@ public class User {
     @JoinColumn(name="account_id")
     private Account account;
 
+    public String getFullName(){
+        return this.firstName + " " + this.midName + " " + this.lastName;
+    }
 
 
 

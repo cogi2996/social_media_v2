@@ -9,10 +9,18 @@ import com.example.social_media.entity.Account;
 import com.example.social_media.entity.Token;
 import com.example.social_media.entity.TokenType;
 import com.example.social_media.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +32,9 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    public AuthenticationResponse register(Account theAccount , User newUser  ) {
+    private final UserDetailsService userDetailsService;
+
+    public AuthenticationResponse register(Account theAccount, User newUser) {
         var account = Account.builder()
                 .email(theAccount.getEmail())
                 .password(passwordEncoder.encode(theAccount.getPassword())) // bởi vì encrypt nên giờ phải decode
@@ -71,10 +81,37 @@ public class AuthenticationService {
                 .build();
     }
 
+    public void baseAuthenticate(AuthenticationRequest request, HttpServletRequest req) {
+        // Tạo đối tượng AuthenticationToken với tên người dùng và mật khẩu
+        UsernamePasswordAuthenticationToken authReq =
+                new UsernamePasswordAuthenticationToken(request.getEmail(),
+                        request.getPassword());
+        Authentication auth = authenticationManager.authenticate(authReq);
+        // Lấy SecurityContext hiện tại
+        SecurityContext sc = SecurityContextHolder.getContext();
+        // Đặt Authentication vào SecurityContext
+        sc.setAuthentication(auth);
+        // Lấy hoặc tạo HttpSession
+        HttpSession session = req.getSession(true);
+        // Lưu SecurityContext vào HttpSession
+        session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+//        System.out.println(this.getClass().getName() + " : " + userDetails.getUsername() + " : " + userDetails.getAuthorities());
+//        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+//                userDetails,
+//                null,
+//                userDetails.getAuthorities()
+//        );
+//        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+//        SecurityContextHolder.getContext().setAuthentication(authToken);
+
+    }
+
+
     private void revokeAllAccountTokens(Account account) {
         //all user's token
         var validUserTokens = tokenRepository.findAllValidTokensByAccount(account.getId());
-        if(validUserTokens.isEmpty()){
+        if (validUserTokens.isEmpty()) {
             return;
         }
         // revoked all before save new token

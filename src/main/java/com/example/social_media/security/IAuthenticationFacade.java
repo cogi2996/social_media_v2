@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface IAuthenticationFacade {
     Authentication getAuthentication();
     UserDetails getUserDetails();
-
     Role getRole();
     User getUser();
 }
