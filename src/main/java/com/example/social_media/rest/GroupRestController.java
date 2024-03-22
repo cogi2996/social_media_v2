@@ -49,7 +49,7 @@ public class GroupRestController {
                         .groupMemberId(new GroupMemberId(groupId, user.getUserId()))
                         .permission(0)
                         .build()
-                    ).collect(Collectors.toList());
+                ).collect(Collectors.toList());
         groupMemberService.saveAll(groupMembers);
         return ResponseEntity.ok().build();
     }
@@ -70,12 +70,20 @@ public class GroupRestController {
         newGroup.setAdminGroup(authenticationFacade.getUser());
         // save group
         this.groupService.saveAndFlush(newGroup);
-        GroupMemberId groupMemberId = new GroupMemberId(newGroup.getGroupId(), authenticationFacade.getUser().getUserId());
-        groupMemberService.save(new GroupMember().builder()
-                .groupMemberId(groupMemberId)
-                .permission(1)
-                .build());
-        return ResponseEntity.ok(convertToDTO.convertToDTO(newGroup));
+
+        // current user
+        User admin = authenticationFacade.getUser();
+        GroupMemberId groupMemberId = new GroupMemberId(newGroup.getGroupId(), admin.getUserId());
+        groupMemberService.save(
+                GroupMember.builder()
+                        .groupMemberId(groupMemberId)
+                        .permission(1)
+                        .build());
+
+        UserDTO adminGroup = convertToDTO.convertToDTO(admin);
+        GroupDTO newGroupDTO  = convertToDTO.convertToDTO(newGroup);
+        newGroupDTO.setAdminGroup(adminGroup);
+        return ResponseEntity.ok(newGroupDTO);
     }
 
     @DeleteMapping("/{groupId}")
@@ -86,7 +94,20 @@ public class GroupRestController {
         if (admin.getUserId() != authenticationFacade.getUser().getUserId() && authenticationFacade.getRole() != Role.ADMIN) {
             return ResponseEntity.badRequest().build();
         }
-        this.groupService.deleteGroupByGroupId(groupId);
+        this.groupService.deleteGroupById(groupId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{groupId}")
+    public ResponseEntity<Void> updateGroup(@RequestBody GroupDTO groupDTO, @PathVariable int groupId) {
+        Group group = this.groupService.findGroupByGroupId(groupId);
+        User admin = group.getAdminGroup();
+        // Not adminGroup or Role.ADMIN can't update group
+        if (admin.getUserId() != authenticationFacade.getUser().getUserId() && authenticationFacade.getRole() != Role.ADMIN) {
+            return ResponseEntity.badRequest().build();
+        }
+        group.setGroupName(groupDTO.getGroupName());
+        this.groupService.save(group);
         return ResponseEntity.ok().build();
     }
 

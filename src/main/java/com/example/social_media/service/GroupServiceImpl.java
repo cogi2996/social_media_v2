@@ -1,14 +1,18 @@
 package com.example.social_media.service;
 
+import com.example.social_media.dao.GroupMemberRepository;
 import com.example.social_media.dao.GroupRepository;
 import com.example.social_media.entity.Group;
+import com.example.social_media.entity.GroupMember;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService{
-    @Autowired
-    private GroupRepository groupRepository;
+    private final GroupMemberRepository groupMemberRepository;
+    private final GroupRepository groupRepository;
     @Override
     public Group save(Group group) {
         return groupRepository.save(group);
@@ -20,7 +24,8 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public void deleteGroupByGroupId(int groupId) {
+    public void deleteGroupById(int groupId) {
+        groupMemberRepository.deleteGroupMemberByGroupId(groupId);
         groupRepository.deleteById(groupId);
     }
 

@@ -26,5 +26,10 @@ public class GroupMemberServiceImpl implements GroupMemberService{
         groupMemberRepository.saveAll(groupMembers);
     }
 
+    @Override
+    public void deleteGroupMemberByGroupId(int groupId) {
+        groupMemberRepository.deleteGroupMemberByGroupId(groupId);
+    }
+
 
 }

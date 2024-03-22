@@ -1,6 +1,7 @@
 package com.example.social_media.DTO;
 
 import com.example.social_media.security.Role;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;

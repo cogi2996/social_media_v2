@@ -8,4 +8,5 @@ public interface GroupMemberService {
     void save(GroupMember groupMember);
     void saveAndFlush(GroupMember groupMember);
     void saveAll(List<GroupMember> groupMembers);
+    void deleteGroupMemberByGroupId(int groupMemberId);
 }
