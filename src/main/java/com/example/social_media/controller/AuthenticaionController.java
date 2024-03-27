@@ -32,6 +32,7 @@ public class AuthenticaionController {
         return "dashboard/sign-in";
     }
 
+
     @PostMapping("/getAuth")
     public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session,@NonNull HttpServletRequest req) {
         System.out.println("email: "+request.getEmail());
