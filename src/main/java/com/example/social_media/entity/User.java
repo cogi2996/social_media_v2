@@ -51,7 +51,7 @@ public class User {
     private List<User> followingUsers;
 
     // follower
-    @ManyToMany(mappedBy = "followingUsers")
+    @ManyToMany(mappedBy = "followingUsers",fetch = FetchType.EAGER)
     @JsonIgnore
     private List<User> followers;
 

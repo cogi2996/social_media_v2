@@ -25,4 +25,5 @@ public class ConvertToDTO {
     public PostDTO convertToDTO(Post post){
         return modelMapper.map(post, PostDTO.class);
     }
+
 }
