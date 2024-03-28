@@ -9,11 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IUserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -26,6 +25,11 @@ public class IUserServiceImpl implements IUserService {
     public Page<User> findAll(int pageNum, int pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
         return userRepository.findAll(paging);
+    }
+
+    @Override
+    public List<User> findFollowersByUserId(int userid) {
+        return userRepository.findFollowersByUserId(userid);
     }
 
 

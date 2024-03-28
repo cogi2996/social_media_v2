@@ -27,7 +27,7 @@ public class Account implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne(mappedBy = "account")
+    @OneToOne(mappedBy = "account",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private User user;
     // các token của account
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)

@@ -5,7 +5,9 @@ import com.example.social_media.dao.UserRepository;
 import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.service.AuthenticationService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -34,16 +36,17 @@ public class AuthenticaionController {
 
 
     @PostMapping("/getAuth")
-    public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session,@NonNull HttpServletRequest req) {
-        System.out.println("email: "+request.getEmail());
-        System.out.println("password: "+request.getPassword());
+    public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session, @NonNull HttpServletRequest req, HttpServletResponse resp) {
         authenticationService.baseAuthenticate(request,req);
+        Cookie cookie = new Cookie("access_token", authenticationService.authenticate(request).getAccessToken());
+        cookie.setSecure(false);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
+        cookie.setPath("/");
+        resp.addCookie(cookie);
         User user  = accountRepository.findByEmail(request.getEmail()).get().getUser();
-        System.out.println("first name user "+user.getFirstName());
         session.setAttribute("user", user);
         User sessionUser = (User)session.getAttribute("user");
-        System.out.println("session user "+sessionUser.getFirstName());
-        System.out.println("fullname of user authenticated: "+ authenticationFacade.getUser().getFullName());
         return "redirect:/home/index";
 
     }

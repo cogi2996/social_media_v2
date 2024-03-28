@@ -6,7 +6,9 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+import * as Intercept from "../Interceptor/intercept.js";
 
+console.log(Cookies);
 const btnImage = document.getElementById("btn-image");
 const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');
@@ -36,24 +38,14 @@ async function handleFormSubmit(token = null) {
   let text = createPost.querySelector('input[type="text"]').value;
   // post api
   axios
-    .post(
-      "http://localhost:8080/api/v1/posts",
-      {
-        postText: text,
-        postImage: url,
-      },
-      {
-        headers: {
-          Authorization:
-            "Bearer " +
-            `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0VXNlcjEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTE1MDg2MjksImV4cCI6MTcxMTUxMDA2OX0.9EQoLUfEDXmOPdqrI5zwcf5MIh3chxb3T17E0TE7sWQ`,
-        },
-      }
-    )
+    .post("http://localhost:8080/api/v1/posts", {
+      postText: text,
+      postImage: url,
+    })
     .then(function (response) {
       console.log(response);
       createPost.style.display = "none";
-      const body = document.querySelector('body'); 
+      const body = document.querySelector("body");
       body.style = null;
       body.class = null;
       createPost.class = null;
@@ -63,6 +55,8 @@ async function handleFormSubmit(token = null) {
       console.log(error);
     });
 }
+
+function renderPost(listPost) {}
 
 // tạo một component riêng [refactor]
 function uploadImage(file) {
@@ -105,4 +99,3 @@ function uploadImage(file) {
     );
   });
 }
-

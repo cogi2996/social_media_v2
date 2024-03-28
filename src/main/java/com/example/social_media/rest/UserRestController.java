@@ -13,18 +13,10 @@ import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.service.FollowService;
 import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
-import com.example.social_media.service.IUserService;
-import lombok.Getter;
+import com.example.social_media.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +28,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final IUserService userService;
+    private final UserService userService;
     private final PostService postService;
     private final  FollowService followService;
     private final LikePostService likePostService;
     private final IAuthenticationFacade authenticationFacade;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     @GetMapping
     public ResponseEntity<List<User>> getAllEmployees(
             @RequestParam(defaultValue = "0") Integer pageNum,
@@ -157,10 +149,17 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    private User convertToEntity(UserDTO userDTO){
-        return modelMapper.map(userDTO,User.class);
+    @GetMapping("/{userId}/followers")
+    public ResponseEntity<List<UserDTO>> getFollowers(@PathVariable int userId){
+        User user = userService.findUserById(userId);
+        if(user == null){
+            return ResponseEntity.noContent().build();
+        }
+        List<User> followers = userService.findFollowersByUserId(userId);
+        System.out.println("start here !");
+        System.out.println("followers: "+followers.size());
+        return ResponseEntity.ok().body(followers.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList());
     }
-
 
 
 

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class UserDTO {
     private int userId;
@@ -19,5 +21,6 @@ public class UserDTO {
     private String major;
     private String department;
     private String text;
-    private Role role;
+//    private Role role;
+//    private List<UserDTO> followers;
 }

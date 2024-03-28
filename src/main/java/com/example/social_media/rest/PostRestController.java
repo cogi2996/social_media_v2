@@ -56,13 +56,6 @@ public class PostRestController {
     ) {
         User user = authenticationFacade.getUser();
         int userId = user.getUserId();
-        System.out.println("follower is here");
-        System.out.println(user.getFollowers());
-        System.out.println("end follower is here");
-        if(user.getFollowers() == null){
-            System.out.println("User has no followers");
-            return ResponseEntity.ok().body(null);
-        }
         List<Integer> followerIds = user.getFollowers().stream().map(User::getUserId).toList();
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followerIds, pageable);
@@ -75,5 +68,7 @@ public class PostRestController {
         return ResponseEntity.ok(postDTOS);
 
     }
+
+
 
 }

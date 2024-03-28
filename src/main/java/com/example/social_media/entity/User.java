@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
@@ -51,7 +53,7 @@ public class User {
     private List<User> followingUsers;
 
     // follower
-    @ManyToMany(mappedBy = "followingUsers",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "followingUsers",fetch = FetchType.LAZY)
     @JsonIgnore
     private List<User> followers;
 
