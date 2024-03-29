@@ -95,16 +95,6 @@ public class AuthenticationService {
         HttpSession session = req.getSession(true);
         // Lưu SecurityContext vào HttpSession
         session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-//        System.out.println(this.getClass().getName() + " : " + userDetails.getUsername() + " : " + userDetails.getAuthorities());
-//        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-//                userDetails,
-//                null,
-//                userDetails.getAuthorities()
-//        );
-//        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-//        SecurityContextHolder.getContext().setAuthentication(authToken);
-
     }
 
 
