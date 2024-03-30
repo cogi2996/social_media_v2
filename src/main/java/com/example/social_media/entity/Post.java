@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -23,8 +25,9 @@ public class Post {
     @Column(name = "post_text")
     private String postText;
     @Column(name = "post_create_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date postCreateTime;
+//    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Instant postCreateTime;
     @Column(name = "post_image")
     private String postImage;
     // author 's post ( private )

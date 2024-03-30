@@ -21,6 +21,7 @@ public class UserDTO {
     private String major;
     private String department;
     private String text;
+    private String avatar;
 //    private Role role;
 //    private List<UserDTO> followers;
 }

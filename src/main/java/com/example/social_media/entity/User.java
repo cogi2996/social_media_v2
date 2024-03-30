@@ -41,6 +41,8 @@ public class User implements Serializable {
     private String major;
     @Column(name="department")
     private String department;
+    @Column(name="avatar")
+    private String avatar;
 //    @JsonIgnore
 //    @Column(name="role")
 //    private int role;
@@ -82,7 +84,7 @@ public class User implements Serializable {
     private Account account;
 
     public String getFullName(){
-        return this.firstName + " " + this.midName + " " + this.lastName;
+        return this.lastName + " " + this.midName + " " + this.firstName;
     }
 
 

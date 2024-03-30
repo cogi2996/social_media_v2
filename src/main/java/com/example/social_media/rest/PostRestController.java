@@ -32,15 +32,14 @@ public class PostRestController {
 
     // cho phép các domain khác gọi API này
     @PostMapping
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO post) {
         Post newPost = convertToEntity.convertToEntity(post);
         // get current authenticated user
         User user = authenticationFacade.getUser();
-        System.out.println("userid here: "+user.getUserId());
         // set post user to current authenticated user
         newPost.setUser(user);
-        newPost.setPostCreateTime(new Date(System.currentTimeMillis()));
+//        newPost.setPostCreateTime(System.currentTimeMillis());
         postService.createPost(newPost);
         PostDTO postDTO = convertToDTO.convertToDTO(newPost);
         UserDTO userDTO = convertToDTO.convertToDTO(user);
@@ -56,7 +55,7 @@ public class PostRestController {
     ) {
         User user = authenticationFacade.getUser();
         int userId = user.getUserId();
-        List<Integer> followerIds = user.getFollowers().stream().map(User::getUserId).toList();
+        List<Integer> followerIds = user.getFollowingUsers().stream().map(User::getUserId).toList();
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followerIds, pageable);
         List<PostDTO> postDTOS = posts.stream().map(post -> {

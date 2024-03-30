@@ -33,4 +33,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+    @Override
+    public List<User> findPeopleNotFollowedByUserId(int userId,int pageNum, int pageSize) {
+        Pageable paging = PageRequest.of(pageNum,pageSize);
+        return userRepository.findPeopleNotFollowedByUserId(userId,paging);
+    }
+
+
 }

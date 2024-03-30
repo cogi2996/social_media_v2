@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -45,12 +45,12 @@
           <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
               <li class="active">
-                <a href="../dashboard/index.html" class=" ">
+                <a href="/home/index" class=" ">
                   <i class="las la-newspaper"></i><span>Newsfeed</span>
                 </a>
               </li>
               <li class="">
-                <a href="../app/profile.html" class=" ">
+                <a th:href="'/profile?id='+${user.userId}" class=" ">
                   <i class="las la-user"></i><span>Profile</span>
                 </a>
               </li>
@@ -924,12 +924,15 @@
                     aria-expanded="false"
                   >
                     <img
-                      src="../assets/images/user/1.jpg"
+                      th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
                       class="img-fluid rounded-circle me-3"
                       alt="user"
                     />
                     <div class="caption">
-                      <h6 class="mb-0 line-height">Bni Cyst</h6>
+                      <h6
+                        class="mb-0 line-height"
+                        th:text="${user.getFullName()}"
+                      ></h6>
                     </div>
                   </a>
                   <div
@@ -1174,7 +1177,8 @@
       <div id="content-page" class="content-page">
         <div class="container">
           <div class="row">
-            <div class="col-lg-8 row m-0 p-0" id="container__post">
+            <div class="col-lg-8" id="container__post">
+              <!-- menu create post -->
               <div class="col-sm-12">
                 <div
                   id="post-modal-data"
@@ -1182,18 +1186,19 @@
                 >
                   <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                      <h4 class="card-title">Create Post</h4>
+                      <h4 class="card-title">Tạo bài viết</h4>
                     </div>
                   </div>
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="user-img">
                         <img
-                          src="../assets/images/user/1.jpg"
+                          th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
                           alt="userimg"
                           class="avatar-60 rounded-circle"
                         />
                       </div>
+
                       <form
                         class="post-text ms-3 w-100"
                         data-bs-toggle="modal"
@@ -1203,7 +1208,7 @@
                         <input
                           type="text"
                           class="form-control rounded"
-                          placeholder="Write something here..."
+                          th:placeholder="${user.firstName} + ' ơi, bạn đang nghĩ gì thế?'"
                           style="border: none"
                         />
                       </form>
@@ -1314,7 +1319,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="post-modalLabel">
-                            Create Post
+                            Tạo bài viết
                           </h5>
                           <button
                             type="button"
@@ -1546,7 +1551,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-12">
+              <!-- <div class="col-sm-12">
                 <div class="card card-block card-stretch card-height">
                   <div class="card-body">
                     <div class="user-post-data">
@@ -2948,59 +2953,35 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="col-lg-4">
-              <div class="card">
+              <div class="card" th:if="${recommendUsers.size() > 0}">
                 <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
-                    <h4 class="card-title">Stories</h4>
+                    <h6 class="card-title">Những người bạn có thể biết</h6>
                   </div>
                 </div>
                 <div class="card-body">
-                  <ul class="media-story list-inline m-0 p-0">
-                    <li class="d-flex mb-3 align-items-center">
-                      <i class="ri-add-line"></i>
-                      <div class="stories-data ms-3">
-                        <h5>Creat Your Story</h5>
-                        <p class="mb-0">time to story</p>
-                      </div>
-                    </li>
+                  <ul
+                    class="media-story list-inline m-0 p-0"
+                    th:each="recommendUser: ${recommendUsers}"
+                  >
                     <li class="d-flex mb-3 align-items-center active">
                       <img
-                        src="../assets/images/page-img/s2.jpg"
+                        th:src="${recommendUser.avatar != null} ? ${recommendUser.avatar} : '/assets/images/user/defaul_avatar.jpg'"
                         alt="story-img"
                         class="rounded-circle img-fluid"
                       />
                       <div class="stories-data ms-3">
-                        <h5>Anna Mull</h5>
-                        <p class="mb-0">1 hour ago</p>
-                      </div>
-                    </li>
-                    <li class="d-flex mb-3 align-items-center">
-                      <img
-                        src="../assets/images/page-img/s3.jpg"
-                        alt="story-img"
-                        class="rounded-circle img-fluid"
-                      />
-                      <div class="stories-data ms-3">
-                        <h5>Ira Membrit</h5>
-                        <p class="mb-0">4 hour ago</p>
-                      </div>
-                    </li>
-                    <li class="d-flex align-items-center">
-                      <img
-                        src="../assets/images/page-img/s1.jpg"
-                        alt="story-img"
-                        class="rounded-circle img-fluid"
-                      />
-                      <div class="stories-data ms-3">
-                        <h5>Bob Frapples</h5>
-                        <p class="mb-0">9 hour ago</p>
+                        <h5 th:text="${recommendUser.getFullName()}"></h5>
+                        <p class="mb-0" th:text="${recommendUser.department}">
+                          1 hour ago
+                        </p>
                       </div>
                     </li>
                   </ul>
-                  <a href="#" class="btn btn-primary d-block mt-3">See All</a>
+                  <a href="#" class="btn btn-primary d-block mt-3">Xem thm</a>
                 </div>
               </div>
               <div class="card">
@@ -3251,6 +3232,7 @@
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
 
     <script type="module" src="..\assets\js\home\home.js"></script>
+    <script src="..\assets\js\Interceptor\intercept.js"></script>
 
     <!-- offcanvas start -->
 
