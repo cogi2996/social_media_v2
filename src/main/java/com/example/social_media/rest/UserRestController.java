@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -131,7 +132,7 @@ public class UserRestController {
         }
         // nếu tìm thấy user và post
         LikePostId likePostId = new LikePostId(userId,postId);
-        LikePost likePost = new LikePost(likePostId, LocalDateTime.now());
+        LikePost likePost = LikePost.builder().likePostId(likePostId).build();
         likePostService.save(likePost);
         return ResponseEntity.ok().build();
     }
