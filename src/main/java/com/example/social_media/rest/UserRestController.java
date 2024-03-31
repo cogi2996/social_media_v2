@@ -123,7 +123,7 @@ public class UserRestController {
 
     }
     @PostMapping("/{userId}/likeList/posts/{postId}")
-    public ResponseEntity<Void> likePost(@PathVariable int userId,@PathVariable int postId){
+    public ResponseEntity<Integer> likePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
@@ -134,10 +134,10 @@ public class UserRestController {
         LikePostId likePostId = new LikePostId(userId,postId);
         LikePost likePost = LikePost.builder().likePostId(likePostId).build();
         likePostService.save(likePost);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(likePostService.countLikesByPostId(postId));
     }
     @DeleteMapping("/{userId}/likeList/posts/{postId}")
-    public ResponseEntity<Void> unlikePost(@PathVariable int userId,@PathVariable int postId){
+    public ResponseEntity<Integer> unlikePost(@PathVariable int userId,@PathVariable int postId){
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
@@ -147,7 +147,7 @@ public class UserRestController {
         // nếu tìm thấy user và post
         LikePostId likePostId = new LikePostId(userId,postId);
         likePostService.deleteById(likePostId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(likePostService.countLikesByPostId(postId));
     }
 
     @GetMapping("/{userId}/followers")

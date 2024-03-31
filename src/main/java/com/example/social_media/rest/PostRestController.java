@@ -4,10 +4,15 @@ import com.example.social_media.DTO.PostDTO;
 import com.example.social_media.DTO.UserDTO;
 import com.example.social_media.Utils.ConvertToDTO;
 import com.example.social_media.Utils.ConvertToEntity;
+import com.example.social_media.entity.LikePost;
 import com.example.social_media.entity.Post;
 import com.example.social_media.entity.User;
 import com.example.social_media.security.AuthenticationFacade;
+import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.data.domain.Page;
@@ -29,6 +34,7 @@ public class PostRestController {
     private final PostService postService;
     private final ConvertToEntity convertToEntity;
     private final ConvertToDTO convertToDTO;
+    private final LikePostService likePostService;
 
     // cho phép các domain khác gọi API này
     @PostMapping
@@ -48,25 +54,39 @@ public class PostRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getNewPost(
+    public ResponseEntity<List<ObjectNode>> getNewPost(
             @RequestParam(defaultValue = "0") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "postCreateTime") String sortBy
     ) {
         User user = authenticationFacade.getUser();
         int userId = user.getUserId();
-        List<Integer> followerIds = user.getFollowingUsers().stream().map(User::getUserId).toList();
+        List<Integer> followingId = user.getFollowingUsers().stream().map(User::getUserId).toList();
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
-        List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followerIds, pageable);
-        List<PostDTO> postDTOS = posts.stream().map(post -> {
+        List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followingId, pageable);
+        ObjectMapper mapper  = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        List<ObjectNode> postDTOS = posts.stream().map(post -> {
+            int postId = post.getPostId();
+            Boolean liked =likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
             PostDTO postDTO = convertToDTO.convertToDTO(post);
+            postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());
             postDTO.setUserDTO(userDTO);
-            return postDTO;
+            ObjectNode node = mapper.valueToTree(postDTO);
+            node.put("liked",liked);
+            System.out.println("count like: "+likePostService.countLikesByPostId(postId));
+            return node;
         }).toList();
         return ResponseEntity.ok(postDTOS);
 
     }
+
+
+        @GetMapping("/{postId}/like")
+        public ResponseEntity<Integer> getCountLikePost(@PathVariable int postId) {
+            return ResponseEntity.ok(likePostService.countLikesByPostId(postId));
+        }
 
 
 

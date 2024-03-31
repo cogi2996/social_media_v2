@@ -12,4 +12,7 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
     Post findPostByPostId(int postId);
     @Query("select p from Post p where p.user.userId = ?1 or p.user.userId in ?2 order by p.postCreateTime desc")
     Page<Post> findPostsByUserIdAndFollowerIds(int userId, List<Integer> followerIds, Pageable pageable);
+
+
+
 }

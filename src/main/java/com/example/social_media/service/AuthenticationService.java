@@ -63,13 +63,21 @@ public class AuthenticationService {
 
     // phương thức này dược định nghĩa đúng sai bởi authenticationManager.authenticationProvider
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        //
-        authenticationManager.authenticate(
+        // bản gốc
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        request.getEmail(),
+//                        request.getPassword()
+//                )
+//        );
+        // cẩn thận dùng bản này
+        Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
+        SecurityContextHolder.getContext().setAuthentication(auth);
         var account = accountRepository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(account);
         // revoke all user's token
