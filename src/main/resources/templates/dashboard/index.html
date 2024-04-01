@@ -1571,10 +1571,17 @@
                         class="rounded-circle img-fluid"
                       />
                       <div class="stories-data ms-3">
-                        <h5 th:text="${recommendUser.getFullName()}"></h5>
-                        <p class="mb-0" th:text="${recommendUser.department}">
-                          1 hour ago
-                        </p>
+                        <a th:href="'/profile?id='+${recommendUser.userId}">
+                          <h5 th:text="${recommendUser.getFullName()}"></h5>
+                        </a>
+                        <a
+                          href="#"
+                          class="badge border border-primary text-primary mt-1"
+                          ><p
+                            class="mb-0"
+                            th:text="${recommendUser.department}"
+                          ></p
+                        ></a>
                       </div>
                     </li>
                   </ul>
@@ -1741,6 +1748,10 @@
     <script type="module" src="..\assets\js\home\home.js"></script>
     <script src="..\assets\js\Interceptor\intercept.js"></script>
 
+    <script
+      type="application/javascript"
+      th:src="@{/webjars/jwt-decode/build/jwt-decode.js}"
+    ></script>
     <!-- offcanvas start -->
 
     <div
