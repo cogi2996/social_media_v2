@@ -1,6 +1,7 @@
 package com.example.social_media.rest;
 
 import com.example.social_media.DTO.PostDTO;
+import com.example.social_media.DTO.ResponseDTO;
 import com.example.social_media.DTO.UserDTO;
 import com.example.social_media.Utils.ConvertToDTO;
 import com.example.social_media.Utils.ConvertToEntity;
@@ -54,7 +55,7 @@ public class PostRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ObjectNode>> getNewPost(
+    public ResponseEntity<?> getNewPost(
             @RequestParam(defaultValue = "0") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "postCreateTime") String sortBy
@@ -78,16 +79,18 @@ public class PostRestController {
             System.out.println("count like: "+likePostService.countLikesByPostId(postId));
             return node;
         }).toList();
-        return ResponseEntity.ok(postDTOS);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .data(postDTOS)
+                .build());
 
     }
 
 
-        @GetMapping("/{postId}/like")
-        public ResponseEntity<Integer> getCountLikePost(@PathVariable int postId) {
-            return ResponseEntity.ok(likePostService.countLikesByPostId(postId));
-        }
-
+    @GetMapping("/{postId}/like")
+    public ResponseEntity<Integer> getCountLikePost(@PathVariable int postId) {
+        return ResponseEntity.ok(likePostService.countLikesByPostId(postId));
+    }
 
 
 }

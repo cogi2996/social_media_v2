@@ -1,4 +1,4 @@
-import { app } from "../firebase/firebase.js";
+import { app } from "./firebase/firebase.js";
 import {
   getStorage,
   ref,
@@ -11,13 +11,13 @@ const btnImage = document.getElementById("btn-image");
 const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');
 const createPost = document.getElementById("post-modal");
-const containerPost = document.getElementById("container__post");
+const postContainer = document.getElementById("container__post");
 console.log(createPost);
 
 const storage = getStorage(app);
 
 console.log(storage);
-getListNewPost();
+getListNewPost(0, 3);
 btnImage.addEventListener("click", () => {
   inputImg.click();
 });
@@ -56,19 +56,24 @@ async function handleFormSubmit(token = null) {
 }
 
 window.addEventListener("scroll", () => {
-  console.log(window.scrollY); //scrolled from top
-  console.log(window.innerHeight); //visible part of screen
   if (
     window.scrollY + window.innerHeight + 1 >=
     document.documentElement.scrollHeight
   ) {
-    getListNewPost();
+    const totalCurNumPost = postContainer.querySelectorAll(
+      ".col-sm-12[data-post-id]"
+    );
+    let pageSize = 3;
+    let pageNum = 0;
+    if (totalCurNumPost.length === 0) pageNum = 0;
+    else pageNum = totalCurNumPost.length / pageSize;
+    getListNewPost(pageNum, pageSize);
   }
 });
 
-function getListNewPost(curNumPost = 0, pageSize = 2) {
+function getListNewPost(pageNum = 0, pageSize = 2) {
   axios
-    .get("/api/v1/posts?pageNum=0&pageSize=2")
+    .get(`/api/v1/posts?pageNum=${pageNum}&pageSize=${pageSize}`)
     .then(({ data }) => {
       data.forEach((post) => {
         renderPost(post);
@@ -81,18 +86,37 @@ function getListNewPost(curNumPost = 0, pageSize = 2) {
 
 function renderPost(post) {
   const createTime = formatDate(new Date(post.postCreateTime));
-  let html = `<div class="col-sm-12">
+  const liked = post.liked;
+  console.log(liked);
+  // bg-soft-primary
+  //text-primary
+  const textColor = liked === true ? "text-primary" : "";
+  console.log("post count like: " + post.countLike);
+  const isDisplayLike = !liked ? "d-none" : "";
+  const avatar =
+    post.userDTO.avatar === null
+      ? `/assets/images/user/defaul_avatar.jpg`
+      : post.userDTO.avatar;
+  let html = `<div class="col-sm-12" data-post-id = ${
+    post.postId
+  } data-user-post-id = ${post.userDTO.userId}>
   <div class="card card-block card-stretch card-height">
     <div class="card-body">
       <div class="user-post-data">
         <div class="d-flex justify-content-between">
           <div class="me-3">
-            <img class="rounded-circle img-fluid" src="../assets/images/user/01.jpg" alt="">
+            <img class="rounded-circle avatar-50" src="${avatar}" alt="">
           </div>
           <div class="w-100">
             <div class="d-flex justify-content-between">
               <div class="">
-                <h5 class="mb-0 d-inline-block">${post.userDTO.lastName} ${post.userDTO.midName} ${post.userDTO.firstName}</h5>
+                <a href="/profile?id=${post.userDTO.userId}">
+                  <h5 class="mb-0 d-inline-block">
+                    ${post.userDTO.lastName} ${post.userDTO.midName} ${
+    post.userDTO.firstName
+  }
+                  </h5>
+                </a>
                 <span class="mb-0 d-inline-block">đã thêm một bài viết mới</span>
                 <p class="mb-0 text-primary">${createTime}</p>
               </div>
@@ -161,45 +185,25 @@ function renderPost(post) {
         </p>
       </div>
       <div class="user-post">
-        <a href="javascript:void();"><img src="${post.postImage}" alt="post-image" class="img-fluid rounded w-100"></a>
+        <a href="javascript:void();"><img src="${
+          post.postImage
+        }" alt="post-image" class="img-fluid rounded w-100"></a>
       </div>
       <div class="comment-area mt-3">
         <div class="d-flex justify-content-between align-items-center flex-wrap">
-          <div class="like-block position-relative d-flex align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="like-data">
-                <div class="dropdown">
-                  <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    <img src="../assets/images/icon/01.png" class="img-fluid" alt="">
-                  </span>
-                  <div class="dropdown-menu py-2">
-                    <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Like" aria-label="Like"><img src="../assets/images/icon/01.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Love" aria-label="Love"><img src="../assets/images/icon/02.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Happy" aria-label="Happy"><img src="../assets/images/icon/03.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="HaHa" aria-label="HaHa"><img src="../assets/images/icon/04.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Think" aria-label="Think"><img src="../assets/images/icon/05.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Sade" aria-label="Sade"><img src="../assets/images/icon/06.png" class="img-fluid" alt=""></a>
-                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Lovely" aria-label="Lovely"><img src="../assets/images/icon/07.png" class="img-fluid" alt=""></a>
-                  </div>
-                </div>
-              </div>
-              <div class="total-like-block ms-2 me-3">
-                <div class="dropdown">
-                  <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    140 Likes
-                  </span>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Max Emum</a>
-                    <a class="dropdown-item" href="#">Bill Yerds</a>
-                    <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                    <a class="dropdown-item" href="#">Tara Misu</a>
-                    <a class="dropdown-item" href="#">Midge Itz</a>
-                    <a class="dropdown-item" href="#">Sal Vidge</a>
-                    <a class="dropdown-item" href="#">Other</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="like-block position-relative d-flex align-items-center ">
+          <div class="d-flex align-items-center btn-like">
+          <div class="like-data">
+              <span aria-haspopup="true" aria-expanded="false" role="button" class = "${isDisplayLike}">
+                <img src="../assets/images/icon/01.png" class="img-fluid" alt="">
+              </span>
+              
+          </div>
+          <div class="total-like-block ms-2 me-3">
+              <span role="button" class="${textColor}">
+                ${post.countLike === 0 ? "Thích" : `${post.countLike} Thích`} 
+            </span></div>
+          </div>
             <div class="total-comment-block">
               <div class="dropdown">
                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
@@ -271,8 +275,60 @@ function renderPost(post) {
     </div>
   </div>
   </div>`;
-  containerPost.insertAdjacentHTML("beforeend", html);
+  postContainer.insertAdjacentHTML("beforeend", html);
 }
+
+// observer like event
+postContainer.addEventListener("click", function (event) {
+  // Check if the clicked element is a like button
+  var likeButton = event.target.closest(".btn-like");
+  if (likeButton) {
+    // Handle the like button click
+    handleLikeButtonClick(likeButton);
+  }
+});
+function handleLikeButtonClick(button) {
+  const likeIcon = button.querySelector(".like-data span");
+  const likeText = button.querySelector(".total-like-block span");
+  // tongle like icon & like text
+  likeIcon.classList.toggle("d-none");
+  console.log(likeIcon);
+  likeText.classList.toggle("text-primary");
+
+  const userPostId = jwt_decode(Cookies.get("access_token")).userId;
+  const postId = button.closest(".col-sm-12").dataset.postId;
+
+  // check if like or unlike
+  const likeHandlerApi = likeIcon.classList.contains("d-none");
+  if (!likeHandlerApi) {
+    axios
+      .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .then(function ({ data }) {
+        likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  } else {
+    axios
+      .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .then(function ({ data }) {
+        // handle success
+        likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+      })
+      //   console.log(`here: ` + data);
+      // })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        likeText.classList.remove("text-primary");
+        likeIcon.classList.add("d-none");
+      });
+    // always executed
+  }
+}
+
 // tạo một component riêng [refactor]
 function uploadImage(file) {
   return new Promise((resolve, reject) => {

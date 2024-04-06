@@ -6,9 +6,8 @@ import com.example.social_media.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 //note here
 @Controller
 @RequestMapping("/profile")
@@ -31,4 +30,12 @@ public class UserProfileController {
         model.addAttribute("user",user);
         return "app/profile";
     }
+
+    @GetMapping("/edit")
+    public String getIntoEditProfile(Model model) {
+        User currentUser = authenticationFacade.getUser();
+        model.addAttribute("curUser",currentUser);
+        return "dashboard/form-wizard-vertical";
+    }
+
 }

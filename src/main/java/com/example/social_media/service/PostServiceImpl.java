@@ -32,5 +32,10 @@ public class PostServiceImpl implements PostService {
         return postRepository.findPostsByUserIdAndFollowerIds(userId, followerIds, pageable).getContent();
     }
 
+    @Override
+    public List<Post> findPostsByUserId(int userId, Pageable pageable) {
+        return postRepository.findPostsByUserId(userId, pageable).getContent();
+    }
+
 
 }

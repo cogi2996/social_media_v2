@@ -30,9 +30,14 @@ axios.interceptors.response.use(
   function (response) {
     // Thực thi các kịch bản cần thiết ở đây
     // trước khi response đến điểm cuối
-    const { data } = response;
+    const {
+      status,
+      data: { data, message },
+    } = response;
     return {
       data,
+      message,
+      status,
     }; // ---> { "my_data": true }
   },
   function (error) {

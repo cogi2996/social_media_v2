@@ -3,6 +3,8 @@ package com.example.social_media.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -41,12 +43,13 @@ public class User implements Serializable {
     private String major;
     @Column(name="department")
     private String department;
+    @Column(name="gender")
+    private int gender;
     @Column(name="avatar")
     private String avatar;
-//    @JsonIgnore
-//    @Column(name="role")
-//    private int role;
-
+    @Column(name="dob")
+    @Temporal(TemporalType.DATE)
+    private Date dob;
 
     // following
     @ManyToMany

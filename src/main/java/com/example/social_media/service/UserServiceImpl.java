@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,6 +39,25 @@ public class UserServiceImpl implements UserService {
     public List<User> findPeopleNotFollowedByUserId(int userId,int pageNum, int pageSize) {
         Pageable paging = PageRequest.of(pageNum,pageSize);
         return userRepository.findPeopleNotFollowedByUserId(userId,paging);
+    }
+
+    @Override
+    public User update(User user) {
+        User dbuser = userRepository.findUserByUserId(user.getUserId());
+        if (dbuser == null) {
+            return null;
+        }
+
+        dbuser.setFirstName(user.getFirstName());
+        dbuser.setLastName(user.getLastName());
+        dbuser.setMidName(user.getMidName());
+        if(user.getAvatar() != null)
+        {
+            dbuser.setAvatar(user.getAvatar());
+        }
+        dbuser.setDob(user.getDob());
+        dbuser.setGender(user.getGender());
+        return userRepository.save(dbuser);
     }
 
 
