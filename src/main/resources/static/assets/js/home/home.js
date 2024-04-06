@@ -13,6 +13,8 @@ const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');
 const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 console.log(createPost);
 
 const storage = getStorage(app);
@@ -384,4 +386,48 @@ function formatDate(date) {
     "  " +
     strTime
   );
+}
+
+// function follow
+$("#follow-container")?.addEventListener("click", function (event) {
+  if (event.target.closest("#btn-follow")) {
+    const followButton = event.target.closest("#btn-follow");
+    const unfollowButton = followButton.nextElementSibling;
+    const targetId = followButton.closest("li").dataset.userId;
+    const sourceId = jwt_decode(Cookies.get("access_token")).userId;
+    followButton.classList.toggle("d-none");
+    unfollowButton.classList.toggle("d-none");
+    console.log(sourceId + " " + targetId);
+    followHandle(sourceId, targetId);
+  } else if (event.target.closest("#btn-unfollow")) {
+    const unfollowButton = event.target.closest("#btn-unfollow");
+    const followButton = unfollowButton.previousElementSibling;
+    const targetId = followButton.closest("li").dataset.userId;
+    const sourceId = jwt_decode(Cookies.get("access_token")).userId;
+    followButton.classList.toggle("d-none");
+    unfollowButton.classList.toggle("d-none");
+    console.log(sourceId + " " + targetId);
+    unfollowHandle(sourceId, targetId);
+  }
+});
+
+function followHandle(sourceId = null, targetId = null) {
+  axios
+    .post(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .then(function ({ status }) {
+      console.log(status);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+function unfollowHandle(sourceId = null, targetId = null) {
+  axios
+    .delete(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .then(function ({ status }) {
+      console.log(status);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }

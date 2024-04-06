@@ -71,34 +71,38 @@ public class UserRestController {
         return null;
     }
 
-    @PostMapping("/{userId}/followingUsers/{targetId}")
-    public ResponseEntity<Follow> followUserById(@PathVariable int userId, @PathVariable("targetId") int targetId) {
-        User sourceUser = userService.findUserById(userId);
+    @PostMapping("/{sourceId}/follows/{targetId}")
+    public ResponseEntity<?> followUserById(@PathVariable int sourceId, @PathVariable("targetId") int targetId) {
+        User sourceUser = userService.findUserById(sourceId);
         User targetUser = userService.findUserById(targetId);
-        System.out.println(targetId);
+        System.out.println(sourceId+" "+targetId);
         // get current user authenticated
-        int dbUserId = authenticationFacade.getUser().getUserId();
-        System.out.println("here end point");
-        if (sourceUser == null || targetUser == null|| dbUserId != userId){
+        int curUserId = authenticationFacade.getUser().getUserId();
+        if (sourceUser == null || targetUser == null|| curUserId != sourceId){
             return ResponseEntity.badRequest().body(null);
         }
-        Follow follow = new Follow(new FollowId(userId, targetId));
+        Follow follow = new Follow(new FollowId(sourceId, targetId));
         followService.save(follow);
-        return ResponseEntity.ok(follow);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .build()
+        );
     }
 
-    @DeleteMapping("/{userId}/followingUsers/{targetId}")
-    public ResponseEntity<Void> unfollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
+    @DeleteMapping("/{userId}/follows/{targetId}")
+    public ResponseEntity<?> unfollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
         User sourceUser = userService.findUserById(userId);
         User targetUser = userService.findUserById(targetId);
         int dbUserId = authenticationFacade.getUser().getUserId();
-        System.out.println("here end point");
         if (sourceUser == null || targetUser == null|| dbUserId != sourceUser.getUserId()){
             return ResponseEntity.badRequest().body(null);
         }
         FollowId follow = new FollowId(userId, targetId);
         followService.deleteFollow(follow);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .build()
+        );
     }
     @PatchMapping("/{userId}/followers/{targetId}")
     public ResponseEntity<Void> acceptFollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {

@@ -1559,29 +1559,46 @@
                     <h6 class="card-title">Những người bạn có thể biết</h6>
                   </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="follow-container">
                   <ul
                     class="media-story list-inline m-0 p-0"
                     th:each="recommendUser: ${recommendUsers}"
                   >
-                    <li class="d-flex mb-3 align-items-center active">
+                    <li
+                      class="d-flex mb-3 align-items-center active"
+                      th:data-user-id="${recommendUser.userId}"
+                    >
                       <img
                         th:src="${recommendUser.avatar != null} ? ${recommendUser.avatar} : '/assets/images/user/defaul_avatar.jpg'"
                         alt="story-img"
                         class="rounded-circle img-fluid"
                       />
-                      <div class="stories-data ms-3">
+                      <div class="stories-data ms-2 d-flex flex-column">
                         <a th:href="'/profile?id='+${recommendUser.userId}">
                           <h5 th:text="${recommendUser.getFullName()}"></h5>
                         </a>
                         <a
                           href="#"
-                          class="badge border border-primary text-primary mt-1"
-                          ><p
-                            class="mb-0"
-                            th:text="${recommendUser.department}"
-                          ></p
-                        ></a>
+                          class="text-primary"
+                          th:text="${recommendUser.department}"
+                          >Primary link</a
+                        >
+                        <button
+                          type="button"
+                          id="btn-follow"
+                          class="btn btn-primary mt-1 badge"
+                          style="width: 110px; height: auto"
+                        >
+                          theo dõi
+                        </button>
+                        <button
+                          type="button"
+                          id="btn-unfollow"
+                          class="btn btn-secondary mt-1 badge d-none"
+                          style="width: 110px; height: auto"
+                        >
+                          đang theo dõi 😊
+                        </button>
                       </div>
                     </li>
                   </ul>
