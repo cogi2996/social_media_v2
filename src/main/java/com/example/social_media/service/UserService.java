@@ -12,6 +12,8 @@ public interface UserService {
     User findUserById(int userId);
     Page<User> findAll(int pageNum, int pageSize, String sortBy);
     List<User> findFollowersByUserId(int userid);;
+    List<User> findFollowingUserByUserId(int userId);
     List<User>findPeopleNotFollowedByUserId(int userId,int pageNum, int pageSize);
     User update(User user);
+
 }

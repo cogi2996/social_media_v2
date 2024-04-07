@@ -38,5 +38,15 @@ public class FollowServiceImpl implements  FollowService{
         }
     }
 
+    @Override
+    public Integer countByFollowId_TargetIdAndFollowStatus(Integer followedUserId, Boolean followStatus) {
+        return followRepository.countByFollowId_TargetIdAndFollowStatus(followedUserId,followStatus);
+    }
+
+    @Override
+    public Integer countByFollowId_SourceIdAndFollowStatus(Integer userId, Boolean followStatus) {
+        return followRepository.countByFollowId_SourceIdAndFollowStatus(userId,followStatus);
+    }
+
 
 }

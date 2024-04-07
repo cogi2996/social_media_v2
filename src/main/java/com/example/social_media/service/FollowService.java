@@ -7,4 +7,6 @@ public interface FollowService {
         Follow save(Follow follow);
         void deleteFollow(FollowId follow);
         void acceptFollow(FollowId followId);
+        Integer countByFollowId_TargetIdAndFollowStatus(Integer followedUserId, Boolean followStatus);
+        Integer countByFollowId_SourceIdAndFollowStatus(Integer userId, Boolean followStatus);
 }

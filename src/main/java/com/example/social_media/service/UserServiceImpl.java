@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findFollowersByUserId(userid);
     }
 
+    @Override
+    public List<User> findFollowingUserByUserId(int userId) {
+        return userRepository.findFollowingUserByUserId(userId);
+    }
 
 
     @Override
