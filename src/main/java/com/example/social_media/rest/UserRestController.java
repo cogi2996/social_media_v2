@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.DefaultParameters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -160,16 +161,44 @@ public class UserRestController {
     }
 
     @GetMapping("/{userId}/followers")
-    public ResponseEntity<List<UserDTO>> getFollowers(@PathVariable int userId){
+    public ResponseEntity<?> getFollowers(@PathVariable int userId,
+        @RequestParam(defaultValue = "0") Integer pageNum,
+        @RequestParam(defaultValue = "5") Integer pageSize,
+        @RequestParam(defaultValue = "userId") String sortBy
+    ){
         User user = userService.findUserById(userId);
         if(user == null){
             return ResponseEntity.noContent().build();
         }
-        List<User> followers = userService.findFollowersByUserId(userId);
+        List<User> followers = userService.findFollowersByUserId(userId,pageNum, pageSize, sortBy);
         System.out.println("start here !");
         System.out.println("followers: "+followers.size());
-        return ResponseEntity.ok().body(followers.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList());
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(followers.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList())
+                .build());
     }
+
+    @GetMapping("/{userId}/followings")
+    public ResponseEntity<?> getFollowing(@PathVariable int userId,
+                                                      @RequestParam(defaultValue = "0") Integer pageNum,
+                                                      @RequestParam(defaultValue = "5") Integer pageSize,
+                                                      @RequestParam(defaultValue = "userId") String sortBy
+    ){
+        User user = userService.findUserById(userId);
+        if(user == null){
+            return ResponseEntity.noContent().build();
+        }
+        List<User> followings = userService.findFollowingUserByUserId(userId,pageNum, pageSize, sortBy);
+        System.out.println("start here !");
+        System.out.println("followers: "+followings.size());
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(followings.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList())
+                .build());
+    }
+
+
 
     @GetMapping("/{userId}/posts")
     public ResponseEntity<List<ObjectNode>> getPostProfile(

@@ -86,6 +86,8 @@ public class User implements Serializable {
     @JoinColumn(name="account_id")
     private Account account;
 
+
+
     public String getFullName(){
         return this.lastName + " " + this.midName + " " + this.firstName;
     }

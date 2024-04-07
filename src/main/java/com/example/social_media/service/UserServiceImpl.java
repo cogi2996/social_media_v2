@@ -28,14 +28,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(paging);
     }
 
+
+
     @Override
-    public List<User> findFollowersByUserId(int userid) {
-        return userRepository.findFollowersByUserId(userid);
+    public List<User> findFollowersByUserId(int userid,int pageNum, int pageSize, String sortBy) {
+        return userRepository.findFollowersByUserId(userid,PageRequest.of(pageNum,pageSize,Sort.by(sortBy)));
     }
 
     @Override
-    public List<User> findFollowingUserByUserId(int userId) {
-        return userRepository.findFollowingUserByUserId(userId);
+    public List<User> findFollowingUserByUserId(int userId, int pageNum, int pageSize, String sortBy) {
+        return userRepository.findFollowingUserByUserId(userId,PageRequest.of(pageNum,pageSize,Sort.by(sortBy)));
     }
 
 

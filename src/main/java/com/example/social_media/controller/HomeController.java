@@ -25,7 +25,6 @@ public class HomeController {
                                @RequestParam(defaultValue = "0") Integer pageNum,@RequestParam(defaultValue = "4") Integer pageSize) {
         User currentUser = authenticationFacade.getUser();
         model.addAttribute("user",currentUser);
-        System.out.println("recommendUsers: "+ userService.findFollowersByUserId(currentUser.getUserId()).size());
         model.addAttribute("recommendUsers",userService.findPeopleNotFollowedByUserId(currentUser.getUserId(),pageNum,pageSize));
         return "dashboard/index";
     }
