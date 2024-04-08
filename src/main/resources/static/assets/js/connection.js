@@ -1,7 +1,10 @@
 "use strict";
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
-const curUserId = $("#friends").dataset.userId;
+const curConnectUserId = $("#friends").dataset.userId;
+const curUserId = jwt_decode(Cookies.get("access_token")).userId;
+console.log(curConnectUserId + " &&" + curUserId);
+
 //when click on followings tab
 let firstVisitFollowing = true;
 let firstVisitFollower = true;
@@ -11,7 +14,6 @@ const followersLink = $(".nav-link[data-bs-target='#followers']");
 const followingContainer = $("#following-container .row");
 const followerContainer = $("#follower-container .row");
 const pageSize = 6;
-
 document
   .querySelector(".nav-link[data-bs-target='#followings']")
   .addEventListener("click", () => {
@@ -72,8 +74,8 @@ function getFollowListHandle(isFollowingsLinkClicked) {
 
     axios
       .get(
-        `/api/v1/users/${curUserId}
-      /followings?pageNum=${pageNum}&pageSize=${pageSize}`
+        `/api/v1/users/${curConnectUserId}
+      /followings?pageNum=${pageNum}&pageSize=${pageSize}&curentUserId=${curUserId}`
       )
       .then(function (response) {
         if (response.status === 200) {
@@ -95,8 +97,8 @@ function getFollowListHandle(isFollowingsLinkClicked) {
 
     axios
       .get(
-        `/api/v1/users/${curUserId}
-      /followers?pageNum=${pageNum}&pageSize=${pageSize}`
+        `/api/v1/users/${curConnectUserId}
+      /followers?pageNum=${pageNum}&pageSize=${pageSize}&curentUserId=${curUserId}`
       )
       .then(function (response) {
         if (response.status === 200) {
@@ -112,17 +114,19 @@ function getFollowListHandle(isFollowingsLinkClicked) {
   }
 }
 
+// render các card người dùng vào container tương ứng từ danh sách user
 function renderFollowCard(listUser, isFollowingsLinkClicked) {
   const container = isFollowingsLinkClicked
     ? followingContainer
     : followerContainer;
 
   listUser.forEach((user) => {
+    const typeButton = user.isFollowed ? "secondary" : "primary";
+    const textButton = user.isFollowed ? "Đang theo dõi 😊" : "Theo dõi";
     const avatar =
       user.avatar === null
         ? `/assets/images/user/defaul_avatar.jpg`
         : user.avatar;
-
     const html = `
       <div class="col-md-6 col-lg-6 mb-3">
         <div class="iq-friendlist-block">
@@ -140,9 +144,8 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
             </div>
             <div class="card-header-toolbar d-flex align-items-center">
               <div class="dropdown">
-                <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                  <i class="ri-check-line me-1 text-white"></i>
-                  Friend
+                <span class="dropdown-toggle btn btn-${typeButton} me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
+                  ${textButton}
                 </span>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
                   <a class="dropdown-item" href="#">Báo cáo</a>

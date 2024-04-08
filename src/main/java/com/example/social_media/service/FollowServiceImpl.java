@@ -48,5 +48,10 @@ public class FollowServiceImpl implements  FollowService{
         return followRepository.countByFollowId_SourceIdAndFollowStatus(userId,followStatus);
     }
 
+    @Override
+    public Boolean existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId) {
+        return followRepository.existsFollowBySourceIdAndTargetId(curentUserId,followerId);
+    }
+
 
 }
