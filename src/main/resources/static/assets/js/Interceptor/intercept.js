@@ -46,3 +46,4 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+console.log("intercept.js loaded");
