@@ -15,8 +15,8 @@ public interface FollowRepository extends JpaRepository<Follow, FollowId> {
     Integer countByFollowId_SourceIdAndFollowStatus(Integer userId, Boolean followStatus);
 
     @Meta(comment = "Check if a user is following another user")
-    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END FROM Follow f WHERE f.followId.sourceId = ?1 AND f.followId.targetId = ?2 and f.followStatus = true")
-    Boolean existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId);
+    @Query("SELECT CASE WHEN COUNT(f) > 0 and f.followStatus = true THEN 1 WHEN COUNT(f) > 0 and f.followStatus = false THEN 2 ELSE 0 END FROM Follow f WHERE f.followId.sourceId = ?1 AND f.followId.targetId = ?2 ")
+    Integer existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId);
 
 
 

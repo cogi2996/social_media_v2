@@ -49,7 +49,7 @@ public class FollowServiceImpl implements  FollowService{
     }
 
     @Override
-    public Boolean existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId) {
+    public Integer existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId) {
         return followRepository.existsFollowBySourceIdAndTargetId(curentUserId,followerId);
     }
 

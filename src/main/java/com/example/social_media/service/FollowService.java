@@ -14,5 +14,5 @@ public interface FollowService {
 
     Integer countByFollowId_SourceIdAndFollowStatus(Integer userId, Boolean followStatus);
 
-    Boolean existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId);
+    Integer existsFollowBySourceIdAndTargetId(Integer curentUserId, int followerId);
 }

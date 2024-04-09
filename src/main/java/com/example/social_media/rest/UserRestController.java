@@ -182,7 +182,7 @@ public class UserRestController {
                     .stream()
                     .map(u -> {
                         int followerId = u.getUserId();
-                        Boolean followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
+                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
                         UserDTO userDTO = convertToDTO.convertToDTO(u);
                         ObjectNode node = mapper.valueToTree(userDTO);
                         node.put("isFollowed", followed);
@@ -217,7 +217,7 @@ public class UserRestController {
                     .stream()
                     .map(u -> {
                         int followerId = u.getUserId();
-                        Boolean followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
+                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
                         UserDTO userDTO = convertToDTO.convertToDTO(u);
                         ObjectNode node = mapper.valueToTree(userDTO);
                         node.put("isFollowed", followed);

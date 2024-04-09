@@ -3,7 +3,6 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 const curConnectUserId = $("#friends").dataset.userId;
 const curUserId = jwt_decode(Cookies.get("access_token")).userId;
-console.log(curConnectUserId + " &&" + curUserId);
 
 //when click on followings tab
 let firstVisitFollowing = true;
@@ -17,22 +16,6 @@ const followingContainer = $("#following-container .row");
 const followerContainer = $("#follower-container .row");
 const loader = document.querySelector('.container div img[alt="loader"]');
 const pageSize = 6;
-
-// document
-//   .querySelector(".nav-link[data-bs-target='#followings']")
-//   .addEventListener("click", () => {
-//     if (firstVisitFollowing) {
-//       renderFollow();
-//       return;
-//     }
-//   });
-
-// when click on followers tab
-document
-  .querySelector(".nav-link[data-bs-target='#followers']")
-  .addEventListener("click", () => {
-    console.log("hello 2");
-  });
 
 // init follow
 getFollowListHandle(true);
@@ -77,7 +60,6 @@ function getFollowListHandle(isFollowingsLinkClicked) {
       "#following-container .iq-friendlist-block"
     ).length;
     const pageNum = Math.ceil(countCurUserFollowing / pageSize);
-    console.log(`pageNum: ${pageNum}`);
     loader.classList.remove("d-none");
     if (isFetchingFollowing) return;
     axios
@@ -88,7 +70,6 @@ function getFollowListHandle(isFollowingsLinkClicked) {
       .then(function (response) {
         if (response.status === 200) {
           const { data, message, status } = response;
-          console.log(data, message, status);
           renderFollowCard(data, isFollowingsLinkClicked);
           loader.classList.add("d-none");
         }
@@ -105,7 +86,6 @@ function getFollowListHandle(isFollowingsLinkClicked) {
       "#follower-container .iq-friendlist-block"
     ).length;
     const pageNum = Math.ceil(countCurFollowers / pageSize);
-    console.log(`pageNum: ${pageNum}`);
     loader.classList.remove("d-none");
     if (isFetchingFollower) return;
     axios
@@ -116,7 +96,6 @@ function getFollowListHandle(isFollowingsLinkClicked) {
       .then(function (response) {
         if (response.status === 200) {
           const { data, message, status } = response;
-          console.log(data, message, status);
           renderFollowCard(data, isFollowingsLinkClicked);
           loader.classList.add("d-none");
         }
@@ -139,7 +118,12 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
 
   listUser.forEach((user) => {
     const typeButton = user.isFollowed ? "secondary" : "primary";
-    const textButton = user.isFollowed ? "Đang theo dõi 😊" : "Theo dõi";
+    const textButton =
+      user.isFollowed === 1
+        ? "Đang theo dõi 😊"
+        : user.isFollowed === 2
+        ? "Đã gửi yêu cầu"
+        : "Theo dõi";
     const isDropdownMenu = !user.isFollowed ? "d-none" : "";
     const avatar =
       user.avatar === null
@@ -149,8 +133,9 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
     const isHref = user.isFollowed
       ? ""
       : `href="/follows/requestFollow/${user.userId}"`;
+
     const html = `
-      <div class="col-md-6 col-lg-6 mb-3">
+      <div class="col-md-6 col-lg-6 mb-3" data-user-id = ${user.userId}>
         <div class="iq-friendlist-block">
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
@@ -166,13 +151,12 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
             </div>
             <div class="card-header-toolbar d-flex align-items-center">
               <form class="dropdown">
-                <${isSpan} ${isHref} class="dropdown-toggle btn btn-${typeButton} me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
+                <span class="dropdown-toggle btn btn-${typeButton} me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
                   ${textButton}
-                </${isSpan}>
-                <div class="dropdown-menu dropdown-menu-right ${isDropdownMenu}" aria-labelledby="dropdownMenuButton01">
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
                   <a class="dropdown-item" href="#">Báo cáo</a>
                   <a class="dropdown-item" href="/follows/deleteFollow/${user.userId}">Unfollow</a>
-                  <a class="dropdown-item" href="#">Block</a>
                 </div>
               </form>
             </div>
@@ -187,3 +171,39 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
 //1 đỗi sang đang theo dõi
 
 // click follow button khi đang following
+
+followingContainer.addEventListener("click", (e) => {
+  if (
+    e.target.closest("#dropdownMenuButton01") &&
+    e.target.closest("#dropdownMenuButton01").classList.contains("btn-primary")
+  ) {
+    e.preventDefault();
+    e.target.closest("#dropdownMenuButton01").classList.remove("btn-primary");
+    e.target.closest("#dropdownMenuButton01").classList.add("btn-secondary");
+    e.target.closest("#dropdownMenuButton01").textContent = "Đã gửi yêu cầu";
+  }
+});
+
+followerContainer.addEventListener("click", (e) => {
+  if (
+    e.target.closest("#dropdownMenuButton01") &&
+    e.target.closest("#dropdownMenuButton01").classList.contains("btn-primary")
+  ) {
+    e.target.closest("#dropdownMenuButton01").classList.remove("btn-primary");
+    e.target.closest("#dropdownMenuButton01").classList.add("btn-secondary");
+    e.target.closest("#dropdownMenuButton01").textContent = "Đã gửi yêu cầu";
+    const thisUserId = e.target.closest(".iq-friendlist-block").parentNode
+      .dataset.userId;
+    console.log(thisUserId);
+
+    axios
+      .post(`/api/v1/users/${curConnectUserId}/follows/${thisUserId}`)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  }
+});
