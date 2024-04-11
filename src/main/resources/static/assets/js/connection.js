@@ -167,11 +167,7 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
   });
 }
 
-// click follow button khi chưa following
-//1 đỗi sang đang theo dõi
-
 // click follow button khi đang following
-
 followingContainer.addEventListener("click", (e) => {
   if (
     e.target.closest("#dropdownMenuButton01") &&
