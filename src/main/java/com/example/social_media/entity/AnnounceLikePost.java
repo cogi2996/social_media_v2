@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// tétel 1
 public class AnnounceLikePost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
