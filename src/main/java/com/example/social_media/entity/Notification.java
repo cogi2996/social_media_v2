@@ -3,6 +3,7 @@ package com.example.social_media.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -24,8 +25,8 @@ public class Notification {
     private TypeAnnounce type;
 
     @Column(name = "create_time")
-    @CreationTimestamp
-    private ZonedDateTime createTime;
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createTime;
 
     @Column(name = "status")
     private boolean status;

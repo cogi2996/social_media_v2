@@ -294,7 +294,7 @@ public class UserRestController {
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
-        List<Notification> notifications = notificationService.findByUserId(userId,pageNum, pageSize, Sort.by(sortBy).ascending());
+        List<Notification> notifications = notificationService.findByUserId(userId,pageNum, pageSize, Sort.by(sortBy).descending());
         // convert to DTO
         List<?> announcesDTO = notifications.stream()
                 .map(announce -> {

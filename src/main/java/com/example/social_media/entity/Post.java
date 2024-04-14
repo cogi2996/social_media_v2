@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import java.time.Instant;
 import java.util.List;
@@ -24,8 +25,7 @@ public class Post {
     @Column(name = "post_text")
     private String postText;
     @Column(name = "post_create_time")
-//    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
+    @CreationTimestamp(source = SourceType.DB)
     private Instant postCreateTime;
     @Column(name = "post_image")// xin chào
     private String postImage;

@@ -12,6 +12,7 @@ import com.example.social_media.security.AuthenticationFacade;
 import com.example.social_media.service.LikePostService;
 import com.example.social_media.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -66,11 +69,16 @@ public class PostRestController {
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followingId, pageable);
         ObjectMapper mapper  = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new JavaTimeModule( ));
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> postDTOS = posts.stream().map(post -> {
             int postId = post.getPostId();
             Boolean liked =likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
             PostDTO postDTO = convertToDTO.convertToDTO(post);
+            System.out.println("postTime:"+ post.getPostCreateTime());
+            System.out.println("postDTOTime:"+ postDTO.getPostCreateTime());
+            postDTO.setPostCreateTime(post.getPostCreateTime().atZone(ZoneId.of("GMT+7")));
             postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());
             postDTO.setUserDTO(userDTO);
