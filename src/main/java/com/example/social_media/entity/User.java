@@ -78,13 +78,21 @@ public class User implements Serializable {
     @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
     private List<Group> memberGroups;
 
-    // các bài viết mà user like
+    // các thông báo của user
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
 
+    //các thông báo like được user kích hoạt
+    @OneToMany(mappedBy = "userLiked", cascade = CascadeType.ALL)
+    private List<NotificationLikePost> notificationLikePosts;
     // account của user
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name="account_id")
     private Account account;
+
+
+
 
 
 

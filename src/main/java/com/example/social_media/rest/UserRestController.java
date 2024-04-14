@@ -1,22 +1,13 @@
 package com.example.social_media.rest;
 
 
-import com.example.social_media.DTO.GroupDTO;
-import com.example.social_media.DTO.PostDTO;
-import com.example.social_media.DTO.ResponseDTO;
-import com.example.social_media.DTO.UserDTO;
+import com.example.social_media.DTO.*;
 import com.example.social_media.Utils.ConvertToDTO;
+import com.example.social_media.entity.*;
 import com.example.social_media.entity.EntityId.LikePostId;
-import com.example.social_media.entity.Follow;
 import com.example.social_media.entity.EntityId.FollowId;
-import com.example.social_media.entity.LikePost;
-import com.example.social_media.entity.Post;
-import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
-import com.example.social_media.service.FollowService;
-import com.example.social_media.service.LikePostService;
-import com.example.social_media.service.PostService;
-import com.example.social_media.service.UserService;
+import com.example.social_media.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -26,14 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.DefaultParameters;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -48,6 +35,8 @@ public class UserRestController {
     private final IAuthenticationFacade authenticationFacade;
     private final ModelMapper modelMapper;
     private final ConvertToDTO convertToDTO;
+    private final NotificationLikeService notificationLikeService;
+    private  final NotificationService notificationService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllEmployees(
@@ -130,6 +119,7 @@ public class UserRestController {
     }
 
     @PostMapping("/{userId}/likeList/posts/{postId}")
+    //viết thêm logic aop chỉ A follow B hoặc A là admin mới được call api này
     public ResponseEntity<?> likePost(@PathVariable int userId, @PathVariable int postId) {
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
@@ -141,6 +131,24 @@ public class UserRestController {
         LikePostId likePostId = new LikePostId(userId, postId);
         LikePost likePost = LikePost.builder().likePostId(likePostId).build();
         likePostService.save(likePost);
+
+        //like bài viết từ một người khác
+        if(userId != post.getUser().getUserId()){
+            // thông báo đến người được like
+            Notification notification = Notification.builder()
+                    .type(TypeAnnounce.LIKE)
+                    .user(post.getUser())
+                    .status(false)
+                    .build();
+            NotificationLikePost notificationLikePost = NotificationLikePost.builder()
+                    .post(post)
+                    .notification(notification)
+                    .userLiked(user)
+                    .build();
+            notificationLikeService.save(notificationLikePost);
+        }
+
+
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
                 .data(likePostService.countLikesByPostId(postId))
@@ -275,6 +283,31 @@ public class UserRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating the user.");
         }
+    }
+
+    @GetMapping("/{userId}/notifications")
+    public ResponseEntity<?> getNotifications(@PathVariable int userId,
+                                         @RequestParam(defaultValue = "0") Integer pageNum,
+                                         @RequestParam(defaultValue = "5") Integer pageSize,
+                                         @RequestParam(defaultValue = "createTime") String sortBy) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+        List<Notification> notifications = notificationService.findByUserId(userId,pageNum, pageSize, Sort.by(sortBy).ascending());
+        // convert to DTO
+        List<?> announcesDTO = notifications.stream()
+                .map(announce -> {
+                    //nếu là dạng thông báo like
+                    if (announce.getType() == TypeAnnounce.LIKE) {
+                        return modelMapper.map(announce.getNotificationLikePost(), NotificationLikePostDTO.class);
+                    }
+                    return null;
+                }).toList();
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(announcesDTO)
+                .build());
     }
 
 }

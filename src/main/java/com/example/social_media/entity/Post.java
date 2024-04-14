@@ -1,14 +1,13 @@
 package com.example.social_media.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,15 +27,19 @@ public class Post {
 //    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Instant postCreateTime;
-    @Column(name = "post_image")
+    @Column(name = "post_image")// xin chào
     private String postImage;
-    // author 's post ( private )
+    // author 's post ( private ) //
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group postGroup;
+
+    // thông bảo like của bài viết
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<NotificationLikePost> notificationLikePosts;
 
 }
 
