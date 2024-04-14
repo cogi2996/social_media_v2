@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "notification")
@@ -24,7 +25,7 @@ public class Notification {
 
     @Column(name = "create_time")
     @CreationTimestamp
-    private Instant createTime;
+    private ZonedDateTime createTime;
 
     @Column(name = "status")
     private boolean status;

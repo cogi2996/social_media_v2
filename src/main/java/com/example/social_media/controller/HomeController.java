@@ -30,5 +30,4 @@ public class HomeController {
         return "dashboard/index";
     }
 
-
 }
