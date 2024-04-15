@@ -94,7 +94,6 @@ public class PostRestController {
 
     }
 
-
     @GetMapping("/{postId}/like")
     public ResponseEntity<Integer> getCountLikePost(@PathVariable int postId) {
         return ResponseEntity.ok(likePostService.countLikesByPostId(postId));

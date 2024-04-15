@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {
-    Post findPostById(int postId);
+//    Post findPostById(int postId);
     Post createPost(Post post);
     List<Post> findPostsByUserIdAndFollowerIds(int userId, List<Integer> followerIds, Pageable pageable);
     List<Post> findPostsByUserId(int userId, Pageable pageable);
+    Post findOne(int userId);
 }

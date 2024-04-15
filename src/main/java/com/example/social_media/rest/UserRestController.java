@@ -123,7 +123,7 @@ public class UserRestController {
     public ResponseEntity<?> likePost(@PathVariable int userId, @PathVariable int postId) {
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
-        Post post = postService.findPostById(postId);
+        Post post = postService.findOne(postId);
         if (user == null || post == null) {
             return ResponseEntity.noContent().build();
         }
@@ -159,7 +159,7 @@ public class UserRestController {
     public ResponseEntity<?> unlikePost(@PathVariable int userId, @PathVariable int postId) {
         // Kiểm tra tồn tại của user và post
         User user = userService.findUserById(userId);
-        Post post = postService.findPostById(postId);
+        Post post = postService.findOne(postId);
         if (user == null || post == null) {
             return ResponseEntity.noContent().build();
         }

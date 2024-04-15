@@ -17,10 +17,10 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
 
 
-    @Override
-    public Post findPostById(int postId) {
-        return postRepository.findPostByPostId(postId);
-    }
+//    @Override
+//    public Post findPostById(int postId) {
+//        return postRepository.findOne(postId);
+//    }
 
     @Override
     public Post createPost(Post post) {
@@ -35,6 +35,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findPostsByUserId(int userId, Pageable pageable) {
         return postRepository.findPostsByUserId(userId, pageable).getContent();
+    }
+
+    @Override
+    public Post findOne(int postId) {
+        return postRepository.findOne(postId);
     }
 
 
