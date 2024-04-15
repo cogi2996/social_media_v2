@@ -99,7 +99,7 @@ function renderPost(post) {
   // bg-soft-primary
   //text-primary
   const textColor = liked ? "text-primary" : "";
-  const isDisplayLike = post.countLike === 0 ? "d-none" : "";
+  const isDisplayLike = !liked ? "d-none" : "";
   const avatar =
     post.userDTO.avatar === null
       ? `/assets/images/user/defaul_avatar.jpg`

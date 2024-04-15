@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("")
 public class PostController {
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;

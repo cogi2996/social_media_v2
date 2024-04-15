@@ -35,7 +35,7 @@ async function getNotifications(pageNum, pageSize = 5) {
 
 // render notifications from list notifications
 function renderNotificationsTypeLike(data) {
-  let { notiData, userLiked, post } = data; // Changed 'notification' to 'notiData'
+  let { notification: noti, userLiked, post } = data; // Changed 'notification' to 'notiData'
   console.log(userLiked);
 
   const avatar =
@@ -44,7 +44,7 @@ function renderNotificationsTypeLike(data) {
       : userLiked.avatar;
 
   const html = `
-       <a href="#" class="iq-sub-card">
+       <a href="/${noti.user.userId}/post/${post.postId}" class="iq-sub-card">
        <div class="d-flex align-items-center">
          <div class="">
            <img class="avatar-40 rounded" src="${avatar}" alt="">
