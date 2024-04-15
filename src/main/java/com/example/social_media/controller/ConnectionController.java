@@ -19,11 +19,13 @@ public class ConnectionController {
     @GetMapping("{userId}/connection")
     public String getIntoIndex(@PathVariable Integer userId, Model model) {
         model.addAttribute("userId",userService.findUserById(userId).getUserId());
+        model.addAttribute("user",userService.findUserById(userId));
         model.addAttribute("countFollowers",followService.countByFollowId_TargetIdAndFollowStatus(userId,true));
         model.addAttribute("countFollowings",followService.countByFollowId_SourceIdAndFollowStatus(userId,true));
         System.out.println("countFollowers: "+followService.countByFollowId_TargetIdAndFollowStatus(userId,true));
         System.out.println("countFollowings: "+followService.countByFollowId_SourceIdAndFollowStatus(userId,true));
-        return "app/connection";
+
+        return "web/connection";
     }
 
     // huỷ theo dõi

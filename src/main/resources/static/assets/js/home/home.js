@@ -15,11 +15,8 @@ const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
-console.log(createPost);
-
 const storage = getStorage(app);
 
-console.log(storage);
 getListNewPost(0, 3);
 btnImage.addEventListener("click", () => {
   inputImg.click();
@@ -27,15 +24,12 @@ btnImage.addEventListener("click", () => {
 
 btnSubmit.addEventListener("click", (e) => {
   e.preventDefault();
-  console.log(inputImg.files.length);
   if (inputImg.files.length > 0) {
     handleFormSubmit();
   }
 });
-console.log(app);
 
 async function handleFormSubmit(token = null) {
-  console.log("herelll");
   const url = await uploadImage(inputImg.files[0]);
   let text = createPost.querySelector('input[type="text"]').value;
   // post api
@@ -45,7 +39,6 @@ async function handleFormSubmit(token = null) {
       postImage: url,
     })
     .then(function (response) {
-      console.log(response);
       createPost.style.display = "none";
       const body = document.querySelector("body");
       body.style = null;
@@ -59,8 +52,6 @@ async function handleFormSubmit(token = null) {
 }
 
 window.addEventListener("scroll", () => {
-  console.log(window.scrollY); //scrolled from top
-  console.log(window.innerHeight); //visible part of screen
   if (
     window.scrollY + window.innerHeight + 1 >=
     document.documentElement.scrollHeight
@@ -91,10 +82,7 @@ function getListNewPost(pageNum = 0, pageSize = 2) {
 }
 
 function renderPost(post) {
-  console.log(post);
   const createTime = formatDate(new Date(post.postCreateTime));
-  console.log(createTime);
-
   const liked = post.liked;
   // bg-soft-primary
   //text-primary

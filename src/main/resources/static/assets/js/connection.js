@@ -2,7 +2,7 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 const curConnectUserId = $("#friends").dataset.userId;
-const curUserId = jwt_decode(Cookies.get("access_token")).userId;
+// const curUserId = jwt_decode(Cookies.get("access_token")).userId;
 
 //when click on followings tab
 let firstVisitFollowing = true;

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout/layout_only_header.html}"
+>
+<body>
+<div layout:fragment="content" id="content-page" class="content-page">
+    <div class="container">
+        <div class="col-lg-8 mx-auto" id="container__post">
+            <!-- menu create post -->
+
+            <div
+                    class="col-sm-12"
+                    th:data-post-id="${post.postId}"
+                    th:data-user-post-id="${post.user.userId}"
+            >
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <div class="user-post-data">
+                            <div class="d-flex justify-content-between">
+                                <div class="me-3">
+                                    <img
+                                            class="rounded-circle avatar-50"
+                                            src="https://firebasestorage.googleapis.com/v0/b/socialmedia-f7504.appspot.com/o/images%2F1712482241426?alt=media&amp;token=8d86095b-e9ab-4206-8b36-8eccd97d5aad"
+                                            alt=""
+                                    />
+                                </div>
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="">
+                                            <a href="/profile?id=15">
+                                                <h5
+                                                        class="mb-0 d-inline-block"
+                                                        th:text="${post.user.getFullName()}"
+                                                ></h5>
+                                            </a>
+                                            <span class="mb-0 d-inline-block"
+                                            >đã thêm một bài viết mới</span
+                                            >
+                                            <p
+                                                    class="mb-0 text-primary"
+                                                    th:text="${post.postCreateTime}"
+                                            >
+                                                15/4/2024 4:35 am
+                                            </p>
+                                        </div>
+                                        <div class="card-post-toolbar">
+                                            <div class="dropdown">
+                              <span
+                                      class="dropdown-toggle"
+                                      data-bs-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false"
+                                      role="button"
+                              >
+                                <i class="ri-more-fill"></i>
+                              </span>
+                                                <div class="dropdown-menu m-0 p-0">
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <div class="h4">
+                                                                <i class="ri-save-line"></i>
+                                                            </div>
+                                                            <div class="data ms-2">
+                                                                <h6>Save Post</h6>
+                                                                <p class="mb-0">
+                                                                    Add this to your saved items
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-close-circle-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Hide Post</h6>
+                                                                <p class="mb-0">
+                                                                    See fewer posts like this.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-user-unfollow-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Unfollow User</h6>
+                                                                <p class="mb-0">
+                                                                    Stop seeing posts but stay friends.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-notification-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Notifications</h6>
+                                                                <p class="mb-0">
+                                                                    Turn on notifications for this post
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <p>bài viết hiện tại</p>
+                        </div>
+                        <div class="user-post">
+                            <a
+                                    href="javascript:void(); "
+                                    th:if="${post.postImage} != null"
+                            ><img
+                                    th:src="${post.postImage}"
+                                    alt="post-image"
+                                    class="img-fluid rounded w-100"
+                            />
+                            </a>
+                        </div>
+                        <div class="comment-area mt-3">
+                            <div
+                                    class="d-flex justify-content-between align-items-center flex-wrap"
+                            >
+                                <div
+                                        class="like-block position-relative d-flex align-items-center"
+                                >
+                                    <div class="d-flex align-items-center btn-like">
+                                        <div class="like-data">
+                            <span
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    role="button"
+                                    th:classappend="!${isLiked} ? 'd-none' : ''"
+                            >
+                              <img
+                                      src="/assets/images/icon/01.png"
+                                      class="img-fluid"
+                                      alt=""
+                              />
+                            </span>
+                                        </div>
+                                        <div class="total-like-block ms-2 me-3">
+                            <span
+                                    role="button"
+                                    th:classappend="!${isLiked} ? '' : 'text-primary'"
+                                    th:text="${countLike} == 0 ? 'Thích' : ${countLike}+ ' Thích'"
+                            >
+                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="total-comment-block">
+                                        <div class="dropdown">
+                            <span
+                                    class="dropdown-toggle"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    role="button"
+                            >
+                              20 Comment
+                            </span>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Max Emum</a>
+                                                <a class="dropdown-item" href="#">Bill Yerds</a>
+                                                <a class="dropdown-item" href="#"
+                                                >Hap E. Birthday</a
+                                                >
+                                                <a class="dropdown-item" href="#">Tara Misu</a>
+                                                <a class="dropdown-item" href="#">Midge Itz</a>
+                                                <a class="dropdown-item" href="#">Sal Vidge</a>
+                                                <a class="dropdown-item" href="#">Other</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                        class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0"
+                                >
+                                    <a
+                                            href="javascript:void();"
+                                            data-bs-toggle="offcanvas"
+                                            data-bs-target="#share-btn"
+                                            aria-controls="share-btn"
+                                    ><i class="ri-share-line"></i>
+                                        <span class="ms-1">99 Share</span></a
+                                    >
+                                </div>
+                            </div>
+                            <hr/>
+                            <ul class="post-comments list-inline p-0 m-0">
+                                <li class="mb-2">
+                                    <div class="d-flex">
+                                        <div class="user-img">
+                                            <img
+                                                    src="/assets/images/user/02.jpg"
+                                                    alt="userimg"
+                                                    class="avatar-35 rounded-circle img-fluid"
+                                            />
+                                        </div>
+                                        <div class="comment-data-block ms-3">
+                                            <h6>Monty Carlo</h6>
+                                            <p class="mb-0">Lorem ipsum dolor sit amet</p>
+                                            <div
+                                                    class="d-flex flex-wrap align-items-center comment-activity"
+                                            >
+                                                <a href="javascript:void();">like</a>
+                                                <a href="javascript:void();">reply</a>
+                                                <a href="javascript:void();">translate</a>
+                                                <span> 5 min </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex">
+                                        <div class="user-img">
+                                            <img
+                                                    src="/assets/images/user/03.jpg"
+                                                    alt="userimg"
+                                                    class="avatar-35 rounded-circle img-fluid"
+                                            />
+                                        </div>
+                                        <div class="comment-data-block ms-3">
+                                            <h6>Paul Molive</h6>
+                                            <p class="mb-0">Lorem ipsum dolor sit amet</p>
+                                            <div
+                                                    class="d-flex flex-wrap align-items-center comment-activity"
+                                            >
+                                                <a href="javascript:void();">like</a>
+                                                <a href="javascript:void();">reply</a>
+                                                <a href="javascript:void();">translate</a>
+                                                <span> 5 min </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <form
+                                    class="comment-text d-flex align-items-center mt-3"
+                                    action="javascript:void(0);"
+                            >
+                                <input
+                                        type="text"
+                                        class="form-control rounded"
+                                        placeholder="Enter Your Comment"
+                                />
+                                <div class="comment-attagement d-flex">
+                                    <a href="javascript:void();"
+                                    ><i class="ri-link me-3"></i
+                                    ></a>
+                                    <a href="javascript:void();"
+                                    ><i class="ri-user-smile-line me-3"></i
+                                    ></a>
+                                    <a href="javascript:void();"
+                                    ><i class="ri-camera-line me-3"></i
+                                    ></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="custom-script">
+    const postContainer = document.getElementById("container__post");
+    postContainer.addEventListener("click", function (event) {
+      // Check if the clicked element is a like button
+      var likeButton = event.target.closest(".btn-like");
+      console.log(likeButton);
+
+      if (likeButton) {
+        // Handle the like button click
+        handleLikeButtonClick(likeButton);
+      }
+    });
+    function handleLikeButtonClick(button) {
+      const likeIcon = button.querySelector(".like-data span");
+      const likeText = button.querySelector(".total-like-block span");
+      // tongle like icon & like text
+      likeIcon.classList.toggle("d-none");
+      likeText.classList.toggle("text-primary");
+
+      const userPostId = jwt_decode(Cookies.get("access_token")).userId;
+      const postId = button.closest(".col-sm-12").dataset.postId;
+
+      // check if like or unlike
+      const likeHandlerApi = likeIcon.classList.contains("d-none");
+      if (!likeHandlerApi) {
+        axios
+          .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+          .then(function ({ data }) {
+            likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        axios
+          .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+          .then(function ({ data }) {
+            // handle success
+            likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+          })
+          //   console.log(`here: ` + data);
+          // })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+</script>
+</body>
+</html>

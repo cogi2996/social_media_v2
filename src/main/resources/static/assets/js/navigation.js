@@ -36,7 +36,8 @@ async function getNotifications(pageNum, pageSize = 5) {
 // render notifications from list notifications
 function renderNotificationsTypeLike(data) {
   let { notification: noti, userLiked, post } = data; // Changed 'notification' to 'notiData'
-  console.log(userLiked);
+  console.log("noti here");
+  console.log(noti);
 
   const avatar =
     userLiked.avatar === null

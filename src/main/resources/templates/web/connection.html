@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout/layout_only_header.html}"
+>
+<body class=>
+<!-- Wrapper Start -->
+
+<div layout:fragment ="content" id="content-page" class="content-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="tab-content">
+                    <div
+                            class="tab-pane fade active show"
+                            id="friends"
+                            role="tabpanel"
+                            th:data-user-id="${userId}"
+                    >
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Kết nối</h2>
+                                <div class="friend-list-tab mt-2">
+                                    <ul
+                                            class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2"
+                                    >
+                                        <li>
+                                            <a
+                                                    class="nav-link active"
+                                                    data-bs-toggle="pill"
+                                                    href="#pill-all-friends"
+                                                    data-bs-target="#followings"
+                                                    th:text="${countFollowings}+' đang theo dõi'"
+                                            ></a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                    class="nav-link"
+                                                    data-bs-toggle="pill"
+                                                    href="#pill-recently-add"
+                                                    data-bs-target="#followers"
+                                                    th:text="${countFollowers}+' người theo dõi'"
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                                class="tab-pane fade active show"
+                                                id="following-container"
+                                                role="tabpanel"
+                                        >
+                                            <div class="card-body p-0">
+                                                <div class="row"></div>
+                                            </div>
+                                        </div>
+                                        <div
+                                                class="tab-pane fade"
+                                                id="follower-container"
+                                                role="tabpanel"
+                                        >
+                                            <div class="card-body p-0">
+                                                <div class="row"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 text-center">
+                <img
+                        src="../assets/images/page-img/page-load-loader.gif"
+                        alt="loader"
+                        class="d-none"
+                        style="height: 100px"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="custom-script" src="../assets/js/connection.js"></script>
+</body>
+</html>

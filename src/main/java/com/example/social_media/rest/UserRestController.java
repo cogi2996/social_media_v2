@@ -295,11 +295,12 @@ public class UserRestController {
             return ResponseEntity.noContent().build();
         }
         List<Notification> notifications = notificationService.findByUserId(userId,pageNum, pageSize, Sort.by(sortBy).descending());
+        System.out.println("TAGID: "+notifications.get(0).getUser().getUserId());
         // convert to DTO
         List<?> announcesDTO = notifications.stream()
                 .map(announce -> {
                     //nếu là dạng thông báo like
-                    if (announce.getType() == TypeAnnounce.LIKE) {
+                    if (announce.getType().equals(TypeAnnounce.LIKE)) {
                         return modelMapper.map(announce.getNotificationLikePost(), NotificationLikePostDTO.class);
                     }
                     return null;

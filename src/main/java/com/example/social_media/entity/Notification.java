@@ -31,7 +31,7 @@ public class Notification {
     @Column(name = "status")
     private boolean status;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
     //các thông báo dạng like post

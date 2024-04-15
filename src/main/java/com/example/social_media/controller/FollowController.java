@@ -27,7 +27,7 @@ public class FollowController {
         int currentUserId = authenticationFacade.getUser().getUserId();
         User user = userService.findUserById(userId);
         if (user == null) {
-            return "dashboard/pages-error";
+            return "web/pages-error";
         }
         followService.deleteFollow(new FollowId(currentUserId, userId ));
         redirectAttributes.addAttribute("currentUserId", currentUserId);
@@ -39,7 +39,7 @@ public class FollowController {
         int currentUserId = authenticationFacade.getUser().getUserId();
         User user = userService.findUserById(userId);
         if (user == null) {
-            return "dashboard/pages-error";
+            return "web/pages-error";
         }
         followService.save(new Follow( new FollowId(currentUserId, userId )));
         redirectAttributes.addAttribute("currentUserId", currentUserId);

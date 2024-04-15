@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{web/layout_full.html}"
+      layout:decorate="~{web/layout/layout_full.html}"
 >
 <body >
 
@@ -550,5 +550,7 @@
     </div>
 </div>
 <!-- Wrapper End-->
+<script layout:fragment="custom-script" type="module" src="..\assets\js\home\home.js"></script>
+
 </body>
 </html>

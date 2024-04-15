@@ -27,17 +27,18 @@ public class PostController {
         User user = userService.findUserById(userId);
         // tồn tại user
         if(user == null) {
-            return "dashboard/pages-error";
+            return "web/pages-error";
         }
         Post post = postService.findOne(postId);
         // post không tồn tại || không chính chủ
         if(post == null || userId != post.getUser().getUserId()) {
-            return "dashboard/pages-error";
+            return "web/pages-error";
         }
+        model.addAttribute("user",authenticationFacade.getUser());
         model.addAttribute("post",post);
         model.addAttribute("countLike",likePostService.countLikesByPostId(postId));
         model.addAttribute("isLiked",likePostService.existsLikedPostByPostIdAndUserId(postId,authenticationFacade.getUser().getUserId()));
-        return "dashboard/single-post";
+        return "web/single-post";
     }
 
 }

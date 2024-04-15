@@ -22,20 +22,20 @@ public class UserProfileController {
         User user = userService.findUserById(id);
         // error case not found id
         if (user == null) {
-            return "dashboard/pages-error";
+            return "web/pages-error";
         }
         // case visiter is not owner profile
 
         // case owner is owner profile
         model.addAttribute("user",user);
-        return "app/profile";
+        return "web/profile";
     }
 
     @GetMapping("/edit")
     public String getIntoEditProfile(Model model) {
         User currentUser = authenticationFacade.getUser();
         model.addAttribute("curUser",currentUser);
-        return "dashboard/form-wizard-vertical";
+        return "web/form-wizard-vertical";
     }
 
 

@@ -33,7 +33,7 @@ public class AuthenticaionController {
         request.setEmail("testUser123@gmail.com");
         request.setPassword("123456");
         model.addAttribute("request", request);
-        return "dashboard/sign-in";
+        return "web/sign-in";
     }
 
 
