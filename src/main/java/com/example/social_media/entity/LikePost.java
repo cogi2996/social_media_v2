@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @ToString
-@Entity
+@Entity     
 @Table(name = "likepost")
 public class LikePost {
     @EmbeddedId
