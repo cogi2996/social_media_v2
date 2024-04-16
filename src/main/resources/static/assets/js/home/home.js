@@ -19,6 +19,8 @@ const storage = getStorage(app);
 
 getListNewPost(0, 3);
 btnImage.addEventListener("click", () => {
+  console.log("clickedimg");
+
   inputImg.click();
 });
 

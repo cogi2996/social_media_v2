@@ -16,6 +16,9 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
     // find user post
     @Query("select p from Post p where p.user.userId = ?1 order by p.postCreateTime desc")
     Page<Post> findPostsByUserId(int userId, Pageable pageable);
+    // get total post of user
+    @Query("select count(p) from Post p where p.user.userId = ?1")
+    int countPostsByUserId(int userId);
 
 
 }

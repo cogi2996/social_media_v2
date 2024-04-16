@@ -71,74 +71,74 @@
                                         Tag Friend
                                     </a>
                                 </li>
-                                <li class="me-3">
-                                    <a href="#" class="btn btn-soft-primary">
-                                        <img
-                                                src="../assets/images/small/09.png"
-                                                alt="icon"
-                                                class="img-fluid me-2"
-                                        />
-                                        Feeling/Activity
-                                    </a>
-                                </li>
-                                <li>
-                                    <button class="btn btn-soft-primary">
-                                        <div
-                                                class="card-header-toolbar d-flex align-items-center"
-                                        >
-                                            <div class="dropdown">
-                                                <div
-                                                        class="dropdown-toggle"
-                                                        id="post-option"
-                                                        data-bs-toggle="dropdown"
-                                                >
-                                                    <i class="ri-more-fill"></i>
-                                                </div>
-                                                <div
-                                                        class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="post-option"
-                                                        style=""
-                                                >
-                                                    <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#post-modal"
-                                                    >Check in</a
-                                                    >
-                                                    <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#post-modal"
-                                                    >Live Video</a
-                                                    >
-                                                    <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#post-modal"
-                                                    >Gif</a
-                                                    >
-                                                    <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#post-modal"
-                                                    >Watch Party</a
-                                                    >
-                                                    <a
-                                                            class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#post-modal"
-                                                    >Play with Friend</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </li>
+<!--                                <li class="me-3">-->
+<!--                                    <a href="#" class="btn btn-soft-primary">-->
+<!--                                        <img-->
+<!--                                                src="../assets/images/small/09.png"-->
+<!--                                                alt="icon"-->
+<!--                                                class="img-fluid me-2"-->
+<!--                                        />-->
+<!--                                        Feeling/Activity-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <button class="btn btn-soft-primary">-->
+<!--                                        <div-->
+<!--                                                class="card-header-toolbar d-flex align-items-center"-->
+<!--                                        >-->
+<!--                                            <div class="dropdown">-->
+<!--                                                <div-->
+<!--                                                        class="dropdown-toggle"-->
+<!--                                                        id="post-option"-->
+<!--                                                        data-bs-toggle="dropdown"-->
+<!--                                                >-->
+<!--                                                    <i class="ri-more-fill"></i>-->
+<!--                                                </div>-->
+<!--                                                <div-->
+<!--                                                        class="dropdown-menu dropdown-menu-right"-->
+<!--                                                        aria-labelledby="post-option"-->
+<!--                                                        style=""-->
+<!--                                                >-->
+<!--                                                    <a-->
+<!--                                                            class="dropdown-item"-->
+<!--                                                            href="#"-->
+<!--                                                            data-bs-toggle="modal"-->
+<!--                                                            data-bs-target="#post-modal"-->
+<!--                                                    >Check in</a-->
+<!--                                                    >-->
+<!--                                                    <a-->
+<!--                                                            class="dropdown-item"-->
+<!--                                                            href="#"-->
+<!--                                                            data-bs-toggle="modal"-->
+<!--                                                            data-bs-target="#post-modal"-->
+<!--                                                    >Live Video</a-->
+<!--                                                    >-->
+<!--                                                    <a-->
+<!--                                                            class="dropdown-item"-->
+<!--                                                            href="#"-->
+<!--                                                            data-bs-toggle="modal"-->
+<!--                                                            data-bs-target="#post-modal"-->
+<!--                                                    >Gif</a-->
+<!--                                                    >-->
+<!--                                                    <a-->
+<!--                                                            class="dropdown-item"-->
+<!--                                                            href="#"-->
+<!--                                                            data-bs-toggle="modal"-->
+<!--                                                            data-bs-target="#post-modal"-->
+<!--                                                    >Watch Party</a-->
+<!--                                                    >-->
+<!--                                                    <a-->
+<!--                                                            class="dropdown-item"-->
+<!--                                                            href="#"-->
+<!--                                                            data-bs-toggle="modal"-->
+<!--                                                            data-bs-target="#post-modal"-->
+<!--                                                    >Play with Friend</a-->
+<!--                                                    >-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </button>-->
+<!--                                </li>-->
                             </ul>
                         </div>
                         <div
@@ -166,9 +166,9 @@
                                         <div class="d-flex align-items-center">
                                             <div class="user-img">
                                                 <img
-                                                        src="../assets/images/user/1.jpg"
+                                                        th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
                                                         alt="userimg"
-                                                        class="avatar-60 rounded-circle img-fluid"
+                                                        class="avatar-60 rounded-circle"
                                                 />
                                             </div>
                                             <form
@@ -206,97 +206,97 @@
                                                     Photo/Video
                                                 </div>
                                             </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/08.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Tag Friend
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/09.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Feeling/Activity
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/10.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Check in
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/11.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Live Video
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/12.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Gif
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/13.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Watch Party
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                >
-                                                    <a href="#"></a
-                                                    ><img
-                                                        src="../assets/images/small/14.png"
-                                                        alt="icon"
-                                                        class="img-fluid"
-                                                />
-                                                    Play with Friends
-                                                </div>
-                                            </li>
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/08.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Tag Friend-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/09.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Feeling/Activity-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/10.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Check in-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/11.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Live Video-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/12.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Gif-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/13.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Watch Party-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li class="col-md-6 mb-3">-->
+<!--                                                <div-->
+<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
+<!--                                                >-->
+<!--                                                    <a href="#"></a-->
+<!--                                                    ><img-->
+<!--                                                        src="../assets/images/small/14.png"-->
+<!--                                                        alt="icon"-->
+<!--                                                        class="img-fluid"-->
+<!--                                                />-->
+<!--                                                    Play with Friends-->
+<!--                                                </div>-->
+<!--                                            </li>-->
                                         </ul>
                                         <hr/>
                                         <div class="other-option">
@@ -304,14 +304,7 @@
                                                     class="d-flex align-items-center justify-content-between"
                                             >
                                                 <div class="d-flex align-items-center">
-                                                    <div class="user-img me-3">
-                                                        <img
-                                                                src="../assets/images/user/1.jpg"
-                                                                alt="userimg"
-                                                                class="avatar-60 rounded-circle img-fluid"
-                                                        />
-                                                    </div>
-                                                    <h6>Your Story</h6>
+                                                    <h6>Người xem</h6>
                                                 </div>
                                                 <div class="card-post-toolbar">
                                                     <div class="dropdown">

@@ -9,6 +9,7 @@ import com.example.social_media.entity.EntityId.FollowId;
 import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneId;
 import java.util.List;
+import java.util.TimeZone;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -36,7 +39,7 @@ public class UserRestController {
     private final ModelMapper modelMapper;
     private final ConvertToDTO convertToDTO;
     private final NotificationLikeService notificationLikeService;
-    private  final NotificationService notificationService;
+    private final NotificationService notificationService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllEmployees(
@@ -133,7 +136,7 @@ public class UserRestController {
         likePostService.save(likePost);
 
         //like bài viết từ một người khác
-        if(userId != post.getUser().getUserId()){
+        if (userId != post.getUser().getUserId()) {
             // thông báo đến người được like
             Notification notification = Notification.builder()
                     .type(TypeAnnounce.LIKE)
@@ -185,12 +188,12 @@ public class UserRestController {
             return ResponseEntity.noContent().build();
         }
         List<User> followers = userService.findFollowersByUserId(userId, pageNum, pageSize, sortBy);
-         if (!curentUserId.isEmpty()) {
+        if (!curentUserId.isEmpty()) {
             List<ObjectNode> followersDTO = followers
                     .stream()
                     .map(u -> {
                         int followerId = u.getUserId();
-                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
+                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId), followerId);
                         UserDTO userDTO = convertToDTO.convertToDTO(u);
                         ObjectNode node = mapper.valueToTree(userDTO);
                         node.put("isFollowed", followed);
@@ -225,7 +228,7 @@ public class UserRestController {
                     .stream()
                     .map(u -> {
                         int followerId = u.getUserId();
-                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId),followerId);
+                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId), followerId);
                         UserDTO userDTO = convertToDTO.convertToDTO(u);
                         ObjectNode node = mapper.valueToTree(userDTO);
                         node.put("isFollowed", followed);
@@ -243,7 +246,7 @@ public class UserRestController {
     }
 
     @GetMapping("/{userId}/posts")
-    public ResponseEntity<List<ObjectNode>> getPostProfile(
+    public ResponseEntity<?> getPostProfile(
             @RequestParam(defaultValue = "0") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "postCreateTime") String sortBy
@@ -265,7 +268,10 @@ public class UserRestController {
             node.put("liked", liked);
             return node;
         }).toList();
-        return ResponseEntity.ok(postDTOS);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .data(postDTOS)
+                .build());
 
     }
 
@@ -275,6 +281,7 @@ public class UserRestController {
             ResponseDTO responseDTO = new ResponseDTO();
             System.out.println(userDTO);
             User user = modelMapper.map(userDTO, User.class);
+            System.out.println("TAG!!!" + user.getDepartment());
             user.setUserId(authenticationFacade.getUser().getUserId());
             User updatedUser = userService.update(user);
             responseDTO.setMessage("User updated successfully.");
@@ -287,21 +294,23 @@ public class UserRestController {
 
     @GetMapping("/{userId}/notifications")
     public ResponseEntity<?> getNotifications(@PathVariable int userId,
-                                         @RequestParam(defaultValue = "0") Integer pageNum,
-                                         @RequestParam(defaultValue = "5") Integer pageSize,
-                                         @RequestParam(defaultValue = "createTime") String sortBy) {
+                                              @RequestParam(defaultValue = "0") Integer pageNum,
+                                              @RequestParam(defaultValue = "5") Integer pageSize,
+                                              @RequestParam(defaultValue = "createTime") String sortBy) {
         User user = userService.findUserById(userId);
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
-        List<Notification> notifications = notificationService.findByUserId(userId,pageNum, pageSize, Sort.by(sortBy).descending());
-        System.out.println("TAGID: "+notifications.get(0).getUser().getUserId());
+        List<Notification> notifications = notificationService.findByUserId(userId, pageNum, pageSize, Sort.by(sortBy).descending());
+        System.out.println("TAGID: " + notifications.get(0).getUser().getUserId());
         // convert to DTO
         List<?> announcesDTO = notifications.stream()
                 .map(announce -> {
                     //nếu là dạng thông báo like
                     if (announce.getType().equals(TypeAnnounce.LIKE)) {
-                        return modelMapper.map(announce.getNotificationLikePost(), NotificationLikePostDTO.class);
+                        NotificationLikePostDTO notificationLikePostDTO = modelMapper.map(announce.getNotificationLikePost(), NotificationLikePostDTO.class);
+                        System.out.println("CCC"+notificationLikePostDTO.getNotification().getUser().getUserId());
+                        return notificationLikePostDTO;
                     }
                     return null;
                 }).toList();
@@ -310,5 +319,30 @@ public class UserRestController {
                 .data(announcesDTO)
                 .build());
     }
+
+    // search user by name
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUserByName(@RequestParam String name,
+                                              @RequestParam(defaultValue = "0") Integer pageNum,
+                                              @RequestParam(defaultValue = "5") Integer pageSize,
+                                              @RequestParam(defaultValue = "lastName") String sortBy) {
+        List<User> users = userService.searchUserByName(name, pageNum, pageSize, Sort.by(sortBy));
+        ObjectMapper mapper  = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule( ));
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        List<ObjectNode> userDTOs = users.stream().map(u -> {
+            UserDTO userDTO = mapper.convertValue(u, UserDTO.class);
+            ObjectNode node = mapper.valueToTree(u);
+            node.put("isFollowed",followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(),userDTO.getUserId()));
+            return node;
+        }).toList();
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(userDTOs)
+                .build());
+    }
+
+
 
 }

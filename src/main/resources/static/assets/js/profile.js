@@ -13,7 +13,6 @@ const btnSubmit = document.querySelector('button[type="submit"]');
 const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
 console.log(createPost);
-
 const storage = getStorage(app);
 
 console.log(storage);
@@ -70,14 +69,18 @@ window.addEventListener("scroll", () => {
     getListNewPost(pageNum, pageSize);
   }
 });
-
 function getListNewPost(pageNum = 0, pageSize = 2) {
   axios
-    .get(`/api/v1/posts?pageNum=${pageNum}&pageSize=${pageSize}`)
-    .then(({ data }) => {
-      data.forEach((post) => {
-        renderPost(post);
-      });
+    .get(
+      `/api/v1/users/${curUserId}/posts?pageNum=${pageNum}&pageSize=${pageSize}`
+    )
+    .then(({ data, status }) => {
+      console.log(data);
+      if (status === 200) {
+        data.forEach((post) => {
+          renderPost(post);
+        });
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -185,7 +188,7 @@ function renderPost(post) {
         </p>
       </div>
       <div class="user-post">
-        <a href="javascript:void();"><img src="${
+        <a href="javascript:void();"><img loading="lazy" src="${
           post.postImage
         }" alt="post-image" class="img-fluid rounded w-100"></a>
       </div>

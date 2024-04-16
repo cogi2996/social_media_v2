@@ -42,5 +42,10 @@ public class PostServiceImpl implements PostService {
         return postRepository.findOne(postId);
     }
 
+    @Override
+    public int countPostsByUserId(int userId) {
+        return postRepository.countPostsByUserId(userId);
+    }
+
 
 }

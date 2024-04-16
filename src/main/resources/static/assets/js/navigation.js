@@ -63,3 +63,15 @@ function renderNotificationsTypeLike(data) {
 
   cardBodyElement.insertAdjacentHTML("beforeend", html);
 }
+
+// chức năng tìm kiếm
+
+document
+  .querySelector(".iq-top-navbar input")
+  .addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.currentTarget.value.trim() != "" &&
+        (window.location.href = `/search/top?name=${e.currentTarget.value.trim()}`);
+    }
+  });

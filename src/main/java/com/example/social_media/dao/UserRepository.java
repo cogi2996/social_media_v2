@@ -24,5 +24,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT u FROM User u WHERE u.userId NOT IN (SELECT f.userId FROM User u JOIN u.followingUsers f WHERE u.userId = :userId) and u.userId != :userId")
     List<User> findPeopleNotFollowedByUserId(@Param("userId") int userId, Pageable pageable);
 
+    // sẻarch user by name
+
+    @Query("SELECT u FROM User u WHERE LOWER(CONCAT(u.lastName,' ',u.midName, ' ', u.firstName)) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<User> searchUserByName(@Param("name") String name, Pageable pageable);
+
 
 }

@@ -11,7 +11,7 @@
         <nav class="navbar navbar-expand-lg navbar-light p-0">
             <div class="iq-navbar-logo d-flex justify-content-between">
                 <a href="/home/index">
-                    <img src="../assets/images/logo.png" class="img-fluid" alt="" />
+                    <img src="../assets/images/logo.png" class="img-fluid" alt=""/>
                     <span>SocialV</span>
                 </a>
                 <div class="iq-menu-bt align-self-center">
@@ -370,13 +370,14 @@
                             <div class="card shadow-none m-0">
                                 <div class="card-header bg-primary">
                                     <div class="header-title">
-                                        <h5 class="mb-0 text-white">Hello Bni Cyst</h5>
-                                        <span class="text-white font-size-12">Available</span>
+                                        <h5 class="mb-0 text-white" th:text="'Xin chào, '+${user.getFullName()}">Hello
+                                            Bni Cyst</h5>
+                                        <!--                                        <span class="text-white font-size-12">Available</span>-->
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
                                     <a
-                                            href="../app/profile.html"
+                                            th:href="'/profile?id='+${user.userId}"
                                             class="iq-sub-card iq-bg-primary-hover"
                                     >
                                         <div class="d-flex align-items-center">
@@ -384,15 +385,13 @@
                                                 <i class="ri-file-user-line"></i>
                                             </div>
                                             <div class="ms-3">
-                                                <h6 class="mb-0">My Profile</h6>
-                                                <p class="mb-0 font-size-12">
-                                                    View personal profile details.
-                                                </p>
+                                                <h6 class="mb-0">Trang cá nhân</h6>
+
                                             </div>
                                         </div>
                                     </a>
                                     <a
-                                            href="../app/profile-edit.html"
+                                            href="/profile/edit"
                                             class="iq-sub-card iq-bg-warning-hover"
                                     >
                                         <div class="d-flex align-items-center">
@@ -400,51 +399,49 @@
                                                 <i class="ri-profile-line"></i>
                                             </div>
                                             <div class="ms-3">
-                                                <h6 class="mb-0">Edit Profile</h6>
-                                                <p class="mb-0 font-size-12">
-                                                    Modify your personal details.
-                                                </p>
+                                                <h6 class="mb-0">Chỉnh sữa thông tin cá nhân</h6>
+
                                             </div>
                                         </div>
                                     </a>
-                                    <a
-                                            href="../app/account-setting.html"
-                                            class="iq-sub-card iq-bg-info-hover"
-                                    >
-                                        <div class="d-flex align-items-center">
-                                            <div class="rounded card-icon bg-soft-info">
-                                                <i class="ri-account-box-line"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-0">Account settings</h6>
-                                                <p class="mb-0 font-size-12">
-                                                    Manage your account parameters.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a
-                                            href="../app/privacy-setting.html"
-                                            class="iq-sub-card iq-bg-danger-hover"
-                                    >
-                                        <div class="d-flex align-items-center">
-                                            <div class="rounded card-icon bg-soft-danger">
-                                                <i class="ri-lock-line"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <h6 class="mb-0">Privacy Settings</h6>
-                                                <p class="mb-0 font-size-12">
-                                                    Control your privacy parameters.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
+<!--                                    <a-->
+<!--                                            href="../app/account-setting.html"-->
+<!--                                            class="iq-sub-card iq-bg-info-hover"-->
+<!--                                    >-->
+<!--                                        <div class="d-flex align-items-center">-->
+<!--                                            <div class="rounded card-icon bg-soft-info">-->
+<!--                                                <i class="ri-account-box-line"></i>-->
+<!--                                            </div>-->
+<!--                                            <div class="ms-3">-->
+<!--                                                <h6 class="mb-0">Account settings</h6>-->
+<!--                                                <p class="mb-0 font-size-12">-->
+<!--                                                    Manage your account parameters.-->
+<!--                                                </p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
+<!--                                    <a-->
+<!--                                            href="../app/privacy-setting.html"-->
+<!--                                            class="iq-sub-card iq-bg-danger-hover"-->
+<!--                                    >-->
+<!--                                        <div class="d-flex align-items-center">-->
+<!--                                            <div class="rounded card-icon bg-soft-danger">-->
+<!--                                                <i class="ri-lock-line"></i>-->
+<!--                                            </div>-->
+<!--                                            <div class="ms-3">-->
+<!--                                                <h6 class="mb-0">Privacy Settings</h6>-->
+<!--                                                <p class="mb-0 font-size-12">-->
+<!--                                                    Control your privacy parameters.-->
+<!--                                                </p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
                                     <div class="d-inline-block w-100 text-center p-3">
                                         <a
                                                 class="btn btn-primary iq-sign-btn"
                                                 href="../dashboard/sign-in.html"
                                                 role="button"
-                                        >Sign out<i class="ri-login-box-line ms-2"></i
+                                        >Đăng xuất<i class="ri-login-box-line ms-2"></i
                                         ></a>
                                     </div>
                                 </div>

@@ -63,7 +63,14 @@ public class UserServiceImpl implements UserService {
         }
         dbuser.setDob(user.getDob());
         dbuser.setGender(user.getGender());
+        dbuser.setDepartment(user.getDepartment());
+        dbuser.setMajor(user.getMajor());
         return userRepository.save(dbuser);
+    }
+
+    @Override
+    public List<User> searchUserByName(String name, int pageNum, int pageSize, Sort sort) {
+        return userRepository.searchUserByName(name,PageRequest.of(pageNum,pageSize,sort));
     }
 
 

@@ -79,11 +79,13 @@ public class User implements Serializable {
     private List<Group> memberGroups;
 
     // các thông báo của user
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Notification> notifications;
 
     //các thông báo like được user kích hoạt
     @OneToMany(mappedBy = "userLiked", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<NotificationLikePost> notificationLikePosts;
     // account của user
     @OneToOne(cascade = CascadeType.ALL)
@@ -95,10 +97,11 @@ public class User implements Serializable {
 
 
 
-
+    @JsonIgnore
     public String getFullName(){
         return this.lastName + " " + this.midName + " " + this.firstName;
     }
+
 
 
 

@@ -20,9 +20,9 @@
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
                                     <img
-                                            class="rounded-circle avatar-50"
-                                            src="https://firebasestorage.googleapis.com/v0/b/socialmedia-f7504.appspot.com/o/images%2F1712482241426?alt=media&amp;token=8d86095b-e9ab-4206-8b36-8eccd97d5aad"
-                                            alt=""
+                                            th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                                            alt="userimg"
+                                            class="avatar-60 rounded-circle"
                                     />
                                 </div>
                                 <div class="w-100">

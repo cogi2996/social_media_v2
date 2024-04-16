@@ -11,4 +11,5 @@ public interface PostService {
     List<Post> findPostsByUserIdAndFollowerIds(int userId, List<Integer> followerIds, Pageable pageable);
     List<Post> findPostsByUserId(int userId, Pageable pageable);
     Post findOne(int userId);
+    int countPostsByUserId(int userId);
 }

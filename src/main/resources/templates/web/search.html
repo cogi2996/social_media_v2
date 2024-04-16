@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout/layout_only_header.html}"
+>
+<body>
+<div layout:fragment="content" id="content-page" class="content-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title" th:data-keyword="${keyword}" th:text="'Kết quả tìm kiếm: '+${keyword}"></h4>
+                        </div>
+                    </div>
+                    <div  class="card-body">
+                        <ul class="request-list list-inline m-0 p-0">
+                            <li th:if="${results.size()} > 0" th:each="result :  ${results}" class="d-flex align-items-center flex-wrap" th:data-user-id = "${result.userId}" >
+                                <div class="user-img img-fluid flex-shrink-0">
+                                    <img
+                                            th:src="${result.avatar != null} ? ${result.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                                            alt="story-img"
+                                            class="rounded-circle avatar-50"
+                                    />
+                                </div>
+                                <div  class="flex-grow-1 ms-3">
+                                    <a th:href="'/profile?id='+${result.userId}">
+                                        <h6 th:text="${result.lastName}+' '+ ${result.midName}+' '+ ${result.firstName}"></h6>
+                                    </a>
+
+                                    <p class="mb-0">3 friends</p>
+                                </div>
+                                <div class="d-flex align-items-center mt-2 mt-md-0">
+<!--                                    <a href="#" class="me-3 btn btn-primary rounded">Confirm</a>-->
+<!--                                    <a href="#" class="btn btn-secondary rounded" data-extra-toggle="delete" data-closest-elem=".item">Delete Request</a>-->
+                                    <button type="button" id="btn-follow" class="btn btn-primary mt-1 badge" style="width: 110px; height: auto">
+                                        theo dõi
+                                    </button>
+                                    <button type="button" id="btn-unfollow" class="btn btn-secondary mt-1 badge d-none" style="width: 110px; height: auto">
+                                        Đã gửi yêu cầu 😊
+                                    </button>
+                                </div>
+
+                            </li>
+                            <h4 th:if="${message} != null" th:text ="${message}"></h4>
+                            <li class="d-block text-center mb-0 pb-0" >
+                                <a id="viewMoreSearch" href="#" class="me-3 btn">View More Request</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="custom-script" src="\assets\js\search-top.js"></script>
+
+</body>
+</html>

@@ -69,7 +69,7 @@ public class PostRestController {
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followingId, pageable);
         ObjectMapper mapper  = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule( ));
+        mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> postDTOS = posts.stream().map(post -> {

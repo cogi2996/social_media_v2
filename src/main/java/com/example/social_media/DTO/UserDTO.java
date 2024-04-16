@@ -1,13 +1,15 @@
 package com.example.social_media.DTO;
 
 import com.example.social_media.security.Role;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private int userId;
     private String phone;
