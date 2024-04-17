@@ -65,13 +65,26 @@ public class UserServiceImpl implements UserService {
         dbuser.setGender(user.getGender());
         dbuser.setDepartment(user.getDepartment());
         dbuser.setMajor(user.getMajor());
+        dbuser.setAddress(user.getAddress());
         return userRepository.save(dbuser);
     }
 
     @Override
     public List<User> searchUserByName(String name, int pageNum, int pageSize, Sort sort) {
+        if (sort == null) {
+            return userRepository.searchUserByName(name, PageRequest.of(pageNum, pageSize));
+        }
         return userRepository.searchUserByName(name,PageRequest.of(pageNum,pageSize,sort));
     }
+
+    @Override
+    public List<User> findPendingFollowingById(int userId, int pageNum, int pageSize, String sortBy) {
+        if(sortBy == null)
+            return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize));
+        return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize,Sort.by(sortBy)));
+    }
+
+
 
 
 }

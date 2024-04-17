@@ -5,11 +5,12 @@ document
   .addEventListener("click", function (e) {
     console.log("here");
     e.preventDefault();
-    !isDone && getMoreResult("tuan", e.currentTarget.parentElement);
+    const keyword = document.querySelector(".card-title").dataset.keyword;
+    !isDone && getMoreResult(keyword, e.currentTarget.parentElement);
   });
 
 function getMoreResult(name, container) {
-  const pageSize = 5;
+  const pageSize = 3;
   const pageNum = Math.ceil(
     (container.closest("ul").childElementCount - 1) / pageSize
   );
@@ -35,12 +36,14 @@ function getMoreResult(name, container) {
 
 function renderUserResult(user, container) {
   const isFollowing = user.isFollowed === 1 ? true : false;
-  const isPennding = user.isFollowed === 0 ? true : false;
-  console.log("isFollowing" + " " + isFollowing);
-  console.log("isPennding" + " " + isPennding);
+  const isPennding = user.isFollowed === 2 ? true : false;
+  const isNotFollowing = user.isFollowed === 0 ? true : false;
+  console.log(isNotFollowing, isPennding, isFollowing);
 
   const html = `    
-                            <li class="d-flex align-items-center justify-content-between flex-wrap">
+                            <li class="d-flex align-items-center justify-content-between flex-wrap" data-user-id ="${
+                              user.userId
+                            }">
                                 <div class="user-img img-fluid flex-shrink-0">
                                     <img src="${
                                       user.avatar === null
@@ -55,18 +58,33 @@ function renderUserResult(user, container) {
   }</h6>
                                     <p class="mb-0">40 friends</p>
                                 </div>
-                                <div class="d-flex align-items-center mt-2 mt-md-0">
-                                    <button type="button" id="btn-follow" class="btn btn-primary mt-1 badge ${
-                                      isFollowing ? "" : "d-none"
-                                    }" style="width: 110px; height: auto">
+                                <div class="d-flex align-items-center mt-2 mt-md-0" id="container-btn-follow" >
+                                    <button type="button" id="btn-follow" class="btn btn-primary mt-1  ${
+                                      isNotFollowing ? "" : "d-none"
+                                    }" style="width: 150px; height: auto">
                                         theo dõi
                                     </button>
-                                    <button type="button" id="btn-unfollow" class="btn btn-secondary mt-1 badge badge ${
+                                    <button type="button" id="btn-unfollow" class="btn btn-secondary mt-1   ${
                                       isPennding ? "" : "d-none"
-                                    }" style="width: 110px; height: auto">
-                                        Đã gửi yêu cầu 😊
+                                    }" style="width: 150px; height: auto">
+                                        Đã gửi yêu cầu 
                                     </button>
+                                    <form class="dropdown 
+                                    ${isFollowing ? "" : "d-none"}">
+                                            <span class="dropdown-toggle btn btn-secondary " id="dropdownMenuButton01" data-bs-toggle="dropdown"
+                                                  aria-expanded="false" role="button"
+                                                  style="width: 150px; height: auto"
+                                            >
+                                              Đang theo dõi
+                                            </span>
+                                            <div class="dropdown-menu dropdown-menu-right"
+                                                aria-labelledby="dropdownMenuButton01" style="">
+    <!--                                            <a class="dropdown-item" href="#">Báo cáo</a>-->
+                                                <a class="dropdown-item" id="unfollowLink" href="#">Huỷ theo dõi</a>
+                                            </div>
+                                    </form>
                                 </div>
+                                    
                                 
                             </li>
     `;
@@ -89,13 +107,24 @@ document
       unfollowButton.classList.toggle("d-none");
       console.log(sourceId + " " + targetId);
       followHandle(sourceId, targetId);
-    } else if (event.target.closest("#btn-unfollow")) {
-      const unfollowButton = event.target.closest("#btn-unfollow");
-      const followButton = unfollowButton.previousElementSibling;
+    } else if (
+      event.target.closest("#btn-unfollow") ||
+      event.target.closest("#unfollowLink")
+    ) {
+      event.preventDefault();
+      const unfollowButton =
+        event.target.closest("#btn-unfollow") ||
+        event.target.closest("#unfollowLink");
+      const followButton = unfollowButton
+        .closest("#container-btn-follow")
+        .querySelector("#btn-follow");
       const targetId = followButton.closest("li").dataset.userId;
       const sourceId = jwt_decode(Cookies.get("access_token")).userId;
       followButton.classList.toggle("d-none");
-      unfollowButton.classList.toggle("d-none");
+      if (event.target.closest("#unfollowLink"))
+        unfollowButton.closest("form").classList.toggle("d-none");
+      else unfollowButton.classList.toggle("d-none");
+
       console.log(sourceId + " " + targetId);
       unfollowHandle(sourceId, targetId);
     }

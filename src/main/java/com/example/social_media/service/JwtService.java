@@ -47,7 +47,8 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails) {
 //        User user = .(userDetails.getUsername());
-        extraClaims.put("userId", authenticationFacade.getUser().getUserId());
+        if(authenticationFacade.getUser() != null)
+            extraClaims.put("userId", authenticationFacade.getUser().getUserId());
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())

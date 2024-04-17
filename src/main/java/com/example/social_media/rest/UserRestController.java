@@ -325,8 +325,8 @@ public class UserRestController {
     public ResponseEntity<?> searchUserByName(@RequestParam String name,
                                               @RequestParam(defaultValue = "0") Integer pageNum,
                                               @RequestParam(defaultValue = "5") Integer pageSize,
-                                              @RequestParam(defaultValue = "lastName") String sortBy) {
-        List<User> users = userService.searchUserByName(name, pageNum, pageSize, Sort.by(sortBy));
+                                              @RequestParam(defaultValue = "") String sortBy) {
+        List<User> users = userService.searchUserByName(name, pageNum, pageSize, null);
         ObjectMapper mapper  = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule( ));
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -334,6 +334,7 @@ public class UserRestController {
         List<ObjectNode> userDTOs = users.stream().map(u -> {
             UserDTO userDTO = mapper.convertValue(u, UserDTO.class);
             ObjectNode node = mapper.valueToTree(u);
+            System.out.println("TAGREST: "+u.getUserId() ) ;
             node.put("isFollowed",followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(),userDTO.getUserId()));
             return node;
         }).toList();

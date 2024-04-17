@@ -11,6 +11,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
 public class FollowId  {
     @Column(name = "source_id")
     private int sourceId;

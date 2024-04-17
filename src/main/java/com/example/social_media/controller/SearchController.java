@@ -34,8 +34,7 @@ public class SearchController {
             String decodedName = URLDecoder.decode(encodedName, StandardCharsets.UTF_8.toString());
             System.out.println("decodedName: " + decodedName);
             model.addAttribute("keyword", decodedName);
-
-            List<User> results = userService.searchUserByName(decodedName, 0, 5, Sort.by("lastName"));
+            List<User> results = userService.searchUserByName(decodedName, 0, 3, null);
             if (!results.isEmpty()) {
                 model.addAttribute("results", results);
                 List<Integer> followState = results
@@ -44,8 +43,6 @@ public class SearchController {
                                 followService.existsFollowBySourceIdAndTargetId(currentUser.getUserId(), user.getUserId()))
                         .toList();
                 model.addAttribute("followStates", followState);
-                System.out.println("followState: " + followState.get(0));
-                System.out.println("results: " + followState.get(1));
             } else {
                 model.addAttribute("message", "Không có kết quả tìm kiếm liên quan!");
             }

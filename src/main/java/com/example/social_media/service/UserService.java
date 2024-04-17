@@ -18,6 +18,5 @@ public interface UserService {
     List<User>findPeopleNotFollowedByUserId(int userId,int pageNum, int pageSize);
     User update(User user);
     List<User> searchUserByName(String name, int pageNum, int pageSize, Sort sort);
-
-
+    List<User> findPendingFollowingById(int userId,int pageNum, int pageSize, String sortBy);
 }
