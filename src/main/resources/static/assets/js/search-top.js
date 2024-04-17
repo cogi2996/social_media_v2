@@ -36,6 +36,8 @@ function getMoreResult(name, container) {
 function renderUserResult(user, container) {
   const isFollowing = user.isFollowed === 1 ? true : false;
   const isPennding = user.isFollowed === 0 ? true : false;
+  console.log("isFollowing" + " " + isFollowing);
+  console.log("isPennding" + " " + isPennding);
 
   const html = `    
                             <li class="d-flex align-items-center justify-content-between flex-wrap">
@@ -119,3 +121,16 @@ function unfollowHandle(sourceId = null, targetId = null) {
       console.log(error);
     });
 }
+
+// render state follow
+// function renderSateFollow() {
+//   const isFollowing = user.isFollowed === 1 ? true : false;
+//   const isPennding = user.isFollowed === 0 ? true : false;
+//   console.log("isFollowing" + " " + isFollowing);
+//   console.log("isPennding" + " " + isPennding);
+//   [...document.querySelectorAll(".card-body ul li[data-user-id]")].forEach(
+//     (userElement) => {
+
+//     }
+//   );
+// }

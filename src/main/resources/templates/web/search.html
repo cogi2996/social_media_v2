@@ -16,7 +16,7 @@
                     </div>
                     <div  class="card-body">
                         <ul class="request-list list-inline m-0 p-0">
-                            <li th:if="${results.size()} > 0" th:each="result :  ${results}" class="d-flex align-items-center flex-wrap" th:data-user-id = "${result.userId}" >
+                            <li th:if="${results.size()} > 0" th:each="result, stat :  ${results}" class="d-flex align-items-center flex-wrap" th:data-user-id = "${result.userId}" >
                                 <div class="user-img img-fluid flex-shrink-0">
                                     <img
                                             th:src="${result.avatar != null} ? ${result.avatar} : '/assets/images/user/defaul_avatar.jpg'"
@@ -34,10 +34,16 @@
                                 <div class="d-flex align-items-center mt-2 mt-md-0">
 <!--                                    <a href="#" class="me-3 btn btn-primary rounded">Confirm</a>-->
 <!--                                    <a href="#" class="btn btn-secondary rounded" data-extra-toggle="delete" data-closest-elem=".item">Delete Request</a>-->
-                                    <button type="button" id="btn-follow" class="btn btn-primary mt-1 badge" style="width: 110px; height: auto">
+                                    <button type="button" id="btn-follow"
+                                            class="btn btn-primary mt-1 badge"
+                                            th:classappend="${followStates.get(stat.index) == 0} ? '' : 'd-none'"
+                                            style="width: 110px; height: auto" >
                                         theo dõi
                                     </button>
-                                    <button type="button" id="btn-unfollow" class="btn btn-secondary mt-1 badge d-none" style="width: 110px; height: auto">
+                                    <button type="button" id="btn-unfollow"
+                                            class="btn btn-secondary mt-1 badge"
+                                            th:classappend="${followStates.get(stat.index) == 2} ? '' : 'd-none'"
+                                            style="width: 110px; height: auto">
                                         Đã gửi yêu cầu 😊
                                     </button>
                                 </div>

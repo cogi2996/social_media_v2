@@ -2,6 +2,7 @@ package com.example.social_media.controller;
 
 import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
+import com.example.social_media.service.FollowService;
 import com.example.social_media.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class SearchController {
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;
+    private final FollowService followService;
 
 
     @GetMapping("/search/top")
@@ -36,6 +38,14 @@ public class SearchController {
             List<User> results = userService.searchUserByName(decodedName, 0, 5, Sort.by("lastName"));
             if (!results.isEmpty()) {
                 model.addAttribute("results", results);
+                List<Integer> followState = results
+                        .stream()
+                        .map(user ->
+                                followService.existsFollowBySourceIdAndTargetId(currentUser.getUserId(), user.getUserId()))
+                        .toList();
+                model.addAttribute("followStates", followState);
+                System.out.println("followState: " + followState.get(0));
+                System.out.println("results: " + followState.get(1));
             } else {
                 model.addAttribute("message", "Không có kết quả tìm kiếm liên quan!");
             }
