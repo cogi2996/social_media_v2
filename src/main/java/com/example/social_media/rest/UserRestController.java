@@ -260,19 +260,19 @@ public class UserRestController {
 
     @GetMapping("/{userId}/posts")
     public ResponseEntity<?> getPostProfile(
+            @PathVariable int userId,
             @RequestParam(defaultValue = "0") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "postCreateTime") String sortBy
     ) {
         User user = authenticationFacade.getUser();
-        int userId = user.getUserId();
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         List<Post> posts = postService.findPostsByUserId(userId, pageable);
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         List<ObjectNode> postDTOS = posts.stream().map(post -> {
             int postId = post.getPostId();
-            Boolean liked = likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
+            Boolean liked = likePostService.existsLikedPostByPostIdAndUserId(postId, authenticationFacade.getUser().getUserId());
             PostDTO postDTO = convertToDTO.convertToDTO(post);
             postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());

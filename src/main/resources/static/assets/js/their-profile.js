@@ -7,52 +7,19 @@ import {
   uploadBytesResumable,
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
 console.log(Cookies);
-const btnImage = document.getElementById("btn-image");
-const inputImg = btnImage.querySelector("#image");
-const btnSubmit = document.querySelector('button[type="submit"]');
+// const btnImage = document.getElementById("btn-image");
+// const inputImg = btnImage.querySelector("#image");
+// const btnSubmit = document.querySelector('button[type="submit"]');
 const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
+const profileId = postContainer.dataset.userId;
+console.log(profileId);
+
 console.log(createPost);
 const storage = getStorage(app);
 
 console.log(storage);
 getListNewPost(0, 3);
-btnImage.addEventListener("click", () => {
-  inputImg.click();
-});
-
-btnSubmit.addEventListener("click", (e) => {
-  e.preventDefault();
-  console.log(inputImg.files.length);
-  if (inputImg.files.length > 0) {
-    handleFormSubmit();
-  }
-});
-console.log(app);
-
-async function handleFormSubmit(token = null) {
-  console.log("herelll");
-  const url = await uploadImage(inputImg.files[0]);
-  let text = createPost.querySelector('input[type="text"]').value;
-  // post api
-  axios
-    .post("http://localhost:8080/api/v1/posts", {
-      postText: text,
-      postImage: url,
-    })
-    .then(function (response) {
-      console.log(response);
-      createPost.style.display = "none";
-      const body = document.querySelector("body");
-      body.style = null;
-      body.class = null;
-      createPost.class = null;
-      document.querySelector(".modal-backdrop").remove();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
 
 window.addEventListener("scroll", () => {
   if (
@@ -72,7 +39,7 @@ window.addEventListener("scroll", () => {
 function getListNewPost(pageNum = 0, pageSize = 2) {
   axios
     .get(
-      `/api/v1/users/${curUserId}/posts?pageNum=${pageNum}&pageSize=${pageSize}`
+      `/api/v1/users/${profileId}/posts?pageNum=${pageNum}&pageSize=${pageSize}`
     )
     .then(({ data, status }) => {
       console.log(data);
@@ -123,61 +90,7 @@ function renderPost(post) {
                 <span class="mb-0 d-inline-block">đã thêm một bài viết mới</span>
                 <p class="mb-0 text-primary">${createTime}</p>
               </div>
-              <div class="card-post-toolbar">
-                <div class="dropdown">
-                  <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                    <i class="ri-more-fill"></i>
-                  </span>
-                  <div class="dropdown-menu m-0 p-0">
-                    <a class="dropdown-item p-3" href="#">
-                      <div class="d-flex align-items-top">
-                        <div class="h4">
-                          <i class="ri-save-line"></i>
-                        </div>
-                        <div class="data ms-2">
-                          <h6>Save Post</h6>
-                          <p class="mb-0">
-                            Add this to your saved items
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item p-3" href="#">
-                      <div class="d-flex align-items-top">
-                        <i class="ri-close-circle-line h4"></i>
-                        <div class="data ms-2">
-                          <h6>Hide Post</h6>
-                          <p class="mb-0">
-                            See fewer posts like this.
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item p-3" href="#">
-                      <div class="d-flex align-items-top">
-                        <i class="ri-user-unfollow-line h4"></i>
-                        <div class="data ms-2">
-                          <h6>Unfollow User</h6>
-                          <p class="mb-0">
-                            Stop seeing posts but stay friends.
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                    <a class="dropdown-item p-3" href="#">
-                      <div class="d-flex align-items-top">
-                        <i class="ri-notification-line h4"></i>
-                        <div class="data ms-2">
-                          <h6>Notifications</h6>
-                          <p class="mb-0">
-                            Turn on notifications for this post
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -299,11 +212,16 @@ function handleLikeButtonClick(button) {
   likeText.classList.toggle("text-primary");
 
   const userPostId = jwt_decode(Cookies.get("access_token")).userId;
+  console.log("idhere: " + userPostId);
+
   const postId = button.closest(".col-sm-12").dataset.postId;
+  console.log("post id here: " + postId);
 
   // check if like or unlike
   const likeHandlerApi = likeIcon.classList.contains("d-none");
   if (!likeHandlerApi) {
+    console.log("likeHere");
+
     axios
       .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
       .then(function ({ data }) {
@@ -330,48 +248,6 @@ function handleLikeButtonClick(button) {
       });
     // always executed
   }
-}
-
-// tạo một component riêng [refactor]
-function uploadImage(file) {
-  return new Promise((resolve, reject) => {
-    const metadata = {
-      contentType: file.type,
-    };
-    const fileName = Date.now();
-    console.log(fileName);
-
-    const storageRef = ref(storage, `images/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-
-    uploadTask.on(
-      "onStateChanged",
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        reject(`Có lỗi ở upload ảnh lên firebase: ` + error);
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          resolve(downloadURL);
-        });
-      }
-    );
-  });
 }
 
 function formatDate(date) {

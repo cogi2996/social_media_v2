@@ -3,6 +3,7 @@ package com.example.social_media.controller;
 import com.example.social_media.entity.Follow;
 import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
+import com.example.social_media.security.Role;
 import com.example.social_media.service.FollowService;
 import com.example.social_media.service.PostService;
 import com.example.social_media.service.UserService;
@@ -36,6 +37,8 @@ public class UserProfileController {
         model.addAttribute("totalPost",postService.countPostsByUserId(user.getUserId()));
         model.addAttribute("totalFollower",followService.countByFollowId_TargetIdAndFollowStatus(id,true));
         model.addAttribute("totalFollowing",followService.countByFollowId_SourceIdAndFollowStatus(id,true));
+        if(authenticationFacade.getRole() == Role.USER)
+            return  "web/their-profile";
         return "web/profile";
     }
 
