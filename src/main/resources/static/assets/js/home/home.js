@@ -26,13 +26,11 @@ btnImage.addEventListener("click", () => {
 
 btnSubmit.addEventListener("click", (e) => {
   e.preventDefault();
-  if (inputImg.files.length > 0) {
-    handleFormSubmit();
-  }
+  handleFormSubmit();
 });
 
 async function handleFormSubmit(token = null) {
-  const url = await uploadImage(inputImg.files[0]);
+  const url = inputImg.files[0] ? await uploadImage(inputImg.files[0]) : null;
   let text = createPost.querySelector('input[type="text"]').value;
   // post api
   axios
@@ -88,6 +86,11 @@ function renderPost(post) {
   const liked = post.liked;
   // bg-soft-primary
   //text-primary
+  const postImage = post.postImage
+    ? `
+  <a href="javascript:void();"><img src="${post.postImage}" alt="post-image" class="img-fluid rounded w-100"></a>
+  `
+    : "";
   const textColor = liked ? "text-primary" : "";
   const isDisplayLike = !liked ? "d-none" : "";
   const avatar =
@@ -182,9 +185,7 @@ function renderPost(post) {
         </p>
       </div>
       <div class="user-post">
-        <a href="javascript:void();"><img src="${
-          post.postImage
-        }" alt="post-image" class="img-fluid rounded w-100"></a>
+        ${postImage}
       </div>
       <div class="comment-area mt-3">
         <div class="d-flex justify-content-between align-items-center flex-wrap">
