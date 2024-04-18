@@ -75,3 +75,35 @@ document
         (window.location.href = `/search/top?name=${e.currentTarget.value.trim()}`);
     }
   });
+
+// load infor user in navigation
+function loadInforUser() {
+  axios
+    .get(`/api/v1/users/${curUserId}`)
+    .then(function (response) {
+      const { data, status } = response;
+      if (status === 200) {
+        console.log(data);
+        const avatar =
+          data.avatar === null
+            ? `/assets/images/user/defaul_avatar.jpg`
+            : data.avatar;
+        document.getElementById("top-header-avatar").src = avatar;
+        document.querySelector(
+          ".caption h6"
+        ).innerText = `${data.lastName} ${data.midName} ${data.firstName} `;
+        document.querySelector(
+          "#dropdown-header-title"
+        ).innerText = `Xin chào, ${data.firstName} `;
+        document.getElementById(
+          "dropdown-link-profile"
+        ).href = `/profile?id=${data.userId}`;
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {});
+}
+
+loadInforUser();

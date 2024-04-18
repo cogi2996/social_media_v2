@@ -5,7 +5,10 @@ import com.example.social_media.entity.LikePost;
 
 public interface LikePostService {
     LikePost save(LikePost likePost);
+
     void deleteById(LikePostId likePostId);
+
     Boolean existsLikedPostByPostIdAndUserId(int postId, int userId);
+
     Integer countLikesByPostId(int postId);
 }

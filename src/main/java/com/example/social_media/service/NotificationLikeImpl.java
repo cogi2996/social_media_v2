@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationLikeImpl implements NotificationLikeService {
     private final NotificationLikeRepository announceLikeRepository;
+
     @Override
     public void save(NotificationLikePost notificationLikePost) {
         announceLikeRepository.save(notificationLikePost);

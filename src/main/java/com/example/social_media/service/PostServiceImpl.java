@@ -3,6 +3,7 @@ package com.example.social_media.service;
 import com.example.social_media.dao.PostRepository;
 import com.example.social_media.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,6 +46,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public int countPostsByUserId(int userId) {
         return postRepository.countPostsByUserId(userId);
+    }
+
+    @Override
+    public Page<Post> findAllPosts(int pageNum, int pageSize, String SortBy) {
+        if (SortBy == null)
+            return postRepository.findAllPosts(PageRequest.of(pageNum, pageSize));
+        return postRepository.findAllPosts(PageRequest.of(pageNum, pageSize, Sort.by(SortBy)));
+    }
+
+    @Override
+    public void deleteById(int postId) {
+        postRepository.deleteById(postId);
     }
 
 

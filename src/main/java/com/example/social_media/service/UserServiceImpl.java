@@ -84,7 +84,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize,Sort.by(sortBy)));
     }
 
-
-
+    @Override
+    public void delete(int userId) {
+        userRepository.deleteById(userId);
+    }
 
 }

@@ -41,6 +41,19 @@ public class UserRestController {
     private final NotificationLikeService notificationLikeService;
     private final NotificationService notificationService;
 
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable int userId) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(user)
+                .build());
+    }
+
     @GetMapping
     public ResponseEntity<List<User>> getAllEmployees(
             @RequestParam(defaultValue = "0") Integer pageNum,

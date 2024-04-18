@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LikePostServiceImpl implements LikePostService{
+public class LikePostServiceImpl implements LikePostService {
     private final LikePostRepository likePostRepository;
+
     @Override
     public LikePost save(LikePost likePost) {
         return likePostRepository.save(likePost);

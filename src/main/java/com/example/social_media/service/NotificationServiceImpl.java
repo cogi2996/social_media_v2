@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
+
     @Override
     public void saveAnnounce(Notification notification) {
         notificationRepository.save(notification);

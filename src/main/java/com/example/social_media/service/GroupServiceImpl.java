@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GroupServiceImpl implements GroupService{
+public class GroupServiceImpl implements GroupService {
     private final GroupMemberRepository groupMemberRepository;
     private final GroupRepository groupRepository;
+
     @Override
     public Group save(Group group) {
         return groupRepository.save(group);
