@@ -101,10 +101,13 @@ public class UserRestController {
         User sourceUser = userService.findUserById(userId);
         User targetUser = userService.findUserById(targetId);
         int dbUserId = authenticationFacade.getUser().getUserId();
-        if (sourceUser == null || targetUser == null || dbUserId != sourceUser.getUserId()) {
+        if (sourceUser == null || targetUser == null || dbUserId != targetId) {
             return ResponseEntity.badRequest().body(null);
         }
-        FollowId follow = new FollowId(userId, targetId);
+        FollowId follow = FollowId.builder()
+                .sourceId(userId)
+                .targetId(targetId)
+                .build();
         followService.deleteFollow(follow);
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
@@ -113,7 +116,7 @@ public class UserRestController {
     }
 
     @PatchMapping("/{userId}/followers/{targetId}")
-    public ResponseEntity<Void> acceptFollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
+    public ResponseEntity<?> acceptFollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
 
         try {
             // kiểm tra id
@@ -121,12 +124,18 @@ public class UserRestController {
             User targetUser = userService.findUserById(targetId);
             int dbUserId = authenticationFacade.getUser().getUserId();
             System.out.println("here end point");
-            if (sourceUser == null || targetUser == null || dbUserId != sourceUser.getUserId()) {
+            if (sourceUser == null || targetUser == null || dbUserId != targetId) {
                 return ResponseEntity.badRequest().body(null);
             }
-            FollowId follow = new FollowId(targetId, userId);
+            FollowId follow = FollowId.builder()
+                    .sourceId(userId)
+                    .targetId(targetId)
+                    .build();
             followService.acceptFollow(follow);
-            return ResponseEntity.ok().build();
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .message("success")
+                    .build();
+            return ResponseEntity.ok(responseDTO);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
         }
@@ -322,7 +331,7 @@ public class UserRestController {
                     //nếu là dạng thông báo like
                     if (announce.getType().equals(TypeAnnounce.LIKE)) {
                         NotificationLikePostDTO notificationLikePostDTO = modelMapper.map(announce.getNotificationLikePost(), NotificationLikePostDTO.class);
-                        System.out.println("CCC"+notificationLikePostDTO.getNotification().getUser().getUserId());
+                        System.out.println("CCC" + notificationLikePostDTO.getNotification().getUser().getUserId());
                         return notificationLikePostDTO;
                     }
                     return null;
@@ -340,15 +349,15 @@ public class UserRestController {
                                               @RequestParam(defaultValue = "5") Integer pageSize,
                                               @RequestParam(defaultValue = "") String sortBy) {
         List<User> users = userService.searchUserByName(name, pageNum, pageSize, null);
-        ObjectMapper mapper  = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule( ));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> userDTOs = users.stream().map(u -> {
             UserDTO userDTO = mapper.convertValue(u, UserDTO.class);
             ObjectNode node = mapper.valueToTree(u);
-            System.out.println("TAGREST: "+u.getUserId() ) ;
-            node.put("isFollowed",followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(),userDTO.getUserId()));
+            System.out.println("TAGREST: " + u.getUserId());
+            node.put("isFollowed", followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(), userDTO.getUserId()));
             return node;
         }).toList();
         return ResponseEntity.ok().body(ResponseDTO.builder()
@@ -357,6 +366,18 @@ public class UserRestController {
                 .build());
     }
 
+    // load pending follow
+    @GetMapping("/{userId}/pendingFollow")
+    public ResponseEntity<?> getPendingFollow(@PathVariable int userId,
+                                              @RequestParam(defaultValue = "0") Integer pageNum,
+                                              @RequestParam(defaultValue = "5") Integer pageSize,
+                                              @RequestParam(defaultValue = "f.followCreateTime") String sortBy) {
+        List<User> pendingFollow = userService.findPendingFollowingById(userId, pageNum, pageSize, Sort.by(sortBy));
+        return ResponseEntity.ok().body(ResponseDTO.builder()
+                .message("success")
+                .data(pendingFollow)
+                .build());
+    }
 
 
 }

@@ -107,3 +107,101 @@ function loadInforUser() {
 }
 
 loadInforUser();
+loadRecentRequest();
+
+// chức năng thể hiện  4 người gởi follow gần nhất
+function loadRecentRequest() {
+  const currentUserId = jwt_decode(Cookies.get("access_token")).userId;
+  axios
+    .get(`/api/v1/users/${currentUserId}/pendingFollow?page=0&pageSize=4`)
+    .then(function (response) {
+      const { data, status } = response;
+      if (status === 200) {
+        console.log(data);
+        document.getElementById("total-pending-request").innerHTML =
+          data.length;
+        const endElement = `
+        <div class="text-center">
+          <a href="/follows" class="btn text-primary">Xem thêm</a>
+        </div>
+        `;
+        data.push(endElement);
+        console.log(data);
+
+        data.forEach((friend, index) => {
+          renderRecentRequest(friend, index === data.length - 1);
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {});
+}
+
+function renderRecentRequest(friend, isEnd = false) {
+  const container = document.querySelector("#top-friend-request");
+  if (isEnd) {
+    container.insertAdjacentHTML("beforeend", friend);
+    return;
+  }
+  const avatar =
+    friend.avatar === null
+      ? `/assets/images/user/defaul_avatar.jpg`
+      : friend.avatar;
+
+  console.log(container);
+  const html = `
+      <div class="iq-friend-request" data-user-id="${friend.userId}">
+        <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <img class="avatar-40 rounded" src="${avatar}" alt="">
+                <div class="ms-3">
+                    <h6 class="mb-0">${friend.lastName} ${friend.midName} ${friend.firstName}</h6>
+                    <p class="mb-0">${friend.department}</p>
+                </div>
+            </div>
+            <div class="d-flex align-items-center" >
+                <a href="#" class="me-3 btn btn-primary rounded">Chấp nhận</a>
+                <a href="#" class="me-3 btn btn-secondary rounded">Xoá</a>
+            </div>
+        </div>
+    </div>
+  `;
+  container.insertAdjacentHTML("beforeend", html);
+}
+
+document
+  .querySelector("#top-friend-request")
+  .addEventListener("click", function (e) {
+    // thực hiện accept follow
+    if (e.target.closest(".btn-primary")) {
+      // e.preventDefault();
+      console.log(e.target.closest(".btn-primary"));
+
+      const sourceId = e.target
+        .closest(".btn-primary")
+        .closest(".iq-friend-request").dataset.userId;
+      axios
+        .patch(`/api/v1/users/${sourceId}/followers/${curUserId}`)
+        .then(function (response) {
+          console.log(response);
+          e.target.closest("div").innerHTML = "<p>Đã chấp nhận</p>";
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {});
+    } else if (e.target.closest(".btn-secondary")) {
+      const sourceId = e.target.closest(".iq-friend-request").dataset.userId;
+      axioss
+        .delete(`/api/v1/users/${sourceId}/follows/${curUserId}`)
+        .then(function (response) {
+          console.log(response);
+          e.target.closest("div").innerHTML = "<p>Đã xoá theo dõi</p>";
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  });

@@ -78,10 +78,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findPendingFollowingById(int userId, int pageNum, int pageSize, String sortBy) {
-        if(sortBy == null)
+    public List<User> findPendingFollowingById(int userId, int pageNum, int pageSize, Sort sort) {
+        if(sort == null)
             return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize));
-        return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize,Sort.by(sortBy)));
+        return userRepository.findPendingFollowingById(userId,PageRequest.of(pageNum,pageSize,sort));
     }
 
     @Override

@@ -25,7 +25,7 @@ public interface UserService {
 
     List<User> searchUserByName(String name, int pageNum, int pageSize, Sort sort);
 
-    List<User> findPendingFollowingById(int userId, int pageNum, int pageSize, String sortBy);
+    List<User> findPendingFollowingById(int userId, int pageNum, int pageSize, Sort sort);
 
     void delete(int userId);
 }
