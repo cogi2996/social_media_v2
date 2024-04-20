@@ -50,7 +50,7 @@ btnSubmitChangePass.addEventListener("click", (e) => {
   try {
     changePassword();
   } catch (error) {
-    console.error(error);
+    // nếu thất bại thì hiện thông báo lỗi
   }
 });
 // change password
@@ -65,9 +65,33 @@ async function changePassword() {
     oldPassword: formData.get("oldPassword"),
     newPassword: formData.get("newPassword"),
   };
-  // gửi request đỗi mật khẩu
-  const response = await axios.post(`/api/v1/auth/change-password`, data);
-  console.log(response);
-
-  console.log(data);
+  try {
+    // gửi request đỗi mật khẩu
+    const { status, response } = await axios.post(
+      `/api/v1/auth/change-password`,
+      data
+    );
+    // nếu thành công thì hiện thông báo
+    if (status === 200) {
+      let text = document.createElement("p");
+      text.type = "button";
+      text.className = "text-primary";
+      text.textContent = "thay đỗi mật khẩu thành công...";
+      form.appendChild(text);
+      setTimeout(() => {
+        text.remove();
+        form.reset();
+      }, 3000);
+    }
+  } catch (error) {
+    let text = document.createElement("p");
+    text.type = "button";
+    text.className = "text-danger";
+    text.textContent = "thay đỗi mật khẩu thất bại...";
+    form.appendChild(text);
+    setTimeout(() => {
+      text.remove();
+      form.reset();
+    }, 3000);
+  }
 }

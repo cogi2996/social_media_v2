@@ -83,7 +83,7 @@ function loadInforUser() {
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
-        console.log(data);
+        // console.log(data);
         const avatar =
           data.avatar === null
             ? `/assets/images/user/defaul_avatar.jpg`
@@ -117,7 +117,7 @@ function loadRecentRequest() {
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
-        console.log(data);
+        // console.log(data);
         document.getElementById("total-pending-request").innerHTML =
           data.length;
         const endElement = `
@@ -126,7 +126,7 @@ function loadRecentRequest() {
         </div>
         `;
         data.push(endElement);
-        console.log(data);
+        // console.log(data);
 
         data.forEach((friend, index) => {
           renderRecentRequest(friend, index === data.length - 1);
