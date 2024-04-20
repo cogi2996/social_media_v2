@@ -19,6 +19,7 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepository.save(notification);
     }
 
+
     @Override
     public List<Notification> findByUserId(int userId, int pageNum, int pageSize, Sort sortBy) {
         return notificationRepository.findByUserId(userId, PageRequest.of(pageNum, pageSize, sortBy));

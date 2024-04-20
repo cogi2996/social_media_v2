@@ -16,21 +16,17 @@ public class ConnectionController {
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;
     private final FollowService followService;
+
     @GetMapping("{userId}/connection")
     public String getIntoIndex(@PathVariable Integer userId, Model model) {
-        model.addAttribute("userId",userService.findUserById(userId).getUserId());
-        model.addAttribute("user",userService.findUserById(userId));
-        model.addAttribute("countFollowers",followService.countByFollowId_TargetIdAndFollowStatus(userId,true));
-        model.addAttribute("countFollowings",followService.countByFollowId_SourceIdAndFollowStatus(userId,true));
-        System.out.println("countFollowers: "+followService.countByFollowId_TargetIdAndFollowStatus(userId,true));
-        System.out.println("countFollowings: "+followService.countByFollowId_SourceIdAndFollowStatus(userId,true));
-
+        model.addAttribute("userId", userService.findUserById(userId).getUserId());
+        model.addAttribute("user", userService.findUserById(userId));
+        model.addAttribute("countFollowers", followService.countByFollowId_TargetIdAndFollowStatus(userId, true));
+        model.addAttribute("countFollowings", followService.countByFollowId_SourceIdAndFollowStatus(userId, true));
+        System.out.println("countFollowers: " + followService.countByFollowId_TargetIdAndFollowStatus(userId, true));
+        System.out.println("countFollowings: " + followService.countByFollowId_SourceIdAndFollowStatus(userId, true));
         return "web/connection";
     }
-
-    // huỷ theo dõi
-
-
 
 
 }

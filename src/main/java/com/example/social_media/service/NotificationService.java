@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface NotificationService {
     void saveAnnounce(Notification notification);
-
     List<Notification> findByUserId(int userId, int pageNum, int pageSize, Sort sortBy);
 }

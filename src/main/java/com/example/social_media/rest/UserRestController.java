@@ -191,6 +191,8 @@ public class UserRestController {
         // nếu tìm thấy user và post
         LikePostId likePostId = new LikePostId(userId, postId);
         likePostService.deleteById(likePostId);
+        // huỷ thông báo follow của user liên quan đến bài viết đó
+
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
                 .data(likePostService.countLikesByPostId(postId))
