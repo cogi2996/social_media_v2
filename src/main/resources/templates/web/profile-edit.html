@@ -233,26 +233,26 @@
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
                                     <div class="iq-header-title">
-                                        <h4 class="card-title">Change Password</h4>
+                                        <h4 class="card-title">Thay đỗi mật khẩu</h4>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id = "form-change-password">
                                         <div class="form-group">
-                                            <label for="cpass" class="form-label">Current Password:</label>
-                                            <a href="#" class="float-end">Forgot Password</a>
-                                            <input type="Password" class="form-control" id="cpass" value="">
+                                            <label for="cpass" class="form-label" >Mật khẩu hiện tại:</label>
+                                            <a href="#" class="float-end">Quên mật khẩu:</a>
+                                            <input type="Password" class="form-control" id="cpass" value="" name ="oldPassword">
                                         </div>
                                         <div class="form-group">
-                                            <label for="npass" class="form-label">New Password:</label>
-                                            <input type="Password" class="form-control" id="npass" value="">
+                                            <label for="npass" class="form-label" >Mật khẩu mới:</label>
+                                            <input type="Password" class="form-control" id="npass" value="" name="newPassword">
                                         </div>
                                         <div class="form-group">
-                                            <label for="vpass" class="form-label">Verify Password:</label>
-                                            <input type="Password" class="form-control" id="vpass" value="">
+                                            <label for="vpass" class="form-label" >Xác nhận mật khẩu mới:</label>
+                                            <input type="Password" class="form-control" id="vpass" value="" name ="confirm-password">
                                         </div>
-                                        <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                        <button type="reset" class="btn bg-soft-danger">Cancle</button>
+                                        <button type="submit" class="btn btn-primary me-2" id="submit-change-pass" >Xác nhân</button>
+                                        <button type="reset" class="btn bg-soft-danger">Huỷ</button>
                                     </form>
                                 </div>
                             </div>

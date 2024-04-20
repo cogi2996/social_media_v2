@@ -1,9 +1,6 @@
 package com.example.social_media.rest;
 
-import com.example.social_media.DTO.AccountDTO;
-import com.example.social_media.DTO.AuthenticationRequest;
-import com.example.social_media.DTO.AuthenticationResponse;
-import com.example.social_media.DTO.UserDTO;
+import com.example.social_media.DTO.*;
 import com.example.social_media.entity.Account;
 import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
@@ -46,6 +43,14 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(authenticationService.authenticate(request));
 
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<ModelMap> changePassword(@RequestBody ChangePassRequest changePassRequest){
+        authenticationService.changePassword(changePassRequest);
+        ModelMap modelMap = new ModelMap();
+        modelMap.addAttribute("message","Password changed successfully");
+        return ResponseEntity.ok(modelMap);
     }
 
     private Account convertToAccountEntity(AccountDTO accountDTO){

@@ -2,6 +2,7 @@ package com.example.social_media.service;
 
 import com.example.social_media.DTO.AuthenticationRequest;
 import com.example.social_media.DTO.AuthenticationResponse;
+import com.example.social_media.DTO.ChangePassRequest;
 import com.example.social_media.dao.AccountRepository;
 import com.example.social_media.dao.TokenRepository;
 import com.example.social_media.dao.UserRepository;
@@ -9,6 +10,7 @@ import com.example.social_media.entity.Account;
 import com.example.social_media.entity.Token;
 import com.example.social_media.entity.TokenType;
 import com.example.social_media.entity.User;
+import com.example.social_media.security.AuthenticationFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final UserDetailsService userDetailsService;
+    private final AuthenticationFacade authenticationFacade;
 
     public AuthenticationResponse register(Account theAccount, User newUser) {
         var account = Account.builder()
@@ -121,5 +124,22 @@ public class AuthenticationService {
         });
         // save new token
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public void changePassword(ChangePassRequest changePassRequest) {
+        String email = authenticationFacade.getAuthentication().getName();
+        String oldPass = changePassRequest.getOldPassword();
+        String newPassword = changePassRequest.getNewPassword();
+        // auth
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email,
+                oldPass);
+        Authentication auth = authenticationManager.authenticate(token);
+        // save new entity account
+        Account account = accountRepository.findByEmail(email).orElseThrow();
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+        // revoke all except jwt
+
+
     }
 }

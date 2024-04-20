@@ -2,10 +2,11 @@ import { uploadImage } from "./uploadFileService.js";
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-const firstName = $("#fname");
-const lastName = $("#lname");
-const dateOfBirth = $("#dob");
+// const firstName = $("#fname");
+// const lastName = $("#lname");
+// const dateOfBirth = $("#dob");
 const btnSubmitInfor = $("#submit1");
+const btnSubmitChangePass = $("#submit-change-pass");
 // document.querySelector(".file-upload").addEventListener("click", (e) => {
 //   e.preventDefault();
 // });
@@ -43,3 +44,30 @@ async function FormInforHanlde() {
 }
 
 btnSubmitInfor.onclick = FormInforHanlde;
+// btnSubmitChangePass.onclick = changePassword;
+btnSubmitChangePass.addEventListener("click", (e) => {
+  e.preventDefault();
+  try {
+    changePassword();
+  } catch (error) {
+    console.error(error);
+  }
+});
+// change password
+async function changePassword() {
+  const form = document.querySelector("#form-change-password");
+  const formData = new FormData(form);
+  console.log(formData.get("confirm-password"), formData.get("newPassword"));
+
+  if (formData.get("confirm-password") !== formData.get("newPassword"))
+    throw new Error("Mật khẩu xác nhận không đúng!");
+  const data = {
+    oldPassword: formData.get("oldPassword"),
+    newPassword: formData.get("newPassword"),
+  };
+  // gửi request đỗi mật khẩu
+  const response = await axios.post(`/api/v1/auth/change-password`, data);
+  console.log(response);
+
+  console.log(data);
+}
