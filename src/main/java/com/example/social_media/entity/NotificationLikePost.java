@@ -23,7 +23,7 @@ public class NotificationLikePost {
     @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne
-    @JoinColumn(name = "source_id")
+    @JoinColumn(name = "source_id", referencedColumnName = "user_id")
     private User userLiked;
 
 }

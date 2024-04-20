@@ -14,4 +14,14 @@ public class NotificationLikeImpl implements NotificationLikeService {
     public void save(NotificationLikePost notificationLikePost) {
         announceLikeRepository.save(notificationLikePost);
     }
+
+    @Override
+    public void delete(NotificationLikePost notificationLikePost) {
+        announceLikeRepository.delete(notificationLikePost);
+    }
+
+    @Override
+    public NotificationLikePost findByUserLikedId(int userId, int postId) {
+        return announceLikeRepository.findByUserLikedId(userId, postId);
+    }
 }

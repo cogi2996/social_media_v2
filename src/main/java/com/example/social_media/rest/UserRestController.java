@@ -191,8 +191,11 @@ public class UserRestController {
         // nếu tìm thấy user và post
         LikePostId likePostId = new LikePostId(userId, postId);
         likePostService.deleteById(likePostId);
-        // huỷ thông báo follow của user liên quan đến bài viết đó
-
+        // huỷ thông báo follow trừ thằng chủ bài viết thì không xoá vì không có
+        NotificationLikePost notify =   notificationLikeService.findByUserLikedId(userId, postId);
+        if (notify != null&& userId != post.getUser().getUserId()){
+            notificationLikeService.delete(notify);
+        }
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
                 .data(likePostService.countLikesByPostId(postId))
