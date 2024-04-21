@@ -269,54 +269,57 @@
         </div>
     </div>
 </div>
+<div layout:fragment="all-scripts">
+    <script>
+        const postContainer = document.getElementById("container__post");
+        postContainer.addEventListener("click", function (event) {
+          // Check if the clicked element is a like button
+          var likeButton = event.target.closest(".btn-like");
+          console.log(likeButton);
 
-<script layout:fragment="custom-script">
-    const postContainer = document.getElementById("container__post");
-    postContainer.addEventListener("click", function (event) {
-      // Check if the clicked element is a like button
-      var likeButton = event.target.closest(".btn-like");
-      console.log(likeButton);
+          if (likeButton) {
+            // Handle the like button click
+            handleLikeButtonClick(likeButton);
+          }
+        });
+        function handleLikeButtonClick(button) {
+          const likeIcon = button.querySelector(".like-data span");
+          const likeText = button.querySelector(".total-like-block span");
+          // tongle like icon & like text
+          likeIcon.classList.toggle("d-none");
+          likeText.classList.toggle("text-primary");
 
-      if (likeButton) {
-        // Handle the like button click
-        handleLikeButtonClick(likeButton);
-      }
-    });
-    function handleLikeButtonClick(button) {
-      const likeIcon = button.querySelector(".like-data span");
-      const likeText = button.querySelector(".total-like-block span");
-      // tongle like icon & like text
-      likeIcon.classList.toggle("d-none");
-      likeText.classList.toggle("text-primary");
+          const userPostId = jwt_decode(Cookies.get("access_token")).userId;
+          const postId = button.closest(".col-sm-12").dataset.postId;
 
-      const userPostId = jwt_decode(Cookies.get("access_token")).userId;
-      const postId = button.closest(".col-sm-12").dataset.postId;
+          // check if like or unlike
+          const likeHandlerApi = likeIcon.classList.contains("d-none");
+          if (!likeHandlerApi) {
+            axios
+              .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+              .then(function ({ data }) {
+                likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          } else {
+            axios
+              .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+              .then(function ({ data }) {
+                // handle success
+                likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
+              })
+              //   console.log(`here: ` + data);
+              // })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        }
+    </script>
 
-      // check if like or unlike
-      const likeHandlerApi = likeIcon.classList.contains("d-none");
-      if (!likeHandlerApi) {
-        axios
-          .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
-          .then(function ({ data }) {
-            likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      } else {
-        axios
-          .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
-          .then(function ({ data }) {
-            // handle success
-            likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
-          })
-          //   console.log(`here: ` + data);
-          // })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    }
-</script>
+</div>
+
 </body>
 </html>

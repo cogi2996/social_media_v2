@@ -143,7 +143,7 @@ function renderPost(post) {
           </div>
         </div>
         <hr>
-        <ul class="post-comments list-inline p-0 m-0">
+        <ul class="post-comments list-inline p-0 m-0" style="max-height: 300px; overflow-y: auto;">
           <li class="mb-2">
             <div class="d-flex">
               <div class="user-img">
@@ -179,13 +179,8 @@ function renderPost(post) {
             </div>
           </li>
         </ul>
-        <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-          <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-          <div class="comment-attagement d-flex">
-            <a href="javascript:void();"><i class="ri-link me-3"></i></a>
-            <a href="javascript:void();"><i class="ri-user-smile-line me-3"></i></a>
-            <a href="javascript:void();"><i class="ri-camera-line me-3"></i></a>
-          </div>
+        <form class="comment-text d-flex align-items-center mt-3">
+          <input type="text" class="input-comment form-control rounded" placeholder="Enter Your Comment">
         </form>
       </div>
     </div>

@@ -22,11 +22,11 @@
                                         Mật khẩu & Bảo mật
                                     </a>
                                 </li>
-<!--                                <li class="col-md-3 p-0">-->
-<!--                                    <a class="nav-link" data-bs-toggle="pill" href="#emailandsms">-->
-<!--                                        Email and SMS-->
-<!--                                    </a>-->
-<!--                                </li>-->
+                                <!--                                <li class="col-md-3 p-0">-->
+                                <!--                                    <a class="nav-link" data-bs-toggle="pill" href="#emailandsms">-->
+                                <!--                                        Email and SMS-->
+                                <!--                                    </a>-->
+                                <!--                                </li>-->
                                 <li class="col-md-3 p-0">
                                     <a class="nav-link" data-bs-toggle="pill" href="#manage-contact">
                                         Thông tin liên hệ
@@ -157,14 +157,6 @@
                                                 />
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <!--                                                    <label class="form-label">Marital Status:</label>-->
-                                                <!--                                                    <select class="form-select" aria-label="Default select example">-->
-                                                <!--                                                        <option selected="">Single</option>-->
-                                                <!--                                                        <option>Married</option>-->
-                                                <!--                                                        <option>Widowed</option>-->
-                                                <!--                                                        <option>Divorced</option>-->
-                                                <!--                                                        <option>Separated</option>-->
-                                                <!--                                                    </select>-->
                                                 <label class="form-label" for="lname"
                                                 >Khoa</label
                                                 >
@@ -237,108 +229,113 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <form id = "form-change-password">
+                                    <form id="form-change-password">
                                         <div class="form-group">
-                                            <label for="cpass" class="form-label" >Mật khẩu hiện tại:</label>
+                                            <label for="cpass" class="form-label">Mật khẩu hiện tại:</label>
                                             <a href="#" class="float-end">Quên mật khẩu:</a>
-                                            <input type="Password" class="form-control" id="cpass" value="" name ="oldPassword">
+                                            <input type="Password" class="form-control" id="cpass" value=""
+                                                   name="oldPassword">
                                         </div>
                                         <div class="form-group">
-                                            <label for="npass" class="form-label" >Mật khẩu mới:</label>
-                                            <input type="Password" class="form-control" id="npass" value="" name="newPassword">
+                                            <label for="npass" class="form-label">Mật khẩu mới:</label>
+                                            <input type="Password" class="form-control" id="npass" value=""
+                                                   name="newPassword">
                                         </div>
                                         <div class="form-group">
-                                            <label for="vpass" class="form-label" >Xác nhận mật khẩu mới:</label>
-                                            <input type="Password" class="form-control" id="vpass" value="" name ="confirm-password">
+                                            <label for="vpass" class="form-label">Xác nhận mật khẩu mới:</label>
+                                            <input type="Password" class="form-control" id="vpass" value=""
+                                                   name="confirm-password">
                                         </div>
-                                        <button type="submit" class="btn btn-primary me-2" id="submit-change-pass" >Xác nhân</button>
+                                        <button type="submit" class="btn btn-primary me-2" id="submit-change-pass">Xác
+                                            nhân
+                                        </button>
                                         <button type="reset" class="btn bg-soft-danger">Huỷ</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="tab-pane fade" id="emailandsms" role="tabpanel">-->
-<!--                            <div class="card">-->
-<!--                                <div class="card-header d-flex justify-content-between">-->
-<!--                                    <div class="header-title">-->
-<!--                                        <h4 class="card-title">Email and SMS</h4>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="card-body">-->
-<!--                                    <form>-->
-<!--                                        <div class="form-group row align-items-center">-->
-<!--                                            <label class="col-md-3" for="emailnotification">Email-->
-<!--                                                Notification:</label>-->
-<!--                                            <div class="col-md-9 form-check form-switch">-->
-<!--                                                <input class="form-check-input" type="checkbox"-->
-<!--                                                       id="flexSwitchCheckChecked11" checked>-->
-<!--                                                <label class="form-check-label" for="flexSwitchCheckChecked11">Checked-->
-<!--                                                    switch checkbox input</label>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group row align-items-center">-->
-<!--                                            <label class="col-md-3" for="smsnotification">SMS Notification:</label>-->
-<!--                                            <div class="col-md-9 form-check form-switch">-->
-<!--                                                <input class="form-check-input" type="checkbox"-->
-<!--                                                       id="flexSwitchCheckChecked12" checked>-->
-<!--                                                <label class="form-check-label" for="flexSwitchCheckChecked12">Checked-->
-<!--                                                    switch checkbox input</label>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group row align-items-center">-->
-<!--                                            <label class="col-md-3" for="npass">When To Email</label>-->
-<!--                                            <div class="col-md-9">-->
-<!--                                                <div class="form-check">-->
-<!--                                                    <input class="form-check-input" type="checkbox" value=""-->
-<!--                                                           id="flexCheckDefault12">-->
-<!--                                                    <label class="form-check-label" for="flexCheckDefault12">-->
-<!--                                                        You have new notifications.-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <div class="form-check d-block">-->
-<!--                                                    <input class="form-check-input" type="checkbox" value=""-->
-<!--                                                           id="email02">-->
-<!--                                                    <label class="form-check-label" for="email02">You're sent a-->
-<!--                                                        direct message</label>-->
-<!--                                                </div>-->
-<!--                                                <div class="form-check d-block">-->
-<!--                                                    <input type="checkbox" class="form-check-input" id="email03"-->
-<!--                                                           checked="">-->
-<!--                                                    <label class="form-check-label" for="email03">Someone adds you-->
-<!--                                                        as a connection</label>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group row align-items-center">-->
-<!--                                            <label class="col-md-3" for="npass">When To Escalate Emails</label>-->
-<!--                                            <div class="col-md-9">-->
-<!--                                                <div class="form-check">-->
-<!--                                                    <input class="form-check-input" type="checkbox" value=""-->
-<!--                                                           id="email04">-->
-<!--                                                    <label class="form-check-label" for="email04">-->
-<!--                                                        Upon new order.-->
-<!--                                                    </label>-->
-<!--                                                </div>-->
-<!--                                                <div class="form-check d-block">-->
-<!--                                                    <input class="form-check-input" type="checkbox" value=""-->
-<!--                                                           id="email05">-->
-<!--                                                    <label class="form-check-label" for="email05">New membership-->
-<!--                                                        approval</label>-->
-<!--                                                </div>-->
-<!--                                                <div class="form-check d-block">-->
-<!--                                                    <input type="checkbox" class="form-check-input" id="email06"-->
-<!--                                                           checked="">-->
-<!--                                                    <label class="form-check-label" for="email06">Member-->
-<!--                                                        registration</label>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <button type="submit" class="btn btn-primary me-2">Submit</button>-->
-<!--                                        <button type="reset" class="btn bg-soft-danger">Cancle</button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="tab-pane fade" id="emailandsms" role="tabpanel">-->
+                        <!--                            <div class="card">-->
+                        <!--                                <div class="card-header d-flex justify-content-between">-->
+                        <!--                                    <div class="header-title">-->
+                        <!--                                        <h4 class="card-title">Email and SMS</h4>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                                <div class="card-body">-->
+                        <!--                                    <form>-->
+                        <!--                                        <div class="form-group row align-items-center">-->
+                        <!--                                            <label class="col-md-3" for="emailnotification">Email-->
+                        <!--                                                Notification:</label>-->
+                        <!--                                            <div class="col-md-9 form-check form-switch">-->
+                        <!--                                                <input class="form-check-input" type="checkbox"-->
+                        <!--                                                       id="flexSwitchCheckChecked11" checked>-->
+                        <!--                                                <label class="form-check-label" for="flexSwitchCheckChecked11">Checked-->
+                        <!--                                                    switch checkbox input</label>-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="form-group row align-items-center">-->
+                        <!--                                            <label class="col-md-3" for="smsnotification">SMS Notification:</label>-->
+                        <!--                                            <div class="col-md-9 form-check form-switch">-->
+                        <!--                                                <input class="form-check-input" type="checkbox"-->
+                        <!--                                                       id="flexSwitchCheckChecked12" checked>-->
+                        <!--                                                <label class="form-check-label" for="flexSwitchCheckChecked12">Checked-->
+                        <!--                                                    switch checkbox input</label>-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="form-group row align-items-center">-->
+                        <!--                                            <label class="col-md-3" for="npass">When To Email</label>-->
+                        <!--                                            <div class="col-md-9">-->
+                        <!--                                                <div class="form-check">-->
+                        <!--                                                    <input class="form-check-input" type="checkbox" value=""-->
+                        <!--                                                           id="flexCheckDefault12">-->
+                        <!--                                                    <label class="form-check-label" for="flexCheckDefault12">-->
+                        <!--                                                        You have new notifications.-->
+                        <!--                                                    </label>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="form-check d-block">-->
+                        <!--                                                    <input class="form-check-input" type="checkbox" value=""-->
+                        <!--                                                           id="email02">-->
+                        <!--                                                    <label class="form-check-label" for="email02">You're sent a-->
+                        <!--                                                        direct message</label>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="form-check d-block">-->
+                        <!--                                                    <input type="checkbox" class="form-check-input" id="email03"-->
+                        <!--                                                           checked="">-->
+                        <!--                                                    <label class="form-check-label" for="email03">Someone adds you-->
+                        <!--                                                        as a connection</label>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="form-group row align-items-center">-->
+                        <!--                                            <label class="col-md-3" for="npass">When To Escalate Emails</label>-->
+                        <!--                                            <div class="col-md-9">-->
+                        <!--                                                <div class="form-check">-->
+                        <!--                                                    <input class="form-check-input" type="checkbox" value=""-->
+                        <!--                                                           id="email04">-->
+                        <!--                                                    <label class="form-check-label" for="email04">-->
+                        <!--                                                        Upon new order.-->
+                        <!--                                                    </label>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="form-check d-block">-->
+                        <!--                                                    <input class="form-check-input" type="checkbox" value=""-->
+                        <!--                                                           id="email05">-->
+                        <!--                                                    <label class="form-check-label" for="email05">New membership-->
+                        <!--                                                        approval</label>-->
+                        <!--                                                </div>-->
+                        <!--                                                <div class="form-check d-block">-->
+                        <!--                                                    <input type="checkbox" class="form-check-input" id="email06"-->
+                        <!--                                                           checked="">-->
+                        <!--                                                    <label class="form-check-label" for="email06">Member-->
+                        <!--                                                        registration</label>-->
+                        <!--                                                </div>-->
+                        <!--                                            </div>-->
+                        <!--                                        </div>-->
+                        <!--                                        <button type="submit" class="btn btn-primary me-2">Submit</button>-->
+                        <!--                                        <button type="reset" class="btn bg-soft-danger">Cancle</button>-->
+                        <!--                                    </form>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                         <div class="tab-pane fade" id="manage-contact" role="tabpanel">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
@@ -376,6 +373,10 @@
         </div>
     </div>
 </div>
-<script layout:fragment ="custom-script"src="\assets\js\editProfile.js" type="module"></script>
+<div layout:fragment="all-scripts">
+    <script src="\assets\js\editProfile.js" type="module"></script>
+
+</div>
+
 </body>
 </html>

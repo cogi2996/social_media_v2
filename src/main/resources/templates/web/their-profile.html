@@ -184,7 +184,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-8" id="container__post" th:data-user-id = "${user.userId}">
+                                <div class="col-lg-8" id="container__post" th:data-user-id="${user.userId}">
                                     <!-- menu create post -->
                                 </div>
                             </div>
@@ -6540,6 +6540,9 @@
     </div>
 </div>
 
-<script layout:fragment="custom-script" type="module" src="\assets\js\their-profile.js"></script>
+<div layout:fragment="all-scripts">
+    <script type="module" src="\assets\js\their-profile.js"></script>
+</div>
+
 </body>
 </html>

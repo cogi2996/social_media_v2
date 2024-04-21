@@ -10,15 +10,25 @@ spring:
   main:
     banner-mode: "off"
   jpa:
-#    hibernate:
-#      ddl-auto: update
+    #    hibernate:
+    #      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ta84578@gmail.com
+    password: jesq ryxd nhvg mepd
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 #logging:

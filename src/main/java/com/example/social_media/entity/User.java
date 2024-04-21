@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="user")
+@Data
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +50,7 @@ public class User implements Serializable {
     private String avatar;
     @Column(name="dob")
     @Temporal(TemporalType.DATE)
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     // following
