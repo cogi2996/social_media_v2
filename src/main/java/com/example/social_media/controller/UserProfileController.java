@@ -37,7 +37,7 @@ public class UserProfileController {
         model.addAttribute("totalPost",postService.countPostsByUserId(user.getUserId()));
         model.addAttribute("totalFollower",followService.countByFollowId_TargetIdAndFollowStatus(id,true));
         model.addAttribute("totalFollowing",followService.countByFollowId_SourceIdAndFollowStatus(id,true));
-        if(authenticationFacade.getRole() == Role.USER)
+        if(authenticationFacade.getUser().getUserId() != id)
             return  "web/their-profile";
         return "web/profile";
     }

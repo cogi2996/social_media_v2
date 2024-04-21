@@ -124,7 +124,7 @@
                                             data-bs-toggle="pill"
                                             data-bs-target="#timeline"
                                             role="button"
-                                    >Timeline</a
+                                    >Dòng thời gian</a
                                     >
                                 </li>
                                 <li class="nav-item col-12 col-sm-3 p-0">
@@ -134,27 +134,7 @@
                                             data-bs-toggle="pill"
                                             data-bs-target="#about"
                                             role="button"
-                                    >About</a
-                                    >
-                                </li>
-                                <li class="nav-item col-12 col-sm-3 p-0">
-                                    <a
-                                            class="nav-link"
-                                            href="#pills-friends-tab"
-                                            data-bs-toggle="pill"
-                                            data-bs-target="#friends"
-                                            role="button"
-                                    >Friends</a
-                                    >
-                                </li>
-                                <li class="nav-item col-12 col-sm-3 p-0">
-                                    <a
-                                            class="nav-link"
-                                            href="#pills-photos-tab"
-                                            data-bs-toggle="pill"
-                                            data-bs-target="#photos"
-                                            role="button"
-                                    >Photos</a
+                                    >Giới thiệu</a
                                     >
                                 </li>
                             </ul>
@@ -174,13 +154,16 @@
                                 <div class="col-lg-4">
                                     <div class="card">
                                         <div class="card-body">
-                                            <a href="#"
-                                            ><span
-                                                    class="badge badge-pill bg-primary font-weight-normal ms-auto me-1"
-                                            ><i class="ri-star-line"></i
-                                            ></span>
-                                                27 Items for yoou</a
-                                            >
+                                            <a href="#">
+                                                <span class="badge badge-pill bg-primary font-weight-normal ms-auto me-1">
+                                                    <i class="ri-star-line"></i
+                                                    ></span>
+                                                <span th:text="'Khoa ' + ${user.department}"></span>
+                                            </a>
+                                            <br>
+                                            <a href="#">
+                                                <span th:text="'Chuyên ngành '+${user.major}"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

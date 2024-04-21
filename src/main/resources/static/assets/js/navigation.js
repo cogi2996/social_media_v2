@@ -54,7 +54,6 @@ function renderNotificationsTypeLike(data) {
            <h6 class="mb-0">${userLiked.firstName} đã like bài viết của bạn</h6>
            <div class="d-flex justify-content-between align-items-center">
              <p class="mb-0">${post.postText.substring(0, 10)}...</p>
-             <small class="float-right font-size-12">5 days ago</small>
            </div>
          </div>
        </div>

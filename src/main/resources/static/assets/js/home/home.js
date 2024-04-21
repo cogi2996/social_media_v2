@@ -205,65 +205,18 @@ function renderPost(post) {
           </div>
             <div class="total-comment-block">
               <div class="dropdown">
-                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                  20 Comment
+                <span role="button">
+                  Bình luận
                 </span>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Max Emum</a>
-                  <a class="dropdown-item" href="#">Bill Yerds</a>
-                  <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                  <a class="dropdown-item" href="#">Tara Misu</a>
-                  <a class="dropdown-item" href="#">Midge Itz</a>
-                  <a class="dropdown-item" href="#">Sal Vidge</a>
-                  <a class="dropdown-item" href="#">Other</a>
-                </div>
               </div>
             </div>
-          </div>
-          <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-            <a href="javascript:void();" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
-              <span class="ms-1">99 Share</span></a>
           </div>
         </div>
         <hr>
         <ul class="post-comments list-inline p-0 m-0" style="max-height: 300px; overflow-y: auto;">
-          <li class="mb-2">
-            <div class="d-flex">
-              <div class="user-img">
-                <img src="../assets/images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-              </div>
-              <div class="comment-data-block ms-3">
-                <h6>Monty Carlo</h6>
-                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                <div class="d-flex flex-wrap align-items-center comment-activity">
-                  <a href="javascript:void();">like</a>
-                  <a href="javascript:void();">reply</a>
-                  <a href="javascript:void();">translate</a>
-                  <span> 5 min </span>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="d-flex">
-              <div class="user-img">
-                <img src="../assets/images/user/03.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-              </div>
-              <div class="comment-data-block ms-3">
-                <h6>Paul Molive</h6>
-                <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                <div class="d-flex flex-wrap align-items-center comment-activity">
-                  <a href="javascript:void();">like</a>
-                  <a href="javascript:void();">reply</a>
-                  <a href="javascript:void();">translate</a>
-                  <span> 5 min </span>
-                </div>
-              </div>
-            </div>
-          </li>
         </ul>
         <form class="comment-text d-flex align-items-center mt-3" >
-          <input type="text" class="input-comment form-control rounded" placeholder="Enter Your Comment">
+          <input type="text" class="input-comment form-control rounded" placeholder="Nhập bình luận của bạn">
         </form>
       </div>
     </div>
