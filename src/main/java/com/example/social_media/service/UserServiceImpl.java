@@ -24,10 +24,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAll(int pageNum, int pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        Pageable paging;
+        if(sortBy == null){
+            paging = PageRequest.of(pageNum, pageSize);
+            return userRepository.findAll(paging);
+        }
+
+        paging = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
         return userRepository.findAll(paging);
     }
 
+    @Override
+    public int countAll() {
+        return userRepository.countAll();
+    }
 
 
     @Override

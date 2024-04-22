@@ -4,6 +4,7 @@ import com.example.social_media.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +30,8 @@ public class Account implements UserDetails {
     private Role role;
     @OneToOne(mappedBy = "account",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private User user;
+    @Column(name = "status")
+    private Boolean status;
     // các token của account
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<Token> tokens;

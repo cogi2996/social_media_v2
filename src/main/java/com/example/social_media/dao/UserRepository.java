@@ -32,5 +32,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT u FROM User u WHERE LOWER(CONCAT(u.lastName,' ',u.midName, ' ', u.firstName)) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<User> searchUserByName(@Param("name") String name, Pageable pageable);
 
-
+    //count all
+    @Query("SELECT COUNT(u) FROM User u")
+    int countAll();
 }

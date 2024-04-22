@@ -60,5 +60,10 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(postId);
     }
 
+    @Override
+    public int countAllPosts() {
+        return postRepository.countAllPosts();
+    }
+
 
 }

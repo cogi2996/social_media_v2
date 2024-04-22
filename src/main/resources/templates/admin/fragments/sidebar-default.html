@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="iq-sidebar sidebar-default "th:fragment="sidebar-default">
+    <div id="sidebar-scrollbar">
+        <nav class="iq-sidebar-menu">
+            <ul id="iq-sidebar-toggle" class="iq-menu">
+                <li class="">
+                    <a th:href="'/admin/userControll?pageNum=0'" class=" ">
+                        <i class="far fa-address-card"></i>
+                        <span>Quản lí người dùng</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/admin/postControll?pageNum=0" class=" ">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i><span>Quản lí bài viết</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="p-5"></div>
+    </div>
+</div>
+
+</body>
+</html>

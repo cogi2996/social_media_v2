@@ -21,4 +21,5 @@ public interface PostService {
     Page<Post> findAllPosts(int pageNum, int pageSize, String SortBy);
 
     void deleteById(int postId);
+    int countAllPosts();
 }

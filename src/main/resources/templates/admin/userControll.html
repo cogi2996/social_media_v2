@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout_admin.html}"
+>
+<body>
+<div layout:fragment="content" id="content-page" class="content-page">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Editable table -->
+                <div class="card">
+                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+                        Quản lý người dùng
+                    </h3>
+                    <div class="card-body mb-6" style="height:65vh">
+
+                        <div id="table" class="table-editable">
+<!--                            <form action="#" class="searchbox">-->
+<!--                                <a class="search-link" href="#"><i class="ri-search-line"></i></a>-->
+<!--                                <input type="text" class="text search-input" placeholder="Tìm kiếm...">-->
+<!--                            </form>-->
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <th>USERID</th>
+                                    <th>Họ và tên</th>
+                                    <th>Khoa</th>
+                                    <th>Chuyên ngành</th>
+                                    <th>Ngày tham gia</th>
+                                    <th>Mở/Khoá</th>
+                                    <th>Xoá</th>
+                                    <th>chi tiết</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <tr  th:each="user,stat : ${users}">
+                                    <td th:text="${user.userId}"></td>
+                                    <td th:text="${user.getFullName()}">Anna Mull</td>
+                                    <td th:text="${user.department}">Portica</td>
+                                    <td th:text="${user.major}">USA</td>
+                                    <td th:text="${user.createDate}">Oregon</td>
+                                    <td>
+<!--                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId})}" th:text="${isLocked[stat.index]}?'Mở khoá':'Khoá'"></a>-->
+<!--                                        <input class="btn btn-info mt-1" type="reset" th:href="@{/admin/lockUser(userId = ${user.userId})}" value="Khoá">-->
+                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId},pageNum=${currentPage})}" th:text="${isLocked[stat.index]} ? 'Mở' : 'Khoá'"></a>
+                                    </td>
+                                    <td>
+                                        <input class="btn btn-danger  mt-1" type="button" value="Xoá">
+                                    </td>
+                                    <td>
+                                        <a class="btn-primary text-center" th:href="@{/admin/userDetail(userId=${user.userId},pageNum=${currentPage})}">chi tiết</a>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <nav aria-label="...">
+                        <ul class="pagination d-flex justify-content-center">
+                            <li class="page-item ">
+                                <a class="page-link" th:if="${currentPage}>0" th:href="@{/admin/userControll(pageNum=${currentPage - 1})}">&laquo;</a>
+
+                            </li>
+                            <li class="page-item" th:if="${currentPage - 1 > 0}">
+                                <a class="page-link" th:href="@{/admin/userControll(pageNum=${currentPage - 1})}" th:text="${currentPage - 1}"></a>
+                            </li>
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link" th:text="${currentPage}"></span>
+                            </li>
+                            <li class="page-item" th:if="${currentPage + 1 <= totalPages}">
+                                <a class="page-link" th:href="@{/admin/userControll(pageNum=${currentPage + 1})}" th:text="${currentPage + 1}"></a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:if="${currentPage}<${totalPages}" th:href="@{/admin/userControll(pageNum=${currentPage + 1})}">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+</body>
+</html>

@@ -29,6 +29,8 @@ public class Post {
     private Instant postCreateTime;
     @Column(name = "post_image")// xin chào
     private String postImage;
+    @Column(name="status")
+    private boolean status;
     // author 's post ( private ) //
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,6 +38,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group postGroup;
+
 
     // thông bảo like của bài viết
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

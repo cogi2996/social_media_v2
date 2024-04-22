@@ -1,0 +1,120 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout_admin.html}"
+>
+<body>
+<div layout:fragment="content" id="content-page" class="content-page">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Editable table -->
+                <div class="card">
+                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+                        Quản lý người dùng
+                    </h3>
+                    <div class="card-body mb-6" style="height:73vh">
+                        <div id="table" class="table-editable">
+                            <a class="iq-icons-list" th:href="@{/admin/userControll(pageNum=${currentPage})}"><i class="las la-angle-left"></i>Quay lại</a>
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <th>Thông tin</th>
+                                    <th>Giá trị</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td th:text="ID"></td>
+                                    <td th:text="${user.userId}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td th:text="Tên"></td>
+                                    <td th:text="${user.firstName}"></td>
+                                </tr>
+                                <tr>
+                                    <td> Tên đệm</td>
+                                    <td th:text="${user.midName}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Họ</td>
+                                    <td th:text="${user.lastName}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Avatar</td>
+                                    <td th:text="${user.avatar != null} ? ${user.avatar} : 'default'"></td>
+                                </tr>
+                                <tr>
+                                    <td >Địa chỉ</td>
+                                    <td th:text="${user.address}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Chuyên ngành</td>
+                                    <td th:text="${user.department}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ngành</td>
+                                    <td th:text="${user.major}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Giới tính</td>
+                                    <td th:text="${user.gender == 0 ? 'Nam' : 'Nữ'}"></td>
+                                </tr>
+                                <tr>
+                                    <td >Ngày tham gia</td>
+                                    <td th:text="${user.createDate}"></td>
+                                </tr>
+                                <tr>
+                                    <td >Ngày sinh</td>
+                                    <td th:text="${user.dob}"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+                        Quản lý Tài khoản
+                    </h3>
+                    <div class="card-body mb-6" style="height:30vh">
+
+                        <div id="table" class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <th>Thông tin</th>
+                                    <th>Giá trị</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td >EMAIL</td>
+                                    <td th:text="${account.email}"></td>
+                                </tr>
+
+                                <tr>
+                                    <td >Status</td>
+                                    <td th:text="${account.status}?'Bình thường':'Đang bị khoá'"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+</body>
+</html>

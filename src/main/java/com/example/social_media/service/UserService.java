@@ -14,6 +14,7 @@ public interface UserService {
     User findUserById(int userId);
 
     Page<User> findAll(int pageNum, int pageSize, String sortBy);
+    int countAll();
 
     List<User> findFollowersByUserId(int userid, int pageNum, int pageSize, String sortBy);
 
