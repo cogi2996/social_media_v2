@@ -46,13 +46,14 @@
                                     <td>
 <!--                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId})}" th:text="${isLocked[stat.index]}?'Mở khoá':'Khoá'"></a>-->
 <!--                                        <input class="btn btn-info mt-1" type="reset" th:href="@{/admin/lockUser(userId = ${user.userId})}" value="Khoá">-->
-                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId},pageNum=${currentPage})}" th:text="${isLocked[stat.index]} ? 'Mở' : 'Khoá'"></a>
+                                        <a style="min-width: 70px;" class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId},pageNum=${currentPage})}" th:text="${isLocked[stat.index]} ? 'Mở' : 'Khoá'"></a>
                                     </td>
                                     <td>
-                                        <input class="btn btn-danger  mt-1" type="button" value="Xoá">
+                                        <a style="min-width: 70px;" class="btn btn-danger  mt-1 py-1" th:href="@{/admin/deleteUser(userId=${user.userId},pageNum=${currentPage})}" role="button">Xoá</a>
                                     </td>
                                     <td>
-                                        <a class="btn-primary text-center" th:href="@{/admin/userDetail(userId=${user.userId},pageNum=${currentPage})}">chi tiết</a>
+<!--                                        <a class="btn-primary text-center" th:href="@{/admin/userDetail(userId=${user.userId},pageNum=${currentPage})}">chi tiết</a>-->
+                                        <a style="min-width: 70px;" class="btn btn-secondary btn-sm  mt-1 py-1" th:href="@{/admin/userDetail(userId=${user.userId},pageNum=${currentPage})}" role="button">Chi tiết</a>
 
                                     </td>
                                 </tr>
@@ -73,11 +74,11 @@
                             <li class="page-item active" aria-current="page">
                                 <span class="page-link" th:text="${currentPage}"></span>
                             </li>
-                            <li class="page-item" th:if="${currentPage + 1 <= totalPages}">
+                            <li class="page-item" th:if="${currentPage + 1 < totalPages}">
                                 <a class="page-link" th:href="@{/admin/userControll(pageNum=${currentPage + 1})}" th:text="${currentPage + 1}"></a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" th:if="${currentPage}<${totalPages}" th:href="@{/admin/userControll(pageNum=${currentPage + 1})}">&raquo;</a>
+                                <a class="page-link" th:if="${currentPage}<${totalPages}-1" th:href="@{/admin/userControll(pageNum=${currentPage + 1})}">&raquo;</a>
                             </li>
                         </ul>
                     </nav>

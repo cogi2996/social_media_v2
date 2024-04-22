@@ -2,6 +2,7 @@ package com.example.social_media.service;
 
 import com.example.social_media.dao.UserRepository;
 import com.example.social_media.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,9 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final  UserRepository userRepository;
+    private final AccountService accountService;
 
     @Override
     public User findUserById(int userId) {
@@ -96,6 +98,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(int userId) {
+        // xoá user
         userRepository.deleteById(userId);
     }
 

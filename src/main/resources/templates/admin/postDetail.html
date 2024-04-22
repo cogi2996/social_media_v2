@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout_admin.html}"
+>
+<body>
+<div layout:fragment="content" id="content-page" class="content-page">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Editable table -->
+                <div class="card">
+                    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+                        Chi tiết bài viết
+                    </h3>
+                    <div class="card-body mb-6" style="height:73vh">
+                        <div id="table" class="table-editable">
+                            <a class="iq-icons-list" th:href="@{/admin/postControll(pageNum=${currentPage})}"><i
+                                    class="las la-angle-left"></i>Quay lại</a>
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <th>Thông tin</th>
+                                    <th>Giá trị</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="ID"></td>
+                                    <td th:text="${post.postId}"></td>
+                                </tr>
+                                <tr>
+                                    <td>ID chủ bài viết</td>
+                                    <td th:text="${post.user.userId}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Họ và tên</td>
+                                    <td th:text="${post.user.getFullName()}"></td>
+                                </tr>
+                                <tr>
+                                    <td >Nội dung</td>
+                                    <td th:text="${post.postText}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian</td>
+                                    <td th:text="${post.postCreateTime}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ảnh</td>
+                                    <td th:text="${post.postImage}?${post.postImage}:'NONE'"></td>
+                                </tr>
+                                <tr>
+                                    <td>Trạng thái</td>
+                                    <td th:text="${post.status}?'Bình thường':'Khoá'"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+</body>
+</html>

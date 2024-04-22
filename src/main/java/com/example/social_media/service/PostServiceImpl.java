@@ -1,7 +1,10 @@
 package com.example.social_media.service;
 
+import com.example.social_media.dao.NotificationLikeRepository;
 import com.example.social_media.dao.PostRepository;
+import com.example.social_media.entity.NotificationLikePost;
 import com.example.social_media.entity.Post;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,18 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-    @Autowired
-    private PostRepository postRepository;
-
-
-//    @Override
-//    public Post findPostById(int postId) {
-//        return postRepository.findOne(postId);
-//    }
+    private final PostRepository postRepository;
+    private final NotificationLikeRepository notificationLikeRepository;
 
     @Override
-    public Post createPost(Post post) {
+    public Post save(Post post) {
         return postRepository.save(post);
     }
 
@@ -63,6 +61,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public int countAllPosts() {
         return postRepository.countAllPosts();
+    }
+
+    @Override
+    public void deleteByPostId(int postId) {
+        // xoá like post
+        postRepository.deleteById(postId);
+        // delete notify like post
+        notificationLikeRepository.deleteByPostId(postId);
     }
 
 

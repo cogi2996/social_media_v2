@@ -31,20 +31,19 @@
                                 <tbody>
 
 
-                                <tr th:if="${currentPage}<${totalPages}" th:each="post,stat : ${posts}">
+                                <tr  th:each="post,stat : ${posts}">
                                     <td th:text="${post.postId}"></td>
                                     <td th:text="${post.user.getFullName()}"></td>
                                     <td th:text="${post.postCreateTime}"></td>
-<!--                                    <td>-->
-<!--                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockUser(userId=${user.userId},pageNum=${currentPage})}" th:text="${isLocked[stat.index]} ? 'Mở' : 'Khoá'"></a>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <input class="btn btn-danger  mt-1" type="button" value="Xoá">-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <a class="btn-primary text-center" th:href="@{/admin/userDetail(userId=${user.userId},pageNum=${currentPage})}">chi tiết</a>-->
-
-<!--                                    </td>-->
+                                    <td>
+                                        <a class="btn btn-info mt-1" th:href="@{/admin/lockPost(postId=${post.postId},pageNum=${currentPage})}" th:text="${isLocked[stat.index]} ? 'Mở' : 'Khoá'"></a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger mt-1" th:href="@{/admin/deletePost(postId=${post.postId},pageNum=${currentPage})}" role="button">Xoá</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-secondary  mt-1" th:href="@{/admin/postDetail(postId=${post.postId},pageNum=${currentPage})}" role="button">Chi tiết</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -63,11 +62,11 @@
                             <li class="page-item active" aria-current="page">
                                 <span class="page-link" th:text="${currentPage}"></span>
                             </li>
-                            <li class="page-item" th:if="${currentPage + 1 <= totalPages}">
+                            <li class="page-item" th:if="${currentPage + 1 < totalPages}">
                                 <a class="page-link" th:href="@{/admin/postControll(pageNum=${currentPage + 1})}" th:text="${currentPage + 1}"></a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" th:if="${currentPage}<${totalPages}" th:href="@{/admin/postControll(pageNum=${currentPage + 1})}">&raquo;</a>
+                                <a class="page-link" th:if="${currentPage}<${totalPages}-1" th:href="@{/admin/postControll(pageNum=${currentPage + 1})}">&raquo;</a>
                             </li>
                         </ul>
                     </nav>

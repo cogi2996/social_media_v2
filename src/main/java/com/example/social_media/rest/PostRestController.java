@@ -50,7 +50,7 @@ public class PostRestController {
         // set post user to current authenticated user
         newPost.setUser(user);
 //        newPost.setPostCreateTime(System.currentTimeMillis());
-        postService.createPost(newPost);
+        postService.save(newPost);
         PostDTO postDTO = convertToDTO.convertToDTO(newPost);
         UserDTO userDTO = convertToDTO.convertToDTO(user);
         postDTO.setUserDTO(userDTO);
