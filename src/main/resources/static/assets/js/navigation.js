@@ -64,7 +64,6 @@ function renderNotificationsTypeLike(data) {
 }
 
 // chức năng tìm kiếm
-
 document
   .querySelector(".iq-top-navbar input")
   .addEventListener("keypress", function (e) {

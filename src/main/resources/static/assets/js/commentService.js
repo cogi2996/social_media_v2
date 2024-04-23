@@ -85,9 +85,6 @@ function renderRealTimeComment(postElement) {
       const html = `
         <li class="mb-2" data-comment-id=${commentKey}>
         <div class="d-flex">
-          <div class="user-img">
-            <img src="../assets/images/user/02.jpg" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-          </div>
           <div class="comment-data-block ms-3">
             <h6>${comment.fullName}</h6>
             <p class="mb-0">${comment.content}</p>
