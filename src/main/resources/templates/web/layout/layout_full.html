@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
 </head>
 <body>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <!-- loader Start -->
 <div id="loading">
     <div id="loading-center"></div>

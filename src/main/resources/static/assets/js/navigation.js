@@ -80,7 +80,7 @@ function loadInforUser() {
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
-        // console.log(data);
+         console.log(data);
         const avatar =
           data.avatar === null
             ? `/assets/images/user/defaul_avatar.jpg`

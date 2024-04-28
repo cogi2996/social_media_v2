@@ -8,6 +8,7 @@
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div layout:fragment="content" id="content-page" class="content-page">
+
     <div class="container">
         <div class="row">
             <div class="col-lg-8" id="container__post">
@@ -32,7 +33,7 @@
                                     />
                                 </div>
 
-                                <form
+                                <div
                                         class="post-text ms-3 w-100"
                                         data-bs-toggle="modal"
                                         data-bs-target="#post-modal"
@@ -44,7 +45,7 @@
                                             th:placeholder="${user.firstName} + ' ơi, bạn đang nghĩ gì thế?'"
                                             style="border: none"
                                     />
-                                </form>
+                                </div>
                             </div>
                             <hr/>
                             <ul
@@ -171,7 +172,7 @@
                                                         class="avatar-60 rounded-circle"
                                                 />
                                             </div>
-                                            <form
+                                            <div
                                                     class="post-text ms-3 w-100"
                                                     action="javascript:void();"
                                             >
@@ -181,7 +182,7 @@
                                                         placeholder="Write something here..."
                                                         style="border: none"
                                                 />
-                                            </form>
+                                            </div>
                                         </div>
                                         <hr/>
                                         <ul

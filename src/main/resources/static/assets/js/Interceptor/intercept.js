@@ -1,18 +1,15 @@
 axios.interceptors.request.use(
   function (request) {
-    // const token = getTokenInCookie();
-
     // Đính token vào header mới
-    const newHeaders = {
-      ...request.headers,
-      // Authorization: token,
-    };
-
-    // Đính header mới vào lại request trước khi được gửi đi
-    request = {
-      ...request,
-      headers: newHeaders,
-    };
+    if (request.method !== 'get') {
+        const { header, token } = getCSRFTOKEN();
+        const newHeaders = {
+              ...request.headers,
+               [header]: token,
+        };
+        // override with new headers
+        request.headers = newHeaders;
+    }
 
     return request;
   },
@@ -22,9 +19,13 @@ axios.interceptors.request.use(
   }
 );
 
-// function getTokenInCookie() {
-//   return Cookies.get("access_token");
-// }
+function getCSRFTOKEN() {
+    // get token protect csrf from meta tag each view thymeleaf ( layout )
+    let token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    let header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    return { header, token };
+}
+
 
 axios.interceptors.response.use(
   function (response) {

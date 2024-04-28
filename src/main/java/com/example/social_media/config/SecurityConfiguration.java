@@ -37,10 +37,6 @@ public class SecurityConfiguration {
                                         "/assets/**","/**")
                                 .permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
-//                                .requestMatchers(GET, "api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
-//                                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
-//                                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
-//                                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
                                 .anyRequest()
                                 .authenticated()
                 )
@@ -52,6 +48,7 @@ public class SecurityConfiguration {
                         .logoutSuccessHandler((req, resp, auth) -> {
                             SecurityContextHolder.clearContext();
                         }))
+
         // enable cor
 //                .csrf(AbstractHttpConfigurer::disable)
         ;

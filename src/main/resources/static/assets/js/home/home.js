@@ -35,7 +35,7 @@ async function handleFormSubmit(token = null) {
   let text = createPost.querySelector('input[type="text"]').value;
   // post api
   axios
-    .post("http://localhost:8080/api/v1/posts", {
+    .post("/api/v1/posts", {
       postText: text,
       postImage: url,
     })
@@ -373,3 +373,7 @@ function unfollowHandle(targetId = null) {
       console.log(error);
     });
 }
+
+
+
+

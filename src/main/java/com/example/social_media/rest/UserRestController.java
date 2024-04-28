@@ -44,15 +44,17 @@ public class UserRestController {
 
     // get current user
     @GetMapping("/current")
-    @CrossOrigin("*")
-    public ResponseEntity<UserDTO> getCurrentUser() {
+    public ResponseEntity<?> getCurrentUser() {
         User user = authenticationFacade.getUser();
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
         // Convert User object to a UserDTO (assuming you have a DTO class)
         UserDTO userDTO = modelMapper.map(user, UserDTO.class); // Adjust mapping logic as needed
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .data(userDTO)
+                .build());
     }
 
     @GetMapping("/{userId}")
