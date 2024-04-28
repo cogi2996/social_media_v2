@@ -6,12 +6,13 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
-console.log(Cookies);
 const btnImage = document.getElementById("btn-image");
 const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');
 const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
+const profileId = postContainer.dataset.userId;
+
 console.log(createPost);
 const storage = getStorage(app);
 
@@ -72,7 +73,7 @@ window.addEventListener("scroll", () => {
 function getListNewPost(pageNum = 0, pageSize = 2) {
   axios
     .get(
-      `/api/v1/users/${curUserId}/posts?pageNum=${pageNum}&pageSize=${pageSize}`
+      `/api/v1/users/${profileId}/posts?pageNum=${pageNum}&pageSize=${pageSize}`
     )
     .then(({ data, status }) => {
       console.log(data);
@@ -250,14 +251,13 @@ function handleLikeButtonClick(button) {
   console.log(likeIcon);
   likeText.classList.toggle("text-primary");
 
-  const userPostId = jwt_decode(Cookies.get("access_token")).userId;
   const postId = button.closest(".col-sm-12").dataset.postId;
 
   // check if like or unlike
   const likeHandlerApi = likeIcon.classList.contains("d-none");
   if (!likeHandlerApi) {
     axios
-      .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .post(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
       })
@@ -266,7 +266,7 @@ function handleLikeButtonClick(button) {
       });
   } else {
     axios
-      .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .delete(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         // handle success
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;

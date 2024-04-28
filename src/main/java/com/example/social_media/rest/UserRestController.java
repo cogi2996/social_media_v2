@@ -42,6 +42,19 @@ public class UserRestController {
     private final NotificationService notificationService;
 
 
+    // get current user
+    @GetMapping("/current")
+    @CrossOrigin("*")
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        User user = authenticationFacade.getUser();
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+        // Convert User object to a UserDTO (assuming you have a DTO class)
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class); // Adjust mapping logic as needed
+        return ResponseEntity.ok(userDTO);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable int userId) {
         User user = userService.findUserById(userId);
@@ -78,17 +91,15 @@ public class UserRestController {
         return null;
     }
 
-    @PostMapping("/{sourceId}/follows/{targetId}")
-    public ResponseEntity<?> followUserById(@PathVariable int sourceId, @PathVariable("targetId") int targetId) {
-        User sourceUser = userService.findUserById(sourceId);
+
+    @PostMapping("/follows/{targetId}")
+    public ResponseEntity<?> followUserById(@PathVariable("targetId") int targetId) {
+        User sourceUser = authenticationFacade.getUser();
         User targetUser = userService.findUserById(targetId);
-        System.out.println(sourceId + " " + targetId);
         // get current user authenticated
         int curUserId = authenticationFacade.getUser().getUserId();
-        if (sourceUser == null || targetUser == null || curUserId != sourceId) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        Follow follow = new Follow(new FollowId(sourceId, targetId));
+
+        Follow follow = new Follow(new FollowId(sourceUser.getUserId(), targetId));
         followService.save(follow);
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
@@ -96,17 +107,16 @@ public class UserRestController {
         );
     }
 
-    @DeleteMapping("/{userId}/follows/{targetId}")
-    public ResponseEntity<?> unfollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
+    // delete someone follow cur user
+    @DeleteMapping("/{userId}/follows")
+    public ResponseEntity<?> unfollow(@PathVariable int userId) {
         User sourceUser = userService.findUserById(userId);
-        User targetUser = userService.findUserById(targetId);
+        User targetUser = authenticationFacade.getUser();
         int dbUserId = authenticationFacade.getUser().getUserId();
-        if (sourceUser == null || targetUser == null || dbUserId != targetId) {
-            return ResponseEntity.badRequest().body(null);
-        }
+
         FollowId follow = FollowId.builder()
                 .sourceId(userId)
-                .targetId(targetId)
+                .targetId(targetUser.getUserId())
                 .build();
         followService.deleteFollow(follow);
         return ResponseEntity.ok(ResponseDTO.builder()
@@ -115,21 +125,35 @@ public class UserRestController {
         );
     }
 
-    @PatchMapping("/{userId}/followers/{targetId}")
-    public ResponseEntity<?> acceptFollow(@PathVariable int userId, @PathVariable("targetId") int targetId) {
+    // delete cur user follow someone
+    @DeleteMapping("/follows/{userId}")
+    public ResponseEntity<?> unfollowUserById(@PathVariable int userId) {
+        User sourceUser = authenticationFacade.getUser();
+        User targetUser = userService.findUserById(userId);
+        FollowId follow = FollowId.builder()
+                .sourceId(sourceUser.getUserId())
+                .targetId(targetUser.getUserId())
+                .build();
+        followService.deleteFollow(follow);
+        return ResponseEntity.ok(ResponseDTO.builder()
+                .message("success")
+                .build()
+        );
+    }
+
+
+    @PatchMapping("/{userId}/followers")
+    public ResponseEntity<?> acceptFollow(@PathVariable int userId) {
 
         try {
             // kiểm tra id
             User sourceUser = userService.findUserById(userId);
-            User targetUser = userService.findUserById(targetId);
-            int dbUserId = authenticationFacade.getUser().getUserId();
+            User targetUser = authenticationFacade.getUser();
             System.out.println("here end point");
-            if (sourceUser == null || targetUser == null || dbUserId != targetId) {
-                return ResponseEntity.badRequest().body(null);
-            }
+
             FollowId follow = FollowId.builder()
                     .sourceId(userId)
-                    .targetId(targetId)
+                    .targetId(targetUser.getUserId())
                     .build();
             followService.acceptFollow(follow);
             ResponseDTO responseDTO = ResponseDTO.builder()
@@ -143,22 +167,22 @@ public class UserRestController {
 
     }
 
-    @PostMapping("/{userId}/likeList/posts/{postId}")
+    @PostMapping("/likeList/posts/{postId}")
     //viết thêm logic aop chỉ A follow B hoặc A là admin mới được call api này
-    public ResponseEntity<?> likePost(@PathVariable int userId, @PathVariable int postId) {
+    public ResponseEntity<?> likePost(@PathVariable int postId) {
         // Kiểm tra tồn tại của user và post
-        User user = userService.findUserById(userId);
+        User user = authenticationFacade.getUser();
         Post post = postService.findOne(postId);
         if (user == null || post == null) {
             return ResponseEntity.noContent().build();
         }
         // nếu tìm thấy user và post
-        LikePostId likePostId = new LikePostId(userId, postId);
+        LikePostId likePostId = new LikePostId(user.getUserId(), postId);
         LikePost likePost = LikePost.builder().likePostId(likePostId).build();
         likePostService.save(likePost);
 
         //like bài viết từ một người khác
-        if (userId != post.getUser().getUserId()) {
+        if (user.getUserId() != post.getUser().getUserId()) {
             // thông báo đến người được like
             Notification notification = Notification.builder()
                     .type(TypeAnnounce.LIKE)
@@ -180,20 +204,20 @@ public class UserRestController {
                 .build());
     }
 
-    @DeleteMapping("/{userId}/likeList/posts/{postId}")
-    public ResponseEntity<?> unlikePost(@PathVariable int userId, @PathVariable int postId) {
+    @DeleteMapping("/likeList/posts/{postId}")
+    public ResponseEntity<?> unlikePost(@PathVariable int postId) {
         // Kiểm tra tồn tại của user và post
-        User user = userService.findUserById(userId);
+        User user = authenticationFacade.getUser();
         Post post = postService.findOne(postId);
         if (user == null || post == null) {
             return ResponseEntity.noContent().build();
         }
         // nếu tìm thấy user và post
-        LikePostId likePostId = new LikePostId(userId, postId);
+        LikePostId likePostId = new LikePostId(user.getUserId(), postId);
         likePostService.deleteById(likePostId);
         // huỷ thông báo follow trừ thằng chủ bài viết thì không xoá vì không có
-        NotificationLikePost notify =   notificationLikeService.findByUserLikedId(userId, postId);
-        if (notify != null&& userId != post.getUser().getUserId()){
+        NotificationLikePost notify = notificationLikeService.findByUserLikedId(user.getUserId(), postId);
+        if (notify != null && user.getUserId() != post.getUser().getUserId()) {
             notificationLikeService.delete(notify);
         }
         return ResponseEntity.ok(ResponseDTO.builder()
@@ -207,33 +231,27 @@ public class UserRestController {
     public ResponseEntity<?> getFollowers(@PathVariable int userId,
                                           @RequestParam(defaultValue = "0") Integer pageNum,
                                           @RequestParam(defaultValue = "5") Integer pageSize,
-                                          @RequestParam(defaultValue = "userId") String sortBy,
-                                          @RequestParam(defaultValue = "") String curentUserId
+                                          @RequestParam(defaultValue = "userId") String sortBy
+
     ) {
         User user = userService.findUserById(userId);
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
         List<User> followers = userService.findFollowersByUserId(userId, pageNum, pageSize, sortBy);
-        if (!curentUserId.isEmpty()) {
-            List<ObjectNode> followersDTO = followers
-                    .stream()
-                    .map(u -> {
-                        int followerId = u.getUserId();
-                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId), followerId);
-                        UserDTO userDTO = convertToDTO.convertToDTO(u);
-                        ObjectNode node = mapper.valueToTree(userDTO);
-                        node.put("isFollowed", followed);
-                        return node;
-                    }).toList();
-            return ResponseEntity.ok().body(ResponseDTO.builder()
-                    .message("success")
-                    .data(followersDTO)
-                    .build());
-        }
+        List<ObjectNode> followersDTO = followers
+                .stream()
+                .map(u -> {
+                    int followerId = u.getUserId();
+                    Integer followed = followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(), followerId);
+                    UserDTO userDTO = convertToDTO.convertToDTO(u);
+                    ObjectNode node = mapper.valueToTree(userDTO);
+                    node.put("isFollowed", followed);
+                    return node;
+                }).toList();
         return ResponseEntity.ok().body(ResponseDTO.builder()
                 .message("success")
-                .data(followers.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList())
+                .data(followersDTO)
                 .build());
     }
 
@@ -242,34 +260,28 @@ public class UserRestController {
     public ResponseEntity<?> getFollowing(@PathVariable int userId,
                                           @RequestParam(defaultValue = "0") Integer pageNum,
                                           @RequestParam(defaultValue = "5") Integer pageSize,
-                                          @RequestParam(defaultValue = "userId") String sortBy,
-                                          @RequestParam(defaultValue = "") String curentUserId
+                                          @RequestParam(defaultValue = "userId") String sortBy
     ) {
         User user = userService.findUserById(userId);
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
         List<User> followings = userService.findFollowingUserByUserId(userId, pageNum, pageSize, sortBy);
-        if (!curentUserId.isEmpty()) {
-            List<ObjectNode> followersDTO = followings
-                    .stream()
-                    .map(u -> {
-                        int followerId = u.getUserId();
-                        Integer followed = followService.existsFollowBySourceIdAndTargetId(Integer.parseInt(curentUserId), followerId);
-                        UserDTO userDTO = convertToDTO.convertToDTO(u);
-                        ObjectNode node = mapper.valueToTree(userDTO);
-                        node.put("isFollowed", followed);
-                        return node;
-                    }).toList();
-            return ResponseEntity.ok().body(ResponseDTO.builder()
-                    .message("success")
-                    .data(followersDTO)
-                    .build());
-        }
+        List<ObjectNode> followersDTO = followings
+                .stream()
+                .map(u -> {
+                    int followerId = u.getUserId();
+                    Integer followed = followService.existsFollowBySourceIdAndTargetId(authenticationFacade.getUser().getUserId(), followerId);
+                    UserDTO userDTO = convertToDTO.convertToDTO(u);
+                    ObjectNode node = mapper.valueToTree(userDTO);
+                    node.put("isFollowed", followed);
+                    return node;
+                }).toList();
         return ResponseEntity.ok().body(ResponseDTO.builder()
                 .message("success")
-                .data(followings.stream().map(u -> modelMapper.map(u, UserDTO.class)).toList())
+                .data(followersDTO)
                 .build());
+
     }
 
     @GetMapping("/{userId}/posts")
@@ -319,17 +331,13 @@ public class UserRestController {
         }
     }
 
-    @GetMapping("/{userId}/notifications")
-    public ResponseEntity<?> getNotifications(@PathVariable int userId,
-                                              @RequestParam(defaultValue = "0") Integer pageNum,
-                                              @RequestParam(defaultValue = "5") Integer pageSize,
-                                              @RequestParam(defaultValue = "createTime") String sortBy) {
-        User user = userService.findUserById(userId);
-        if (user == null) {
-            return ResponseEntity.noContent().build();
-        }
-        List<Notification> notifications = notificationService.findByUserId(userId, pageNum, pageSize, Sort.by(sortBy).descending());
-        System.out.println("TAGID: " + notifications.get(0).getUser().getUserId());
+    @GetMapping("/notifications")
+    public ResponseEntity<?> getNotifications(
+            @RequestParam(defaultValue = "0") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "createTime") String sortBy) {
+        User user = authenticationFacade.getUser();
+        List<Notification> notifications = notificationService.findByUserId(user.getUserId(), pageNum, pageSize, Sort.by(sortBy).descending());
         // convert to DTO
         List<?> announcesDTO = notifications.stream()
                 .map(announce -> {
@@ -372,12 +380,12 @@ public class UserRestController {
     }
 
     // load pending follow
-    @GetMapping("/{userId}/pendingFollow")
-    public ResponseEntity<?> getPendingFollow(@PathVariable int userId,
-                                              @RequestParam(defaultValue = "0") Integer pageNum,
-                                              @RequestParam(defaultValue = "5") Integer pageSize,
-                                              @RequestParam(defaultValue = "f.followCreateTime") String sortBy) {
-        List<User> pendingFollow = userService.findPendingFollowingById(userId, pageNum, pageSize, Sort.by(sortBy));
+    @GetMapping("/pendingFollow")
+    public ResponseEntity<?> getPendingFollow(
+            @RequestParam(defaultValue = "0") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "f.followCreateTime") String sortBy) {
+        List<User> pendingFollow = userService.findPendingFollowingById(authenticationFacade.getUser().getUserId(), pageNum, pageSize, Sort.by(sortBy));
         return ResponseEntity.ok().body(ResponseDTO.builder()
                 .message("success")
                 .data(pendingFollow)

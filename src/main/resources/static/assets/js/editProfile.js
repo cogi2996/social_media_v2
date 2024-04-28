@@ -1,18 +1,9 @@
 import { uploadImage } from "./uploadFileService.js";
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
-
-// const firstName = $("#fname");
-// const lastName = $("#lname");
-// const dateOfBirth = $("#dob");
 const btnSubmitInfor = $("#submit1");
 const btnSubmitChangePass = $("#submit-change-pass");
-// document.querySelector(".file-upload").addEventListener("click", (e) => {
-//   e.preventDefault();
-// });
-// document.querySelector(".ri-pencil-line").addEventListener("click", (e) => {
-//   e.currentTarget.nextElementSibling.click();
-// });
+
 async function FormInforHanlde() {
   const form = document.getElementById("form-infor");
   const formData = new FormData(form);

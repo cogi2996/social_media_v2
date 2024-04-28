@@ -1,11 +1,11 @@
 axios.interceptors.request.use(
   function (request) {
-    const token = getTokenInCookie();
+    // const token = getTokenInCookie();
 
     // Đính token vào header mới
     const newHeaders = {
       ...request.headers,
-      Authorization: token,
+      // Authorization: token,
     };
 
     // Đính header mới vào lại request trước khi được gửi đi
@@ -22,9 +22,9 @@ axios.interceptors.request.use(
   }
 );
 
-function getTokenInCookie() {
-  return Cookies.get("access_token");
-}
+// function getTokenInCookie() {
+//   return Cookies.get("access_token");
+// }
 
 axios.interceptors.response.use(
   function (response) {

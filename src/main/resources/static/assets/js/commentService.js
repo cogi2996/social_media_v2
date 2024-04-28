@@ -11,11 +11,13 @@ import {
 const db = getDatabase(app);
 console.log(db);
 
-function uploadComment(postID, content) {
+async function uploadComment(postID, content) {
   if (content == "") return;
+  const { data: curUserInfo } = await axios.get("/api/v1/users/current");
+  console.log("here: " + curUserInfo.userId);
 
-  const userId = jwt_decode(Cookies.get("access_token")).userId;
-  const fullName = jwt_decode(Cookies.get("access_token")).fullName;
+  const userId = curUserInfo.userId;
+  const fullName = `${curUserInfo.lastName}  ${curUserInfo.midName}  ${curUserInfo.firstName} `;
   const createAt = Date.now();
   //   const avatar = currentUser.photoURL;
   const newComment = {

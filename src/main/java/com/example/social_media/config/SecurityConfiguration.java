@@ -31,11 +31,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/v1/auth/**",
                                         "/auth/**",
-                                        "/assets/**")
+                                        "/assets/**","/**")
                                 .permitAll()
                                 .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
 //                                .requestMatchers(GET, "api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
@@ -47,14 +46,14 @@ public class SecurityConfiguration {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/auth/logout")
                         .addLogoutHandler(logoutHandler)
                         .logoutSuccessHandler((req, resp, auth) -> {
                             SecurityContextHolder.clearContext();
                         }))
-                .csrf(AbstractHttpConfigurer::disable)
+        // enable cor
+//                .csrf(AbstractHttpConfigurer::disable)
         ;
         return http.build();
     }

@@ -1,7 +1,6 @@
 const notificationElement = document.getElementById("notification-drop");
 const cardBodyElement =
   notificationElement.nextElementSibling.querySelector(".card-body");
-const curUserId = jwt_decode(Cookies.get("access_token")).userId;
 let isFetchingNotifications = false;
 document
   .getElementById("notification-drop")
@@ -17,7 +16,7 @@ document
 async function getNotifications(pageNum, pageSize = 5) {
   try {
     const { data, status } = await axios.get(
-      `/api/v1/users/${curUserId}/notifications?pageNum=${pageNum}&pageSize=${pageSize}`
+      `/api/v1/users/notifications?pageNum=${pageNum}&pageSize=${pageSize}`
     );
     if (status !== 200) {
       throw new Error("Error");
@@ -77,7 +76,7 @@ document
 // load infor user in navigation
 function loadInforUser() {
   axios
-    .get(`/api/v1/users/${curUserId}`)
+    .get(`/api/v1/users/current`)
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
@@ -109,9 +108,8 @@ loadRecentRequest();
 
 // chức năng thể hiện  4 người gởi follow gần nhất
 function loadRecentRequest() {
-  const currentUserId = jwt_decode(Cookies.get("access_token")).userId;
   axios
-    .get(`/api/v1/users/${currentUserId}/pendingFollow?page=0&pageSize=4`)
+    .get(`/api/v1/users/pendingFollow?page=0&pageSize=4`)
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
@@ -181,7 +179,7 @@ document
         .closest(".btn-primary")
         .closest(".iq-friend-request").dataset.userId;
       axios
-        .patch(`/api/v1/users/${sourceId}/followers/${curUserId}`)
+        .patch(`/api/v1/users/${sourceId}/followers`)
         .then(function (response) {
           console.log(response);
           e.target.closest("div").innerHTML = "<p>Đã chấp nhận</p>";
@@ -192,8 +190,8 @@ document
         .finally(function () {});
     } else if (e.target.closest(".btn-secondary")) {
       const sourceId = e.target.closest(".iq-friend-request").dataset.userId;
-      axioss
-        .delete(`/api/v1/users/${sourceId}/follows/${curUserId}`)
+      axios
+        .delete(`/api/v1/users/${sourceId}/follows`)
         .then(function (response) {
           console.log(response);
           e.target.closest("div").innerHTML = "<p>Đã xoá theo dõi</p>";

@@ -163,19 +163,14 @@ function handleLikeButtonClick(button) {
   console.log(likeIcon);
   likeText.classList.toggle("text-primary");
 
-  const userPostId = jwt_decode(Cookies.get("access_token")).userId;
-  console.log("idhere: " + userPostId);
-
   const postId = button.closest(".col-sm-12").dataset.postId;
   console.log("post id here: " + postId);
 
   // check if like or unlike
   const likeHandlerApi = likeIcon.classList.contains("d-none");
   if (!likeHandlerApi) {
-    console.log("likeHere");
-
     axios
-      .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .post(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
       })
@@ -184,12 +179,11 @@ function handleLikeButtonClick(button) {
       });
   } else {
     axios
-      .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .delete(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         // handle success
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
       })
-      //   console.log(`here: ` + data);
       // })
       .catch(function (error) {
         console.log(error);

@@ -245,14 +245,13 @@ function handleLikeButtonClick(button) {
   likeIcon.classList.toggle("d-none");
   likeText.classList.toggle("text-primary");
 
-  const userPostId = jwt_decode(Cookies.get("access_token")).userId;
   const postId = button.closest(".col-sm-12").dataset.postId;
 
   // check if like or unlike
   const likeHandlerApi = likeIcon.classList.contains("d-none");
   if (!likeHandlerApi) {
     axios
-      .post(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .post(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
       })
@@ -261,7 +260,7 @@ function handleLikeButtonClick(button) {
       });
   } else {
     axios
-      .delete(`/api/v1/users/${userPostId}/likeList/posts/${postId}`)
+      .delete(`/api/v1/users/likeList/posts/${postId}`)
       .then(function ({ data }) {
         // handle success
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
@@ -341,26 +340,22 @@ $("#follow-container")?.addEventListener("click", function (event) {
     const followButton = event.target.closest("#btn-follow");
     const unfollowButton = followButton.nextElementSibling;
     const targetId = followButton.closest("li").dataset.userId;
-    const sourceId = jwt_decode(Cookies.get("access_token")).userId;
     followButton.classList.toggle("d-none");
     unfollowButton.classList.toggle("d-none");
-    console.log(sourceId + " " + targetId);
-    followHandle(sourceId, targetId);
+    followHandle(targetId);
   } else if (event.target.closest("#btn-unfollow")) {
     const unfollowButton = event.target.closest("#btn-unfollow");
     const followButton = unfollowButton.previousElementSibling;
     const targetId = followButton.closest("li").dataset.userId;
-    const sourceId = jwt_decode(Cookies.get("access_token")).userId;
     followButton.classList.toggle("d-none");
     unfollowButton.classList.toggle("d-none");
-    console.log(sourceId + " " + targetId);
-    unfollowHandle(sourceId, targetId);
+    unfollowHandle(targetId);
   }
 });
 
-function followHandle(sourceId = null, targetId = null) {
+function followHandle(targetId = null) {
   axios
-    .post(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .post(`/api/v1/users/follows/${targetId}`)
     .then(function ({ status }) {
       console.log(status);
     })
@@ -368,9 +363,9 @@ function followHandle(sourceId = null, targetId = null) {
       console.log(error);
     });
 }
-function unfollowHandle(sourceId = null, targetId = null) {
+function unfollowHandle(targetId = null) {
   axios
-    .delete(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .delete(`/api/v1/users/follows/${targetId}`)
     .then(function ({ status }) {
       console.log(status);
     })

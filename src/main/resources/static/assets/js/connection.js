@@ -2,8 +2,7 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 const curConnectUserId = $("#friends").dataset.userId;
-// const curUserId = jwt_decode(Cookies.get("access_token")).userId;
-
+const connectionUserId = $("#friends").dataset.userId;
 //when click on followings tab
 let firstVisitFollowing = true;
 let firstVisitFollower = true;
@@ -53,7 +52,7 @@ $(".friend-list-tab ul ").addEventListener("click", (e) => {
   }
 });
 
-// lấy ra danh sách những người đang theo dõi và render ra màn hình
+// lấy ra danh sách những người cur user đang theo dõi và render ra màn hình
 function getFollowListHandle(isFollowingsLinkClicked) {
   if (isFollowingsLinkClicked) {
     const countCurUserFollowing = $$(
@@ -64,8 +63,8 @@ function getFollowListHandle(isFollowingsLinkClicked) {
     if (isFetchingFollowing) return;
     axios
       .get(
-        `/api/v1/users/${curConnectUserId}
-      /followings?pageNum=${pageNum}&pageSize=${pageSize}&curentUserId=${curUserId}`
+        `/api/v1/users/${connectionUserId}
+      /followings?pageNum=${pageNum}&pageSize=${pageSize}`
       )
       .then(function (response) {
         if (response.status === 200) {
@@ -91,7 +90,7 @@ function getFollowListHandle(isFollowingsLinkClicked) {
     axios
       .get(
         `/api/v1/users/${curConnectUserId}
-      /followers?pageNum=${pageNum}&pageSize=${pageSize}&curentUserId=${curUserId}`
+      /followers?pageNum=${pageNum}&pageSize=${pageSize}`
       )
       .then(function (response) {
         if (response.status === 200) {

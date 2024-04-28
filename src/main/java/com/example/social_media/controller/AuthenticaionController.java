@@ -47,29 +47,28 @@ public class AuthenticaionController {
 
     @PostMapping("/getAuth")
     public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session, @NonNull HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println("here1");
+//        System.out.println("here1");
         authenticationService.baseAuthenticate(request, req);
-        System.out.println("here2");
-        Cookie cookie = new Cookie("access_token", authenticationService.authenticate(request).getAccessToken());
-        cookie.setSecure(false);
-        cookie.setHttpOnly(false);
-        cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
-        cookie.setPath("/");
-        resp.addCookie(cookie);
-        System.out.println("here");
+//        System.out.println("here2");
+//        Cookie cookie = new Cookie("access_token", authenticationService.authenticate(request).getAccessToken());
+//        cookie.setSecure(false);
+//        cookie.setHttpOnly(false);
+//        cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
+//        cookie.setPath("/");
+//        resp.addCookie(cookie);
+//        System.out.println("here");
         User user = accountRepository.findByEmail(request.getEmail()).get().getUser();
         session.setAttribute("user", user);
-        User sessionUser = (User) session.getAttribute("user");
         return "redirect:/home/index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
-        Cookie cookie = new Cookie("access_token", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("access_token", null);
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/");
+//        response.addCookie(cookie);
         return "redirect:/auth/login";
     }
 

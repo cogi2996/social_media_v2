@@ -93,8 +93,6 @@ public class AuthenticationService {
     }
 
     public void baseAuthenticate(AuthenticationRequest request, HttpServletRequest req) {
-        System.out.println("hereEmail: " + request.getEmail());
-        System.out.println("herePassword: " + request.getPassword());
         // Tạo đối tượng AuthenticationToken với tên người dùng và mật khẩu
         UsernamePasswordAuthenticationToken authReq =
                 new UsernamePasswordAuthenticationToken(request.getEmail(),
