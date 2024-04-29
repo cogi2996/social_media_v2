@@ -48,6 +48,8 @@ document
       e.target.closest(".input-comment").addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
+          console.log("here comment");
+
           const postID = e.target.closest(".col-sm-12").dataset.postId;
           const content = e.target.value;
           uploadComment(postID, content);

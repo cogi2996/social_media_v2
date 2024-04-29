@@ -8,7 +8,7 @@ document
     const keyword = document.querySelector(".card-title").dataset.keyword;
     !isDone && getMoreResult(keyword, e.currentTarget.parentElement);
   });
-
+// hello
 function getMoreResult(name, container) {
   const pageSize = 3;
   const pageNum = Math.ceil(
@@ -102,11 +102,9 @@ document
       const followButton = event.target.closest("#btn-follow");
       const unfollowButton = followButton.nextElementSibling;
       const targetId = followButton.closest("li").dataset.userId;
-      const sourceId = jwt_decode(Cookies.get("access_token")).userId;
       followButton.classList.toggle("d-none");
       unfollowButton.classList.toggle("d-none");
-      console.log(sourceId + " " + targetId);
-      followHandle(sourceId, targetId);
+      followHandle(targetId);
     } else if (
       event.target.closest("#btn-unfollow") ||
       event.target.closest("#unfollowLink")
@@ -119,20 +117,17 @@ document
         .closest("#container-btn-follow")
         .querySelector("#btn-follow");
       const targetId = followButton.closest("li").dataset.userId;
-      const sourceId = jwt_decode(Cookies.get("access_token")).userId;
       followButton.classList.toggle("d-none");
       if (event.target.closest("#unfollowLink"))
         unfollowButton.closest("form").classList.toggle("d-none");
       else unfollowButton.classList.toggle("d-none");
-
-      console.log(sourceId + " " + targetId);
-      unfollowHandle(sourceId, targetId);
+      unfollowHandle(targetId);
     }
   });
 
-function followHandle(sourceId = null, targetId = null) {
+function followHandle(targetId = null) {
   axios
-    .post(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .post(`/api/v1/users/follows/${targetId}`)
     .then(function ({ status }) {
       console.log(status);
     })
@@ -140,9 +135,9 @@ function followHandle(sourceId = null, targetId = null) {
       console.log(error);
     });
 }
-function unfollowHandle(sourceId = null, targetId = null) {
+function unfollowHandle(targetId = null) {
   axios
-    .delete(`/api/v1/users/${sourceId}/follows/${targetId}`)
+    .delete(`/api/v1/users/follows/${targetId}`)
     .then(function ({ status }) {
       console.log(status);
     })

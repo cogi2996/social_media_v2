@@ -373,7 +373,3 @@ function unfollowHandle(targetId = null) {
       console.log(error);
     });
 }
-
-
-
-

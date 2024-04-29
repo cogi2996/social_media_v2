@@ -93,7 +93,7 @@ public class UserRestController {
         return null;
     }
 
-
+    // cur user follow someone
     @PostMapping("/follows/{targetId}")
     public ResponseEntity<?> followUserById(@PathVariable("targetId") int targetId) {
         User sourceUser = authenticationFacade.getUser();

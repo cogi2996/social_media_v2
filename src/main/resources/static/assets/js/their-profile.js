@@ -6,19 +6,12 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
-console.log(Cookies);
-// const btnImage = document.getElementById("btn-image");
-// const inputImg = btnImage.querySelector("#image");
-// const btnSubmit = document.querySelector('button[type="submit"]');
+import { uploadComment, renderRealTimeComment } from "./commentService.js";
 const createPost = document.getElementById("post-modal");
 const postContainer = document.getElementById("container__post");
 const profileId = postContainer.dataset.userId;
-console.log(profileId);
-
-console.log(createPost);
 const storage = getStorage(app);
 
-console.log(storage);
 getListNewPost(0, 3);
 
 window.addEventListener("scroll", () => {
@@ -144,6 +137,10 @@ function renderPost(post) {
   </div>
   </div>`;
   postContainer.insertAdjacentHTML("beforeend", html);
+  const postElement = document.querySelector(
+    `.col-sm-12[data-post-id='${post.postId}']`
+  );
+  renderRealTimeComment(postElement);
 }
 
 // observer like event

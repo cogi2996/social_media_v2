@@ -6,6 +6,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+import { uploadComment, renderRealTimeComment } from "./commentService.js";
 const btnImage = document.getElementById("btn-image");
 const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');
@@ -225,13 +226,17 @@ function renderPost(post) {
         <ul class="post-comments list-inline p-0 m-0" style="max-height: 300px; overflow-y: auto;">
         </ul>
         <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-          <input type="text" class="form-control rounded" placeholder="Nhập bình luận của bạn">
+          <input type="text" class="input-comment form-control rounded" placeholder="Nhập bình luận của bạn">
         </form>
       </div>
     </div>
   </div>
   </div>`;
   postContainer.insertAdjacentHTML("beforeend", html);
+  const postElement = document.querySelector(
+    `.col-sm-12[data-post-id='${post.postId}']`
+  );
+  renderRealTimeComment(postElement);
 }
 
 // observer like event
