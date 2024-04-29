@@ -45,6 +45,7 @@ public class PostRestController {
 //    @CrossOrigin(origins = "*")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO post) {
         Post newPost = convertToEntity.convertToEntity(post);
+        newPost.setStatus(true);
         // get current authenticated user
         User user = authenticationFacade.getUser();
         // set post user to current authenticated user
@@ -71,14 +72,14 @@ public class PostRestController {
         ObjectMapper mapper  = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+//        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> postDTOS = posts.stream().map(post -> {
             int postId = post.getPostId();
             Boolean liked =likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
             PostDTO postDTO = convertToDTO.convertToDTO(post);
             System.out.println("postTime:"+ post.getPostCreateTime());
             System.out.println("postDTOTime:"+ postDTO.getPostCreateTime());
-            postDTO.setPostCreateTime(post.getPostCreateTime().atZone(ZoneId.of("GMT+7")));
+//            postDTO.setPostCreateTime(post.getPostCreateTime().atZone(ZoneId.of("GMT+7")));
             postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());
             postDTO.setUserDTO(userDTO);

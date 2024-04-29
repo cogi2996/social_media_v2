@@ -6,6 +6,7 @@ import com.example.social_media.dao.AccountRepository;
 import com.example.social_media.dao.UserRepository;
 import com.example.social_media.entity.Account;
 import com.example.social_media.entity.User;
+import com.example.social_media.security.AuthenticationFacade;
 import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.security.Role;
 import com.example.social_media.service.AuthenticationService;
@@ -47,30 +48,20 @@ public class AuthenticaionController {
 
     @PostMapping("/getAuth")
     public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session, @NonNull HttpServletRequest req, HttpServletResponse resp) {
-//        System.out.println("here1");
         authenticationService.baseAuthenticate(request, req);
-//        System.out.println("here2");
-//        Cookie cookie = new Cookie("access_token", authenticationService.authenticate(request).getAccessToken());
-//        cookie.setSecure(false);
-//        cookie.setHttpOnly(false);
-//        cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
-//        cookie.setPath("/");
-//        resp.addCookie(cookie);
-//        System.out.println("here");
         User user = accountRepository.findByEmail(request.getEmail()).get().getUser();
         session.setAttribute("user", user);
         return "redirect:/home/index";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session, HttpServletResponse response) {
-        session.invalidate();
-//        Cookie cookie = new Cookie("access_token", null);
-//        cookie.setMaxAge(0);
-//        cookie.setPath("/");
-//        response.addCookie(cookie);
-        return "redirect:/auth/login";
-    }
+//    @GetMapping("/logout")
+//    public String logout(HttpSession session, HttpServletResponse response) {
+//        System.out.println("beforelogout: "+authenticationFacade.getUser().getFullName());
+//        session.invalidate();
+//
+//        System.out.println("afterlogout: "+authenticationFacade.getUser().getFullName());
+//        return "redirect:/auth/login";
+//    }
 
     @GetMapping("/register")
     public String getIntoRegister(Model model) {

@@ -7,13 +7,14 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Data
 public class PostDTO {
     private int postId;
     private String postText;
-    private ZonedDateTime postCreateTime;
+    private LocalDateTime postCreateTime;
     private String postImage;
     private int countLike;
     private UserDTO userDTO;

@@ -298,10 +298,13 @@ public class UserRestController {
         List<Post> posts = postService.findPostsByUserId(userId, pageable);
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> postDTOS = posts.stream().map(post -> {
             int postId = post.getPostId();
             Boolean liked = likePostService.existsLikedPostByPostIdAndUserId(postId, authenticationFacade.getUser().getUserId());
             PostDTO postDTO = convertToDTO.convertToDTO(post);
+
             postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());
             postDTO.setUserDTO(userDTO);

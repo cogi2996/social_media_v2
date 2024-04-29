@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import static com.example.social_media.security.Permission.*;
 import static com.example.social_media.security.Role.*;
@@ -24,33 +26,47 @@ import static org.springframework.http.HttpMethod.*;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+    private final LogoutSuccessHandler logoutSuccessHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/v1/auth/**",
-                                        "/auth/**",
-                                        "/assets/**","/**")
+                .authorizeHttpRequests
+                        (
+                                req ->
+                                        req.requestMatchers(
+                                                        "/auth/**",
+                                                        "/assets/**")
+                                                .permitAll()
+                                                .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
+                                                .anyRequest()
+                                                .authenticated()
+                        )
+
+                .formLogin(
+                        login -> login
+                                .loginPage("/auth/login")
                                 .permitAll()
-                                .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
-                                .anyRequest()
-                                .authenticated()
+//                                .loginProcessingUrl("/auth/login")
+                                .defaultSuccessUrl("/home/index", true)
+                                .failureUrl("/auth/login?error=true")
+                                // username and password parameter names
+//                                .usernameParameter("email")
+//                                .passwordParameter("password")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider)
-                .logout(logout -> logout
-                        .logoutUrl("/api/v1/auth/logout")
-                        .addLogoutHandler(logoutHandler)
-                        .logoutSuccessHandler((req, resp, auth) -> {
-                            SecurityContextHolder.clearContext();
-                        }))
+                .logout
+                        (
+                                logout -> logout
+                                        .logoutUrl("/auth/logout")
+                                        .addLogoutHandler(logoutHandler)
+                                        .logoutSuccessHandler(logoutSuccessHandler)
+                        )
 
-        // enable cor
-//                .csrf(AbstractHttpConfigurer::disable)
         ;
         return http.build();
     }

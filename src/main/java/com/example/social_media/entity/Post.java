@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,11 +26,11 @@ public class Post {
     @Column(name = "post_text")
     private String postText;
     @Column(name = "post_create_time")
-    @CreationTimestamp(source = SourceType.DB)
-    private Instant postCreateTime;
+    @CreationTimestamp
+    private LocalDateTime postCreateTime;
     @Column(name = "post_image")// xin chào
     private String postImage;
-    @Column(name="status")
+    @Column(name="status",columnDefinition = "boolean default true")
     private boolean status;
     // author 's post ( private ) //
     @ManyToOne

@@ -33,12 +33,11 @@ btnSubmit.addEventListener("click", (e) => {
 console.log(app);
 
 async function handleFormSubmit(token = null) {
-  console.log("herelll");
   const url = await uploadImage(inputImg.files[0]);
   let text = createPost.querySelector('input[type="text"]').value;
   // post api
   axios
-    .post("http://localhost:8080/api/v1/posts", {
+    .post("/api/v1/posts", {
       postText: text,
       postImage: url,
     })
@@ -91,6 +90,10 @@ function getListNewPost(pageNum = 0, pageSize = 2) {
 
 function renderPost(post) {
   const createTime = formatDate(new Date(post.postCreateTime));
+  console.log("postprofiletime");
+  console.log(post);
+  console.log(post.postCreateTime);
+
   const liked = post.liked;
   const postImage = post.postImage
     ? `

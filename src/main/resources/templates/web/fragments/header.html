@@ -213,12 +213,10 @@
 <!--                                        </div>-->
 <!--                                    </a>-->
                                     <div class="d-inline-block w-100 text-center p-3">
-                                        <a
-                                                class="btn btn-primary iq-sign-btn"
-                                                href="/auth/logout"
-                                                role="button"
-                                        >Đăng xuất<i class="ri-login-box-line ms-2"></i
-                                        ></a>
+                                        <form class="d-inline-block w-100 text-center p-3" action="/auth/logout" th:method = "POST">
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                            <input type="submit" class ="btn btn-primary iq-sign-btn" value="Đăng xuất">
+                                        </form>
                                     </div>
                                 </div>
                             </div>

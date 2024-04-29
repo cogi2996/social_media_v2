@@ -84,6 +84,8 @@ function getListNewPost(pageNum = 0, pageSize = 2) {
 
 function renderPost(post) {
   const createTime = formatDate(new Date(post.postCreateTime));
+  console.log("postprofiletime");
+  console.log(post.postCreateTime);
   const liked = post.liked;
   // bg-soft-primary
   //text-primary

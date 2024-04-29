@@ -76,6 +76,35 @@
         </div>
     </div>
 </div>
-<!-- Wrapper End-->
+
+<div layout:fragment="all-scripts">
+    <script>
+
+        function formatDate(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var strTime = hours + ":" + minutes + " " + ampm;
+      return (
+        date.getDate() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getFullYear() +
+        "  " +
+        strTime
+      );
+    }
+
+    document.querySelectorAll('tbody tr')?.forEach((tr) => {
+           console.log("hrer");
+      const date = new Date(tr.children[2].textContent);
+      tr.children[2].textContent = formatDate(date);
+    });
+    </script>
+</div>
 </body>
 </html>

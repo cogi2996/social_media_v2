@@ -27,10 +27,9 @@ public class HomeController {
         User currentUser = authenticationFacade.getUser();
         model.addAttribute("user",currentUser);
         model.addAttribute("recommendUsers",userService.findPeopleNotFollowedByUserId(currentUser.getUserId(),pageNum,pageSize));
+        User sessionuser = (User) session.getAttribute("user");
+        System.out.println("sessionUser: "+sessionuser.getFullName());
         return "web/index";
     }
-
-
-
 
 }
