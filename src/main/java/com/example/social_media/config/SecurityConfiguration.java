@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,18 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .headers(headers -> headers.contentSecurityPolicy(csp -> csp.policyDirectives(
+                        "script-src 'self' https://unpkg.com/axios@1.6.7/dist/axios.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js https://*.firebaseio.com;" +
+                                "form-action 'self';" +
+                                "frame-ancestors 'self';" +
+                                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/css;" +
+                                "img-src 'self' https://firebasestorage.googleapis.com data:;" +
+                                "default-src 'self' https://fonts.gstatic.com/s/poppins/v21/*;" +
+                                "base-uri 'self';" +
+                                "connect-src 'self' wss://*.firebaseio.com;" + // Updated this line
+                                "frame-src 'self' https://*.firebaseio.com;" + // Added this line
+                                "font-src 'self' https://fonts.gstatic.com data:;"
+                )))
                 .authorizeHttpRequests
                         (
                                 req ->
@@ -53,7 +66,7 @@ public class SecurityConfiguration {
 //                                .loginProcessingUrl("/auth/login")
                                 .defaultSuccessUrl("/home/index", true)
                                 .failureUrl("/auth/login?error=true")
-                                // username and password parameter names
+                        // username and password parameter names
 //                                .usernameParameter("email")
 //                                .passwordParameter("password")
                 )
@@ -66,6 +79,7 @@ public class SecurityConfiguration {
                                         .addLogoutHandler(logoutHandler)
                                         .logoutSuccessHandler(logoutSuccessHandler)
                         )
+
 
         ;
         return http.build();

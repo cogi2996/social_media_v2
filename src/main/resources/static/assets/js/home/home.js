@@ -8,7 +8,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
 import { uploadImage } from "../uploadFileService.js";
 import { uploadComment, renderRealTimeComment } from "../commentService.js";
-console.log(Cookies);
 const btnImage = document.getElementById("btn-image");
 const inputImg = btnImage.querySelector("#image");
 const btnSubmit = document.querySelector('button[type="submit"]');

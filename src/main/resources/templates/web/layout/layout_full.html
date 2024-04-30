@@ -192,12 +192,12 @@
 ></script>
 <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
 
-<script src="..\assets\js\Interceptor\intercept.js"></script>
+<script type="application/javascript"  th:src="@{/assets/js/Interceptor/intercept.js}"></script>
 <script
         type="application/javascript"
         th:src="@{/webjars/jwt-decode/build/jwt-decode.js}"
 ></script>
-<script src="..\assets\js\navigation.js"></script>
+<script type="application/javascript" th:src="@{\assets\js\navigation.js}"></script>
 <!--external custom_js-->
 
 <div layout:fragment="all-scripts"></div>

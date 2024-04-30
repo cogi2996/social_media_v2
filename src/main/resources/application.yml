@@ -1,4 +1,6 @@
 spring:
+  session:
+    store-type: cookie
   datasource:
     url: jdbc:mysql://localhost:3306/alohcmute_v2
     username: root
