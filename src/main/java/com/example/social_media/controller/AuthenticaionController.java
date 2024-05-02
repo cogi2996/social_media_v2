@@ -54,14 +54,6 @@ public class AuthenticaionController {
         return "redirect:/home/index";
     }
 
-//    @GetMapping("/logout")
-//    public String logout(HttpSession session, HttpServletResponse response) {
-//        System.out.println("beforelogout: "+authenticationFacade.getUser().getFullName());
-//        session.invalidate();
-//
-//        System.out.println("afterlogout: "+authenticationFacade.getUser().getFullName());
-//        return "redirect:/auth/login";
-//    }
 
     @GetMapping("/register")
     public String getIntoRegister(Model model) {
@@ -71,10 +63,6 @@ public class AuthenticaionController {
     }
     @PostMapping("/register")
     public String register(@ModelAttribute User newUser, HttpSession session, @Param("password") String password, @Param("email") String email,Model model) {
-        System.out.println("TAGUSER");
-        System.out.println(password);
-        System.out.println(email);
-        System.out.println(newUser);
         String otp = OTPGenerator.generateOTP();
         session.setAttribute("newAccount",Account.builder()
                 .email(email)
@@ -91,6 +79,7 @@ public class AuthenticaionController {
     public String registerOTP(@Param("otp") String otp, HttpSession session) {
         // authen otp not correct return to register
         if(!session.getAttribute("OTP").equals(otp)){
+            session.invalidate();
             return "redirect:/auth/register";
         }
         // save user

@@ -21,19 +21,14 @@ public class PostController {
     private final UserService userService;
     private final PostService postService;
     private final LikePostService likePostService;
-    @GetMapping("/{userId}/post/{postId}")
+//    @GetMapping("/{userId}/post/{postId}")
+    @GetMapping("/post/{postId}")
     // check tra đã follow thì mới được xem
-    public String getIntoIndex(Model model,@PathVariable("userId") Integer userId , @PathVariable("postId") Integer postId ){
-        User user = userService.findUserById(userId);
-        // tồn tại user
-        if(user == null) {
-            return "web/pages-error";
-        }
+    public String getIntoIndex(Model model, @PathVariable("postId") Integer postId ){
+
         Post post = postService.findOne(postId);
         // post không tồn tại || không chính chủ
-        if(post == null || userId != post.getUser().getUserId()) {
-            return "web/pages-error";
-        }
+
         model.addAttribute("user",authenticationFacade.getUser());
         model.addAttribute("post",post);
         model.addAttribute("countLike",likePostService.countLikesByPostId(postId));

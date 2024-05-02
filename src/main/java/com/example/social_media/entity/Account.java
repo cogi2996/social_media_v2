@@ -32,9 +32,6 @@ public class Account implements UserDetails {
     private User user;
     @Column(name = "status")
     private Boolean status;
-    // các token của account
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
-    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

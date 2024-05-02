@@ -25,25 +25,20 @@ public class AuthenticationController {
     private final IAuthenticationFacade authenticationFacade;
     private final ModelMapper modelMapper;
     //
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AccountDTO accountDTO){
-        System.out.println(accountDTO);
-        Account newAccount = convertToAccountEntity(accountDTO);
-        User newUser = convertToUserEntity(accountDTO.getUserDTO());
-        // không phải admin thì new user là user hết
-        if(!(authenticationFacade.getRole() == Role.ADMIN)){
-            newAccount.setRole(Role.USER);
-        }
-        AuthenticationResponse token =  authenticationService.register(newAccount,newUser);
-        return  ResponseEntity.ok(token );
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthenticationResponse> register(@RequestBody AccountDTO accountDTO){
+//        System.out.println(accountDTO);
+//        Account newAccount = convertToAccountEntity(accountDTO);
+//        User newUser = convertToUserEntity(accountDTO.getUserDTO());
+//        // không phải admin thì new user là user hết
+//        if(!(authenticationFacade.getRole() == Role.ADMIN)){
+//            newAccount.setRole(Role.USER);
+//        }
+//        AuthenticationResponse token =  authenticationService.register(newAccount,newUser);
+//        return  ResponseEntity.ok(token );
+//    }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
 
-        return ResponseEntity.ok(authenticationService.authenticate(request));
-
-    }
 
     @PostMapping("/change-password")
     public ResponseEntity<ModelMap> changePassword(@RequestBody ChangePassRequest changePassRequest){

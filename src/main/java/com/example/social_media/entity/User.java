@@ -69,17 +69,6 @@ public class User implements Serializable {
     @JsonIgnore
     private List<Post> posts;
 
-    // groups which user created
-    @OneToMany(mappedBy = "adminGroup")
-    @JsonIgnore
-    private List<Group> groupCreates;
-
-    //group which user joined
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinTable(name="GroupMember",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="group_id"))
-    private List<Group> memberGroups;
-
     // các thông báo của user
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
@@ -94,9 +83,6 @@ public class User implements Serializable {
     @JsonIgnore
     @JoinColumn(name="account_id")
     private Account account;
-
-
-
 
 
     @JsonIgnore

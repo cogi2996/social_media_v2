@@ -84,15 +84,7 @@ public class UserRestController {
     }
 
 
-    @GetMapping("/{userId}/groups")
-    public ResponseEntity<GroupDTO> getUserGroups(@PathVariable int userId) {
-        User user = userService.findUserById(userId);
 
-        if (user == null) {
-            return ResponseEntity.noContent().build();
-        }
-        return null;
-    }
 
     // cur user follow someone
     @PostMapping("/follows/{targetId}")

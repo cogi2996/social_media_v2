@@ -36,9 +36,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group postGroup;
+
 
 
     // thông bảo like của bài viết

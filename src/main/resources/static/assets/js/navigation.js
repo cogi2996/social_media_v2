@@ -44,7 +44,7 @@ function renderNotificationsTypeLike(data) {
       : userLiked.avatar;
 
   const html = `
-       <a href="/${curUserId}/post/${post.postId}" class="iq-sub-card">
+       <a href="/post/${post.postId}" class="iq-sub-card">
        <div class="d-flex align-items-center">
          <div class="">
            <img class="avatar-40 rounded" src="${avatar}" alt="">
