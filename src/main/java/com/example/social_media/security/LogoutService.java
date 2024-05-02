@@ -15,8 +15,6 @@ import java.io.IOException;
 public class LogoutService implements LogoutHandler, LogoutSuccessHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        // Hủy phiên người dùng hiện tại
-        System.out.println("looo");
         request.getSession().invalidate();
 
     }

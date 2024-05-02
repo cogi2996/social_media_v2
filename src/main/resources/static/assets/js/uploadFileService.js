@@ -15,7 +15,6 @@ function uploadImage(file) {
     };
     const fileName = Date.now();
     console.log(fileName);
-
     const storageRef = ref(storage, `images/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 

@@ -11,6 +11,7 @@ import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.security.Role;
 import com.example.social_media.service.AuthenticationService;
 import com.example.social_media.service.EmailService;
+import jakarta.persistence.Cacheable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/auth")
@@ -35,7 +37,6 @@ public class AuthenticaionController {
     private final AccountRepository accountRepository;
     private final IAuthenticationFacade authenticationFacade;
     private final EmailService emailService;
-
     @GetMapping("/login")
     public String getIntoLogin(Model model) {
         AuthenticationRequest request = new AuthenticationRequest();
@@ -44,7 +45,6 @@ public class AuthenticaionController {
         model.addAttribute("request", request);
         return "web/sign-in";
     }
-
 
     @PostMapping("/getAuth")
     public String getAuth(@ModelAttribute AuthenticationRequest request, HttpSession session, @NonNull HttpServletRequest req, HttpServletResponse resp) {
@@ -82,7 +82,6 @@ public class AuthenticaionController {
                 .build());
         session.setAttribute("register", newUser);
         session.setAttribute("OTP", otp);
-
         emailService.SendEmail(email, "OTP alohcmute, please don't leak this!", otp);
         model.addAttribute("newUser", newUser);
         return "web/authen-OTP";

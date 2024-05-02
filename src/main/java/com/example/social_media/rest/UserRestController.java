@@ -60,6 +60,7 @@ public class UserRestController {
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable int userId) {
         User user = userService.findUserById(userId);
+        // user not found
         if (user == null) {
             return ResponseEntity.noContent().build();
         }

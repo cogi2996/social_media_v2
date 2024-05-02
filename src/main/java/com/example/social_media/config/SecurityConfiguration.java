@@ -1,26 +1,21 @@
 package com.example.social_media.config;
 
-import com.example.social_media.filter.JwtAuthenticationFilter;
+import com.example.social_media.filter.RateLimitFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import static com.example.social_media.security.Permission.*;
 import static com.example.social_media.security.Role.*;
-import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +25,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
     private final LogoutSuccessHandler logoutSuccessHandler;
-    private final AccessDeniedHandler accessDeniedHandler;
+    private final RateLimitFilter rateLimitFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -52,23 +47,19 @@ public class SecurityConfiguration {
                                 req ->
                                         req.requestMatchers(
                                                         "/auth/**",
-                                                        "/assets/**")
+                                                        "/assets/**","/**")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasAnyRole(ADMIN.name())
                                                 .anyRequest()
                                                 .authenticated()
                         )
-
+                .addFilterBefore(rateLimitFilter, ChannelProcessingFilter.class) // Add the filter before the ChannelProcessingFilter
                 .formLogin(
                         login -> login
                                 .loginPage("/auth/login")
                                 .permitAll()
-//                                .loginProcessingUrl("/auth/login")
                                 .defaultSuccessUrl("/home/index", true)
                                 .failureUrl("/auth/login?error=true")
-                        // username and password parameter names
-//                                .usernameParameter("email")
-//                                .passwordParameter("password")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider)
@@ -79,8 +70,6 @@ public class SecurityConfiguration {
                                         .addLogoutHandler(logoutHandler)
                                         .logoutSuccessHandler(logoutSuccessHandler)
                         )
-
-
         ;
         return http.build();
     }

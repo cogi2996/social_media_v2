@@ -19,6 +19,10 @@ public class ConnectionController {
 
     @GetMapping("{userId}/connection")
     public String getIntoIndex(@PathVariable Integer userId, Model model) {
+        // when not found user
+        if (userService.findUserById(userId) == null) {
+            return "web/pages-error";
+        }
         model.addAttribute("userId", userService.findUserById(userId).getUserId());
         model.addAttribute("user", userService.findUserById(userId));
         model.addAttribute("countFollowers", followService.countByFollowId_TargetIdAndFollowStatus(userId, true));

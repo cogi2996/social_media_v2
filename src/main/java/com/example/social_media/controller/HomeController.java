@@ -5,6 +5,7 @@ import com.example.social_media.security.IAuthenticationFacade;
 import com.example.social_media.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,8 @@ public class HomeController {
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;
     @GetMapping("/index")
+
+    @Cacheable(value = "currentUser") // Caching the result of this method
     public String getIntoIndex(Model model, HttpSession session,
                                @RequestParam(defaultValue = "0") Integer pageNum,@RequestParam(defaultValue = "4") Integer pageSize) {
         User currentUser = authenticationFacade.getUser();

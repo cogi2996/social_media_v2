@@ -27,9 +27,11 @@ public class FollowController {
     private final FollowService followService;
     @GetMapping
     public String getIntoFollowPage(Model model) {
+
         User currentUser = authenticationFacade.getUser();
         model.addAttribute("user", currentUser);
         List<User> pendingFollow = userService.findPendingFollowingById(currentUser.getUserId(), 0, 7, null);
+
         if (!pendingFollow.isEmpty()) {
             model.addAttribute("followerPending",pendingFollow);
         } else {
