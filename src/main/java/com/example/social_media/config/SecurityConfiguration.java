@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                         "script-src 'self' https://unpkg.com/axios@1.6.7/dist/axios.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js https://*.firebaseio.com;" +
                                 "form-action 'self';" +
                                 "frame-ancestors 'self';" +
-                                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/css https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/*;" +
+                                "style-src 'self'  https://fonts.googleapis.com/css https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/*;" +
                                 "img-src 'self' https://firebasestorage.googleapis.com data:;" +
                                 "default-src 'self' https://fonts.gstatic.com/s/poppins/v21//*;" +
                                 "base-uri 'self';" +

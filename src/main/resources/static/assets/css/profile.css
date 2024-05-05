@@ -1,0 +1,22 @@
+#currentAvatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#form-thing {
+  border: none;
+}
+
+#form-control-thing {
+  border: none;
+}
+
+#image {
+  display: none;
+}
+
+#loader {
+  height: 100px;
+}

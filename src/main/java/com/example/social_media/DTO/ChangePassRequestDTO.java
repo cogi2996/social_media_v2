@@ -1,5 +1,6 @@
 package com.example.social_media.DTO;
 
+import com.example.social_media.security.ValidPassword;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ChangePassRequestDTO {
+    @ValidPassword
     String oldPassword;
+    @ValidPassword
     String newPassword;
 }
 

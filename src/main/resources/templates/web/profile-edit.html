@@ -1,260 +1,328 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{web/layout/layout_only_header.html}"
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{web/layout/layout_only_header.html}"
 >
-<body>
-<div id="content-page" class="content-page" layout:fragment="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body p-0">
-                        <div class="iq-edit-list">
-                            <ul class="iq-edit-profile row nav nav-pills">
-                                <li class="col-md-3 p-0">
-                                    <a class="nav-link active" data-bs-toggle="pill" href="#personal-information">
-                                        Thông tin cá nhân
-                                    </a>
-                                </li>
-                                <li class="col-md-3 p-0">
-                                    <a class="nav-link" data-bs-toggle="pill" href="#chang-pwd">
-                                        Mật khẩu & Bảo mật
-                                    </a>
-                                </li>
-                                <li class="col-md-3 p-0">
-                                    <a class="nav-link" data-bs-toggle="pill" href="#manage-contact">
-                                        Thông tin liên hệ
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="iq-edit-list-data">
-                    <div class="tab-content">
-                        <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Thông tin cá nhân</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <form id="form-infor" th:object="${curUser}">
-                                        <div class="form-group row align-items-center">
-                                            <div class="col-md-12">
-                                                <div class="profile-img-edit">
-                                                    <img class="profile-pic"
-                                                         style="
-                                                          width: 150px;
-                                                          height: 150px;
-                                                          border-radius: 50%;
-                                                          object-fit: cover;
-                                                        "
-                                                         th:src="*{avatar} != null ? *{avatar} : '/assets/images/user/defaul_avatar.jpg'"
-                                                         alt="profile-pic">
-                                                    <div class="p-image">
-                                                        <i class="ri-pencil-line upload-button text-white"></i>
-                                                        <input class="file-upload" type="file" name="avatar"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class=" row align-items-center">
-                                            <div class="form-group col-sm-4">
-                                                <label for="lname" class="form-label">Họ:</label>
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="lname"
-                                                        th:field="*{lastName}"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="lname" class="form-label">Tên đệm:</label>
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        th:field="*{midName}"
-                                                        required="required"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-4">
-                                                <label for="fname" class="form-label">Tên:</label>
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        th:field="*{firstName}"
-                                                        required="required"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-12">
-                                                <label for="cname" class="form-label">Địa chỉ:</label>
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="lname"
-                                                        th:field="*{address}"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label class="form-label">Giới tính: *</label>
-                                                <div class="form-check">
-                                                    <div class="form-check form-check-inline">
-                                                        <input
-                                                                class="form-check-input"
-                                                                type="radio"
-                                                                name="gender"
-                                                                th:checked="*{gender} == 0"
-                                                                value="0"
-                                                        />
-                                                        <label
-                                                                class="form-check-label"
-                                                                for="customRadio1"
-                                                        >
-                                                            Nam</label
-                                                        >
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input
-                                                                class="form-check-input"
-                                                                type="radio"
-                                                                th:checked="*{gender} == 1"
-                                                                name="gender"
-                                                                value="1"
-                                                        />
-                                                        <label
-                                                                class="form-check-label"
-                                                                for="customRadio2"
-                                                        >
-                                                            Nữ</label
-                                                        >
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label class="form-label" for="dob"
-                                                >Ngày sinh: *</label
-                                                >
-                                                <input
-                                                        type="date"
-                                                        class="form-control"
-                                                        name="dob"
-                                                        th:field="*{dob}"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label class="form-label" for="lname"
-                                                >Khoa</label
-                                                >
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="lname"
-                                                        th:field="*{department}"
-                                                />
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label class="form-label" for="lname"
-                                                >Ngành</label
-                                                >
-                                                <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        name="lname"
-                                                        th:field="*{major}"
-                                                />
-                                            </div>
-                                        </div>
-                                        <button
-                                                id="submit1"
-                                                type="button"
-                                                class="btn btn-primary action-button me-2"
-                                        >
-                                            Xác nhận
-                                        </button>
-                                        <button type="reset" class="btn bg-soft-danger">Hoàn tác</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="iq-header-title">
-                                        <h4 class="card-title">Thay đỗi mật khẩu</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <form id="form-change-password">
-                                        <div class="form-group">
-                                            <label for="cpass" class="form-label">Mật khẩu hiện tại:</label>
-                                            <a href="#" class="float-end">Quên mật khẩu:</a>
-                                            <input type="Password" class="form-control" id="cpass" value=""
-                                                   name="oldPassword">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="npass" class="form-label">Mật khẩu mới:</label>
-                                            <input type="Password" class="form-control" id="npass" value=""
-                                                   name="newPassword">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="vpass" class="form-label">Xác nhận mật khẩu mới:</label>
-                                            <input type="Password" class="form-control" id="vpass" value=""
-                                                   name="confirm-password">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary me-2" id="submit-change-pass">Xác
-                                            nhân
-                                        </button>
-                                        <button type="reset" class="btn bg-soft-danger">Huỷ</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="manage-contact" role="tabpanel">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Manage Contact</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="cno" class="form-label">Contact Number:</label>
-                                            <input type="text" class="form-control" id="cno"
-                                                   value="001 2536 123 458">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email" class="form-label">Email:</label>
-                                            <input type="text" class="form-control" id="email"
-                                                   value="Bnijone@demo.com">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="url" class="form-label">Url:</label>
-                                            <input type="text" class="form-control" id="url"
-                                                   value="https://getbootstrap.com">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                        <button type="reset" class="btn bg-soft-danger">Cancle</button>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <body>
+    <div layout:fragment="custom-style">
+      <link rel="stylesheet" href="\assets\css\profile-edit.css" />
     </div>
-</div>
-<div layout:fragment="all-scripts">
-    <script src="/assets/js/editProfile.js" type="module"></script>
 
-</div>
-
-</body>
+    <div id="content-page" class="content-page" layout:fragment="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="iq-edit-list">
+                  <ul class="iq-edit-profile row nav nav-pills">
+                    <li class="col-md-3 p-0">
+                      <a
+                        class="nav-link active"
+                        data-bs-toggle="pill"
+                        href="#personal-information"
+                      >
+                        Thông tin cá nhân
+                      </a>
+                    </li>
+                    <li class="col-md-3 p-0">
+                      <a
+                        class="nav-link"
+                        data-bs-toggle="pill"
+                        href="#chang-pwd"
+                      >
+                        Mật khẩu & Bảo mật
+                      </a>
+                    </li>
+                    <li class="col-md-3 p-0">
+                      <a
+                        class="nav-link"
+                        data-bs-toggle="pill"
+                        href="#manage-contact"
+                      >
+                        Thông tin liên hệ
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="iq-edit-list-data">
+              <div class="tab-content">
+                <div
+                  class="tab-pane fade active show"
+                  id="personal-information"
+                  role="tabpanel"
+                >
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="header-title">
+                        <h4 class="card-title">Thông tin cá nhân</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form id="form-infor" th:object="${curUser}">
+                        <div class="form-group row align-items-center">
+                          <div class="col-md-12">
+                            <div class="profile-img-edit">
+                              <img
+                                id="pic-profile"
+                                class="profile-pic"
+                                th:src="*{avatar} != null ? *{avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                                alt="profile-pic"
+                              />
+                              <div class="p-image">
+                                <i
+                                  class="ri-pencil-line upload-button text-white"
+                                ></i>
+                                <input
+                                  class="file-upload"
+                                  type="file"
+                                  name="avatar"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row align-items-center">
+                          <div class="form-group col-sm-4">
+                            <label for="lname" class="form-label">Họ:</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="lname"
+                              th:field="*{lastName}"
+                            />
+                          </div>
+                          <div class="form-group col-sm-4">
+                            <label for="lname" class="form-label"
+                              >Tên đệm:</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              th:field="*{midName}"
+                              required="required"
+                            />
+                          </div>
+                          <div class="form-group col-sm-4">
+                            <label for="fname" class="form-label">Tên:</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              th:field="*{firstName}"
+                              required="required"
+                            />
+                          </div>
+                          <div class="form-group col-sm-12">
+                            <label for="cname" class="form-label"
+                              >Địa chỉ:</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="lname"
+                              th:field="*{address}"
+                            />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label class="form-label">Giới tính: *</label>
+                            <div class="form-check">
+                              <div class="form-check form-check-inline">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="gender"
+                                  th:checked="*{gender} == 0"
+                                  value="0"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="customRadio1"
+                                >
+                                  Nam</label
+                                >
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  th:checked="*{gender} == 1"
+                                  name="gender"
+                                  value="1"
+                                />
+                                <label
+                                  class="form-check-label"
+                                  for="customRadio2"
+                                >
+                                  Nữ</label
+                                >
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label class="form-label" for="dob"
+                              >Ngày sinh: *</label
+                            >
+                            <input
+                              type="date"
+                              class="form-control"
+                              name="dob"
+                              th:field="*{dob}"
+                            />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label class="form-label" for="lname">Khoa</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="lname"
+                              th:field="*{department}"
+                            />
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label class="form-label" for="lname">Ngành</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="lname"
+                              th:field="*{major}"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          id="submit1"
+                          type="button"
+                          class="btn btn-primary action-button me-2"
+                        >
+                          Xác nhận
+                        </button>
+                        <button type="reset" class="btn bg-soft-danger">
+                          Hoàn tác
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="iq-header-title">
+                        <h4 class="card-title">Thay đỗi mật khẩu</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form id="form-change-password">
+                        <div class="form-group">
+                          <label for="cpass" class="form-label"
+                            >Mật khẩu hiện tại:</label
+                          >
+                          <a href="#" class="float-end">Quên mật khẩu:</a>
+                          <input
+                            type="Password"
+                            class="form-control"
+                            id="cpass"
+                            value=""
+                            name="oldPassword"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="npass" class="form-label"
+                            >Mật khẩu mới:</label
+                          >
+                          <input
+                            type="Password"
+                            class="form-control"
+                            id="npass"
+                            value=""
+                            name="newPassword"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="vpass" class="form-label"
+                            >Xác nhận mật khẩu mới:</label
+                          >
+                          <input
+                            type="Password"
+                            class="form-control"
+                            id="vpass"
+                            value=""
+                            name="confirm-password"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          class="btn btn-primary me-2"
+                          id="submit-change-pass"
+                        >
+                          Xác nhân
+                        </button>
+                        <button type="reset" class="btn bg-soft-danger">
+                          Huỷ
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="manage-contact" role="tabpanel">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="header-title">
+                        <h4 class="card-title">Manage Contact</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="cno" class="form-label"
+                            >Contact Number:</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="cno"
+                            value="001 2536 123 458"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="email" class="form-label">Email:</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            value="Bnijone@demo.com"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="url" class="form-label">Url:</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="url"
+                            value="https://getbootstrap.com"
+                          />
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">
+                          Submit
+                        </button>
+                        <button type="reset" class="btn bg-soft-danger">
+                          Cancle
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div layout:fragment="all-scripts">
+      <script src="/assets/js/editProfile.js" type="module"></script>
+    </div>
+  </body>
 </html>

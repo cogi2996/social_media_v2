@@ -1,0 +1,30 @@
+.post-text input {
+  border: none;
+}
+
+#image {
+  display: none;
+}
+
+#btn-follow {
+  width: 110px;
+  height: auto;
+}
+
+#btn-unfollow {
+  width: 110px;
+  height: auto;
+}
+
+#form-thing {
+  border: none;
+}
+
+#load-icon {
+  height: 100px;
+}
+
+.post-comments {
+  max-height: 300px !important;
+  overflow-y: auto;
+}

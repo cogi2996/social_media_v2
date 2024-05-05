@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>SocialV | Responsive Bootstrap 4 Admin Dashboard Template</title>
 
@@ -12,220 +12,240 @@
     <link rel="stylesheet" th:href="@{/assets/css/libs.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/socialv.css?v=4.0.0}" />
     <link
-            rel="stylesheet"
-            th:href="@{/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css}"
+      rel="stylesheet"
+      th:href="@{/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css}"
     />
     <link
-            rel="stylesheet"
-            th:href="@{/assets/vendor/remixicon/fonts/remixicon.css}"
+      rel="stylesheet"
+      th:href="@{/assets/vendor/remixicon/fonts/remixicon.css}"
     />
     <link
-            rel="stylesheet"
-            th:href="@{/assets/vendor/vanillajs-datepicker/dist/css/datepicker.min.css}"
+      rel="stylesheet"
+      th:href="@{/assets/vendor/vanillajs-datepicker/dist/css/datepicker.min.css}"
     />
     <link
-            rel="stylesheet"
-            th:href="@{/assets/vendor/font-awesome-line-awesome/css/all.min.css}"
+      rel="stylesheet"
+      th:href="@{/assets/vendor/font-awesome-line-awesome/css/all.min.css}"
     />
     <link
-            rel="stylesheet"
-            th:href="@{/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css}"
+      rel="stylesheet"
+      th:href="@{/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css}"
     />
     <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
-            rel="stylesheet"
-            type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      rel="stylesheet"
+      type="text/css"
     />
-</head>
-<body class=" ">
-<!-- loader Start -->
-<div id="loading">
-    <div id="loading-center"></div>
-</div>
-<!-- loader END -->
+    <link rel="stylesheet" href="\assets\css\register.css" />
+  </head>
+  <body class=" ">
+    <!-- loader Start -->
+    <div id="loading">
+      <div id="loading-center"></div>
+    </div>
+    <!-- loader END -->
 
-<div class="wrapper">
-    <section class="sign-in-page">
+    <div class="wrapper">
+      <section class="sign-in-page">
         <div id="container-inside">
-            <div id="circle-small"></div>
-            <div id="circle-medium"></div>
-            <div id="circle-large"></div>
-            <div id="circle-xlarge"></div>
-            <div id="circle-xxlarge"></div>
+          <div id="circle-small"></div>
+          <div id="circle-medium"></div>
+          <div id="circle-large"></div>
+          <div id="circle-xlarge"></div>
+          <div id="circle-xxlarge"></div>
         </div>
         <div class="container p-0">
-            <div class="row no-gutters" style="height: 100vh">
-                <div class=" bg-white pt-5 pt-5 pb-lg-0 pb-5">
-                    <div class="sign-in-from">
-                        <h1 class="mb-0">Đăng kí</h1>
-                        <p>
-                            Nhập địa chỉ email và mật khẩu của bạn để truy cập
-                        </p>
-                        <form
-                                class="mt-4"
-                                action="#"
-                                th:action="@{/auth/register}"
-                                th:object="${newUser}"
-                                method="POST"
+          <div class="row no-gutters" id="row-container">
+            <div class="bg-white pt-5 pt-5 pb-lg-0 pb-5">
+              <div class="sign-in-from">
+                <div
+                  th:if="${message}!=null"
+                  class="alert alert-danger d-flex align-items-center"
+                  role="alert"
+                >
+                  <svg class="bi flex-shrink-0 me-2" width="24" height="24">
+                    <use xlink:href="#exclamation-triangle-fill"></use>
+                  </svg>
+                  <div th:text="${message}"></div>
+                </div>
+                <h1 class="mb-0">Đăng kí</h1>
+                <p>Nhập địa chỉ email và mật khẩu của bạn để truy cập</p>
+                <form
+                  class="mt-4"
+                  action="#"
+                  th:action="@{/auth/register}"
+                  th:object="${newUser}"
+                  method="POST"
+                >
+                  <div class="form-group">
+                    <label class="form-label" for="exampleInputEmail1"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control mb-0"
+                      id="exampleInputEmail1"
+                      placeholder="Enter email"
+                      name="email"
+                    />
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <label for="lastName" class="form-label">Họ:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="lastName"
+                        id="lastName"
+                        th:field="*{lastName}"
+                      />
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for="midName" class="form-label">Tên đệm:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        required="required"
+                        id="midName"
+                        th:field="*{midName}"
+                      />
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for="firstName" class="form-label">Tên: </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        required="required"
+                        id="firstName"
+                        th:field="*{firstName}"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-12">
+                    <label for="address" class="form-label">Địa chỉ:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="address"
+                      id="address"
+                      th:field="*{address}"
+                    />
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label class="form-label">Giới tính: *</label>
+                    <div class="form-check">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="gender"
+                          th:checked="*{gender} == 0"
+                          value="0"
+                        />
+                        <label class="form-check-label" for="customRadio1">
+                          Nam</label
                         >
-                            <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail1"
-                                >Email</label
-                                >
-                                <input
-                                        type="email"
-                                        class="form-control mb-0"
-                                        id="exampleInputEmail1"
-                                        placeholder="Enter email"
-                                        name="email"
-                                />
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-4">
-                                    <label for="lastName" class="form-label">Họ:</label>
-                                    <input type="text" class="form-control" name="lastName" id="lastName" th:field="*{lastName}">
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label for="midName" class="form-label">Tên đệm:</label>
-                                    <input type="text" class="form-control" required="required" id="midName" th:field="*{midName}">
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label for="firstName" class="form-label">Tên: </label>
-                                    <input type="text" class="form-control" required="required" id="firstName" th:field="*{firstName}">
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-12">
-                                <label for="address" class="form-label">Địa chỉ:</label>
-                                <input type="text" class="form-control" name="address" id="address" th:field="*{address}">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label class="form-label">Giới tính: *</label>
-                                <div class="form-check">
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="gender"
-                                                th:checked="*{gender} == 0"
-                                                value="0"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="customRadio1"
-                                        >
-                                            Nam</label
-                                        >
-                                    </div>
+                      </div>
 
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                                class="form-check-input"
-                                                type="radio"
-                                                th:checked="*{gender} == 1"
-                                                name="gender"
-                                                value="1"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="customRadio2"
-                                        >
-                                            Nữ</label
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label class="form-label" for="dob"
-                                >Ngày sinh: *</label
-                                >
-                                <input
-                                        type="text"
-                                        class="form-control"
-                                        name="dob"
-                                        th:field="*{dob}"
-                                />
-                            </div>
-                            <div class ="row">
-                                <div class="form-group col-sm-6">
-                                    <label class="form-label" for="department"
-                                    >Khoa</label
-                                    >
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="department"
-                                            th:field="*{department}"
-                                    />
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label class="form-label" for="major"
-                                    >Ngành</label
-                                    >
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            name="major"
-                                            id="major"
-                                            th:field="*{major}"
-                                    />
-                                </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          th:checked="*{gender} == 1"
+                          name="gender"
+                          value="1"
+                        />
+                        <label class="form-check-label" for="customRadio2">
+                          Nữ</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label class="form-label" for="dob">Ngày sinh: *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="dob"
+                      th:field="*{dob}"
+                    />
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label class="form-label" for="department">Khoa</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="department"
+                        th:field="*{department}"
+                      />
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label class="form-label" for="major">Ngành</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="major"
+                        id="major"
+                        th:field="*{major}"
+                      />
+                    </div>
+                  </div>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="exampleInputPassword1"
-                                >Mật khẩu</label
-                                >
-<!--                                <a href="#" class="float-end">Quên mật khẩu</a>-->
-                                <input
-                                        type="password"
-                                        class="form-control mb-0"
-                                        id="exampleInputPassword1"
-                                        placeholder="Mật khẩu của bạn"
-                                        name="password"
-                                />
-                            </div>
-                            <div class="d-inline-block w-100">
-<!--                                <div class="form-check d-inline-block mt-2 pt-1">-->
-<!--                                    <input-->
-<!--                                            type="checkbox"-->
-<!--                                            class="form-check-input"-->
-<!--                                            id="customCheck11"-->
-<!--                                    />-->
-<!--                                </div>-->
-                                <button type="submit" class="btn btn-primary float-end">
-                                    Đăng kí
-                                </button>
-                            </div>
-                            <div class="sign-info">
+                  <div class="form-group">
+                    <label class="form-label" for="exampleInputPassword1"
+                      >Mật khẩu</label
+                    >
+                    <!--                                <a href="#" class="float-end">Quên mật khẩu</a>-->
+                    <input
+                      type="password"
+                      class="form-control mb-0"
+                      id="exampleInputPassword1"
+                      placeholder="Mật khẩu của bạn"
+                      name="password"
+                    />
+                  </div>
+                  <div class="d-inline-block w-100">
+                    <!--                                <div class="form-check d-inline-block mt-2 pt-1">-->
+                    <!--                                    <input-->
+                    <!--                                            type="checkbox"-->
+                    <!--                                            class="form-check-input"-->
+                    <!--                                            id="customCheck11"-->
+                    <!--                                    />-->
+                    <!--                                </div>-->
+                    <button type="submit" class="btn btn-primary float-end">
+                      Đăng kí
+                    </button>
+                  </div>
+                  <div class="sign-info">
                     <span class="dark-color d-inline-block line-height-2"
-                    >Đã có tài khoản?
+                      >Đã có tài khoản?
                       <a href="/auth/login">Đăng Nhập</a></span
                     >
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-</div>
+      </section>
+    </div>
 
-<!-- Backend Bundle JavaScript -->
-<script src="../assets/js/libs.min.js"></script>
-<!-- slider JavaScript -->
-<script src="../assets/js/slider.js"></script>
-<!-- masonry JavaScript -->
-<script src="../assets/js/masonry.pkgd.min.js"></script>
-<!-- SweetAlert JavaScript -->
-<script src="../assets/js/enchanter.js"></script>
-<!-- SweetAlert JavaScript -->
-<script src="../assets/js/sweetalert.js"></script>
-<!-- app JavaScript -->
-<script src="../assets/js/charts/weather-chart.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/lottie.js"></script>
-<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-</body>
+    <!-- Backend Bundle JavaScript -->
+    <script src="../assets/js/libs.min.js"></script>
+    <!-- slider JavaScript -->
+    <script src="../assets/js/slider.js"></script>
+    <!-- masonry JavaScript -->
+    <script src="../assets/js/masonry.pkgd.min.js"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src="../assets/js/enchanter.js"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src="../assets/js/sweetalert.js"></script>
+    <!-- app JavaScript -->
+    <script src="../assets/js/charts/weather-chart.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/lottie.js"></script>
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  </body>
 </html>

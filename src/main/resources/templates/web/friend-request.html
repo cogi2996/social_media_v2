@@ -1,55 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{web/layout/layout_only_header.html}"
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{web/layout/layout_only_header.html}"
 >
-<body>
-<div layout:fragment="content" id="content-page" class="content-page">
-    <div class="container">
+  <body>
+    <div layout:fragment="content" id="content-page" class="content-page">
+      <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="header-title">
-                            <h4 class="card-title">Lời mời theo dõi</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="request-list list-inline m-0 p-0">
-                            <h4 th:if="${message} != ''" th:text ="${message}" ></h4>
-                            <li th:if="${followerPending.size()} > 0" th:each="follower, stat :  ${followerPending}" class="d-flex align-items-center flex-wrap">
-                                <div class="user-img img-fluid flex-shrink-0">
-                                    <img
-                                            th:src="${follower.avatar != null} ? ${follower.avatar} : '/assets/images/user/defaul_avatar.jpg'"
-                                            alt="story-img"
-                                            class="rounded-circle avatar-50"
-                                    />
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 th:text="${follower.getFullName()}">Paul Misunday</h6>
-                                    <p class="mb-0" th:text="${follower.department}">6 friends</p>
-                                </div>
-                                <div class="d-flex align-items-center mt-2 mt-md-0">
-                                    <a th:href="'/follows/acceptFollowPending/'+${follower.userId}" class="me-3 btn btn-primary rounded"
-                                    >Chấp nhận</a
-                                    >
-                                    <a
-                                            th:href="'/follows/deleteFollowPending/'+${follower.userId}"
-                                            class="btn btn-secondary rounded"
-                                    >Xoá</a
-                                    >
-                                </div>
-                            </li>
-                            <li class="d-block text-center mb-0 pb-0">
-                                <a href="#" class="me-3 btn">Xem thêm</a>
-                            </li>
-                        </ul>
-                    </div>
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                  <h4 class="card-title">Lời mời theo dõi</h4>
                 </div>
+              </div>
+              <div class="card-body">
+                <ul class="request-list list-inline m-0 p-0">
+                  <h4 th:if="${message} != ''" th:text="${message}"></h4>
+                  <li
+                    th:if="${followerPending.size()} > 0"
+                    th:each="follower, stat :  ${followerPending}"
+                    class="d-flex align-items-center flex-wrap"
+                  >
+                    <div class="user-img img-fluid flex-shrink-0">
+                      <img
+                        th:src="${follower.avatar != null} ? ${follower.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                        alt="story-img"
+                        class="rounded-circle avatar-50"
+                      />
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h6 th:text="${follower.getFullName()}">Paul Misunday</h6>
+                      <p class="mb-0" th:text="${follower.department}">
+                        6 friends
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center mt-2 mt-md-0">
+                      <a
+                        th:href="'/follows/acceptFollowPending/'+${follower.userId}"
+                        class="me-3 btn btn-primary rounded"
+                        >Chấp nhận</a
+                      >
+                      <a
+                        th:href="'/follows/deleteFollowPending/'+${follower.userId}"
+                        class="btn btn-secondary rounded"
+                        >Xoá</a
+                      >
+                    </div>
+                  </li>
+                  <li class="d-block text-center mb-0 pb-0">
+                    <a href="#" class="me-3 btn">Xem thêm</a>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-</body>
+  </body>
 </html>

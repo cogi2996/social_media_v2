@@ -20,21 +20,22 @@ public enum Role {
                     ADMIN_READ,
                     ADMIN_CREATE,
                     ADMIN_DELETE,
-                    ADMIN_UPDATE,
-                    MANAGER_READ,
-                    MANAGER_CREATE,
-                    MANAGER_DELETE,
-                    MANAGER_UPDATE
-            )
-    ),
-    MANAGER(
-            Set.of(
-                    MANAGER_READ,
-                    MANAGER_CREATE,
-                    MANAGER_DELETE,
-                    MANAGER_UPDATE
+                    ADMIN_UPDATE
+//                    MANAGER_READ,
+//                    MANAGER_CREATE,
+//                    MANAGER_DELETE,
+//                    MANAGER_UPDATE
             )
     )
+//    ,
+//    MANAGER(
+//            Set.of(
+//                    MANAGER_READ,
+//                    MANAGER_CREATE,
+//                    MANAGER_DELETE,
+//                    MANAGER_UPDATE
+//            )
+//    )
     ;
     @Getter
     // Datatype của các phần tử enum Role là Set<Permission>

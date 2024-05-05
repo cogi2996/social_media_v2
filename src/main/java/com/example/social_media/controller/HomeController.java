@@ -23,8 +23,6 @@ public class HomeController {
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;
     @GetMapping("/index")
-
-    @Cacheable(value = "currentUser") // Caching the result of this method
     public String getIntoIndex(Model model, HttpSession session,
                                @RequestParam(defaultValue = "0") Integer pageNum,@RequestParam(defaultValue = "4") Integer pageSize) {
         User currentUser = authenticationFacade.getUser();

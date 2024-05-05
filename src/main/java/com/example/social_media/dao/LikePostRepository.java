@@ -14,3 +14,4 @@ public interface LikePostRepository extends JpaRepository<LikePost, LikePostId> 
     @Query("select count(lp) from LikePost lp where lp.likePostId.postId = ?1")
     Integer countLikesByPostId(int postId);
 }
+

@@ -52,7 +52,6 @@ public class AdminDashBoardController {
     ) {
         User user = userService.findUserById(userId);
         Account account = user.getAccount();
-        System.out.println("Status: " + account.getStatus());
         account.setStatus(!account.getStatus());
         accountService.save(account);
         // tongle status

@@ -9,10 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +43,20 @@ public class AuthenticationController {
 
 
     @PostMapping("/change-password")
-    public ResponseEntity<ModelMap> changePassword(@RequestBody ChangePassRequestDTO changePassRequestDTO){
+    public ResponseEntity<ModelMap> changePassword(@Validated @RequestBody ChangePassRequestDTO changePassRequestDTO, BindingResult bindingResult){
+        //xử lí quăng lỗi nếu có lỗi
+        if (bindingResult.hasErrors()) {
+            String errorMsg = bindingResult.getAllErrors().stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.joining(", "));
+            //return error change pass cho client
+            ModelMap errorModelMap = new ModelMap();
+            errorModelMap.addAttribute("message", errorMsg);
+            System.out.println("biloi");
+            System.out.println(errorMsg);
+            return ResponseEntity.badRequest().body(errorModelMap);
+        }
+        //xử lí quăng lỗi nếu  mật khẩu cũ và mới giống nhau
         authenticationService.changePassword(changePassRequestDTO);
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("message","Password changed successfully");

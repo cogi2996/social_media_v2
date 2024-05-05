@@ -19,8 +19,6 @@ const storage = getStorage(app);
 
 getListNewPost(0, 3);
 btnImage.addEventListener("click", () => {
-  console.log("clickedimg");
-
   inputImg.click();
 });
 
@@ -71,7 +69,6 @@ function getListNewPost(pageNum = 0, pageSize = 2) {
   axios
     .get(`/api/v1/posts?pageNum=${pageNum}&pageSize=${pageSize}`)
     .then(({ data }) => {
-      console.log(data);
       data.forEach((post) => {
         renderPost(post);
       });
@@ -83,8 +80,6 @@ function getListNewPost(pageNum = 0, pageSize = 2) {
 
 function renderPost(post) {
   const createTime = formatDate(new Date(post.postCreateTime));
-  console.log("postprofiletime");
-  console.log(post.postCreateTime);
   const liked = post.liked;
   // bg-soft-primary
   //text-primary
@@ -214,7 +209,7 @@ function renderPost(post) {
           </div>
         </div>
         <hr>
-        <ul class="post-comments list-inline p-0 m-0" style="max-height: 300px; overflow-y: auto;">
+        <ul class="post-comments list-inline p-0 m-0" >
         </ul>
         <form class="comment-text d-flex align-items-center mt-3" >
           <input type="text" class="input-comment form-control rounded" placeholder="Nhập bình luận của bạn">
@@ -266,55 +261,11 @@ function handleLikeButtonClick(button) {
         // handle success
         likeText.innerText = data === 0 ? "Thích" : `${data} Thích`;
       })
-      //   console.log(`here: ` + data);
-      // })
       .catch(function (error) {
         console.log(error);
       });
   }
 }
-
-// tạo một component riêng [refactor]
-// function uploadImage(file) {
-//   return new Promise((resolve, reject) => {
-//     const metadata = {
-//       contentType: file.type,
-//     };
-//     const fileName = Date.now();
-//     console.log(fileName);
-
-//     const storageRef = ref(storage, `images/${fileName}`);
-//     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-
-//     uploadTask.on(
-//       "onStateChanged",
-//       (snapshot) => {
-//         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-//         const progress =
-//           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//         console.log("Upload is " + progress + "% done");
-//         switch (snapshot.state) {
-//           case "paused":
-//             console.log("Upload is paused");
-//             break;
-//           case "running":
-//             console.log("Upload is running");
-//             break;
-//         }
-//       },
-//       (error) => {
-//         reject(`Có lỗi ở upload ảnh lên firebase: ` + error);
-//       },
-//       () => {
-//         // Upload completed successfully, now we can get the download URL
-//         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-//           console.log("File available at", downloadURL);
-//           resolve(downloadURL);
-//         });
-//       }
-//     );
-//   });
-// }
 
 function formatDate(date) {
   var hours = date.getHours();

@@ -139,7 +139,7 @@ function renderFollowCard(listUser, isFollowingsLinkClicked) {
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
               <a href="#">
-              <img src="${avatar}" style="width: 130px; height: 130px; object-fit: cover;" alt="userimg">
+              <img src="${avatar}" class="follow-avatar" alt="userimg">
               </a>
               <div class="friend-info ms-3">
               <a href="/profile?id=${user.userId}">
@@ -192,7 +192,7 @@ followerContainer.addEventListener("click", (e) => {
     console.log(thisUserId);
 
     axios
-      .post(`/api/v1/users/${curConnectUserId}/follows/${thisUserId}`)
+      .post(`/api/v1/users/follows/${thisUserId}`)
       .then(function (response) {
         console.log(response);
       })

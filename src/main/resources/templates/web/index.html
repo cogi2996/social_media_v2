@@ -1,454 +1,290 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{web/layout/layout_full.html}"
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{web/layout/layout_full.html}"
 >
-<body >
-
-<!-- loader END -->
-<!-- Wrapper Start -->
-<div layout:fragment="content" id="content-page" class="content-page">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8" id="container__post">
-                <!-- menu create post -->
-                <div class="col-sm-12">
-                    <div
-                            id="post-modal-data"
-                            class="card card-block card-stretch card-height"
-                    >
-                        <div class="card-header d-flex justify-content-between">
-                            <div class="header-title">
-                                <h4 class="card-title">Tạo bài viết !</h4>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="user-img">
-                                    <img
-                                            th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
-                                            alt="userimg"
-                                            class="avatar-60 rounded-circle"
-                                    />
-                                </div>
-
-                                <div
-                                        class="post-text ms-3 w-100"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#post-modal"
-                                        action="javascript:void();"
-                                >
-                                    <input
-                                            type="text"
-                                            class="form-control rounded"
-                                            th:placeholder="${user.firstName} + ' ơi, bạn đang nghĩ gì thế?'"
-                                            style="border: none"
-                                    />
-                                </div>
-                            </div>
-                            <hr/>
-                            <ul
-                                    class="post-opt-block d-flex list-inline m-0 p-0 flex-wrap"
-                            >
-                                <li class="me-3 mb-md-0 mb-2">
-                                    <a href="#" class="btn btn-soft-primary">
-                                        <img
-                                                src="../assets/images/small/07.png"
-                                                alt="icon"
-                                                class="img-fluid me-2"
-                                        />
-
-                                        Photo/Video
-                                    </a>
-                                </li>
-                                <li class="me-3 mb-md-0 mb-2">
-                                    <a href="#" class="btn btn-soft-primary">
-                                        <img
-                                                src="../assets/images/small/08.png"
-                                                alt="icon"
-                                                class="img-fluid me-2"
-                                        />
-                                        Tag Friend
-                                    </a>
-                                </li>
-<!--                                <li class="me-3">-->
-<!--                                    <a href="#" class="btn btn-soft-primary">-->
-<!--                                        <img-->
-<!--                                                src="../assets/images/small/09.png"-->
-<!--                                                alt="icon"-->
-<!--                                                class="img-fluid me-2"-->
-<!--                                        />-->
-<!--                                        Feeling/Activity-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <button class="btn btn-soft-primary">-->
-<!--                                        <div-->
-<!--                                                class="card-header-toolbar d-flex align-items-center"-->
-<!--                                        >-->
-<!--                                            <div class="dropdown">-->
-<!--                                                <div-->
-<!--                                                        class="dropdown-toggle"-->
-<!--                                                        id="post-option"-->
-<!--                                                        data-bs-toggle="dropdown"-->
-<!--                                                >-->
-<!--                                                    <i class="ri-more-fill"></i>-->
-<!--                                                </div>-->
-<!--                                                <div-->
-<!--                                                        class="dropdown-menu dropdown-menu-right"-->
-<!--                                                        aria-labelledby="post-option"-->
-<!--                                                        style=""-->
-<!--                                                >-->
-<!--                                                    <a-->
-<!--                                                            class="dropdown-item"-->
-<!--                                                            href="#"-->
-<!--                                                            data-bs-toggle="modal"-->
-<!--                                                            data-bs-target="#post-modal"-->
-<!--                                                    >Check in</a-->
-<!--                                                    >-->
-<!--                                                    <a-->
-<!--                                                            class="dropdown-item"-->
-<!--                                                            href="#"-->
-<!--                                                            data-bs-toggle="modal"-->
-<!--                                                            data-bs-target="#post-modal"-->
-<!--                                                    >Live Video</a-->
-<!--                                                    >-->
-<!--                                                    <a-->
-<!--                                                            class="dropdown-item"-->
-<!--                                                            href="#"-->
-<!--                                                            data-bs-toggle="modal"-->
-<!--                                                            data-bs-target="#post-modal"-->
-<!--                                                    >Gif</a-->
-<!--                                                    >-->
-<!--                                                    <a-->
-<!--                                                            class="dropdown-item"-->
-<!--                                                            href="#"-->
-<!--                                                            data-bs-toggle="modal"-->
-<!--                                                            data-bs-target="#post-modal"-->
-<!--                                                    >Watch Party</a-->
-<!--                                                    >-->
-<!--                                                    <a-->
-<!--                                                            class="dropdown-item"-->
-<!--                                                            href="#"-->
-<!--                                                            data-bs-toggle="modal"-->
-<!--                                                            data-bs-target="#post-modal"-->
-<!--                                                    >Play with Friend</a-->
-<!--                                                    >-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </button>-->
-<!--                                </li>-->
-                            </ul>
-                        </div>
-                        <div
-                                class="modal fade"
-                                id="post-modal"
-                                tabindex="-1"
-                                aria-labelledby="post-modalLabel"
-                                aria-hidden="true"
-                        >
-                            <div class="modal-dialog modal-fullscreen-sm-down">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="post-modalLabel">
-                                            Tạo bài viết
-                                        </h5>
-                                        <button
-                                                type="button"
-                                                class="btn btn-secondary"
-                                                data-bs-dismiss="modal"
-                                        >
-                                            <i class="ri-close-fill"></i>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-img">
-                                                <img
-                                                        th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
-                                                        alt="userimg"
-                                                        class="avatar-60 rounded-circle"
-                                                />
-                                            </div>
-                                            <div
-                                                    class="post-text ms-3 w-100"
-                                                    action="javascript:void();"
-                                            >
-                                                <input
-                                                        type="text"
-                                                        class="form-control rounded"
-                                                        placeholder="Write something here..."
-                                                        style="border: none"
-                                                />
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                        <ul
-                                                class="d-flex flex-wrap align-items-center list-inline m-0 p-0"
-                                        >
-                                            <li class="col-md-6 mb-3">
-                                                <div
-                                                        class="bg-soft-primary rounded p-2 pointer me-3"
-                                                        id="btn-image"
-                                                >
-                                                    <img
-                                                            src="../assets/images/small/07.png"
-                                                            alt="icon"
-                                                            class="img-fluid"
-                                                    />
-                                                    <input
-                                                            type="file"
-                                                            class="form-control"
-                                                            id="image"
-                                                            style="display: none"
-                                                    />
-                                                    Photo/Video
-                                                </div>
-                                            </li>
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/08.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Tag Friend-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/09.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Feeling/Activity-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/10.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Check in-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/11.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Live Video-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/12.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Gif-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/13.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Watch Party-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-<!--                                            <li class="col-md-6 mb-3">-->
-<!--                                                <div-->
-<!--                                                        class="bg-soft-primary rounded p-2 pointer me-3"-->
-<!--                                                >-->
-<!--                                                    <a href="#"></a-->
-<!--                                                    ><img-->
-<!--                                                        src="../assets/images/small/14.png"-->
-<!--                                                        alt="icon"-->
-<!--                                                        class="img-fluid"-->
-<!--                                                />-->
-<!--                                                    Play with Friends-->
-<!--                                                </div>-->
-<!--                                            </li>-->
-                                        </ul>
-                                        <hr/>
-                                        <div class="other-option">
-                                            <div
-                                                    class="d-flex align-items-center justify-content-between"
-                                            >
-                                                <div class="d-flex align-items-center">
-                                                    <h6>Người xem</h6>
-                                                </div>
-                                                <div class="card-post-toolbar">
-                                                    <div class="dropdown">
-                                  <span
-                                          class="dropdown-toggle"
-                                          data-bs-toggle="dropdown"
-                                          aria-haspopup="true"
-                                          aria-expanded="false"
-                                          role="button"
-                                  >
-                                    <span class="btn btn-primary">Friend</span>
-                                  </span>
-                                                        <div class="dropdown-menu m-0 p-0">
-                                                            <a class="dropdown-item p-3" href="#">
-                                                                <div class="d-flex align-items-top">
-                                                                    <i class="ri-save-line h4"></i>
-                                                                    <div class="data ms-2">
-                                                                        <h6>Public</h6>
-                                                                        <p class="mb-0">
-                                                                            Anyone on or off Facebook
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <a class="dropdown-item p-3" href="#">
-                                                                <div class="d-flex align-items-top">
-                                                                    <i class="ri-close-circle-line h4"></i>
-                                                                    <div class="data ms-2">
-                                                                        <h6>Friends</h6>
-                                                                        <p class="mb-0">
-                                                                            Your Friend on facebook
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <a class="dropdown-item p-3" href="#">
-                                                                <div class="d-flex align-items-top">
-                                                                    <i class="ri-user-unfollow-line h4"></i>
-                                                                    <div class="data ms-2">
-                                                                        <h6>Friends except</h6>
-                                                                        <p class="mb-0">
-                                                                            Don't show to some friends
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <a class="dropdown-item p-3" href="#">
-                                                                <div class="d-flex align-items-top">
-                                                                    <i class="ri-notification-line h4"></i>
-                                                                    <div class="data ms-2">
-                                                                        <h6>Only Me</h6>
-                                                                        <p class="mb-0">Only me</p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button
-                                                type="submit"
-                                                class="btn btn-primary d-block w-100 mt-3"
-                                        >
-                                            Post
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card" th:if="${recommendUsers.size() > 0}">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="header-title">
-                            <h6 class="card-title">Những người bạn có thể biết</h6>
-                        </div>
-                    </div>
-                    <div class="card-body" id="follow-container">
-                        <ul
-                                class="media-story list-inline m-0 p-0"
-                                th:each="recommendUser: ${recommendUsers}"
-                        >
-                            <li
-                                    class="d-flex mb-3 align-items-center active"
-                                    th:data-user-id="${recommendUser.userId}"
-                            >
-                                <img
-                                        th:src="${recommendUser.avatar != null} ? ${recommendUser.avatar} : '/assets/images/user/defaul_avatar.jpg'"
-                                        alt="story-img"
-                                        class="rounded-circle img-fluid"
-                                />
-                                <div class="stories-data ms-2 d-flex flex-column">
-                                    <a th:href="'/profile?id='+${recommendUser.userId}">
-                                        <h5 th:text="${recommendUser.getFullName()}"></h5>
-                                    </a>
-                                    <a
-                                            href="#"
-                                            class="text-primary"
-                                            th:text="${recommendUser.department}"
-                                    >Primary link</a
-                                    >
-                                    <button
-                                            type="button"
-                                            id="btn-follow"
-                                            class="btn btn-primary mt-1 badge"
-                                            style="width: 110px; height: auto"
-                                    >
-                                        theo dõi
-                                    </button>
-                                    <button
-                                            type="button"
-                                            id="btn-unfollow"
-                                            class="btn btn-secondary mt-1 badge d-none"
-                                            style="width: 110px; height: auto"
-                                    >
-                                        đang theo dõi 😊
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-<!--                        <a href="#" class="btn btn-primary d-block mt-3">Xem thêm</a>-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 text-center">
-                <img
-                        src="../assets/images/page-img/page-load-loader.gif"
-                        alt="loader"
-                        style="height: 100px"
-                />
-            </div>
-        </div>
+  <body>
+    <div layout:fragment="custom-style">
+      <link rel="stylesheet" href="\assets\css\index.css" />
     </div>
-</div>
-<!-- Wrapper End-->
+    <!-- Wrapper Start -->
+    <div layout:fragment="content" id="content-page" class="content-page">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8" id="container__post">
+            <!-- menu create post -->
+            <div class="col-sm-12">
+              <div
+                id="post-modal-data"
+                class="card card-block card-stretch card-height"
+              >
+                <div class="card-header d-flex justify-content-between">
+                  <div class="header-title">
+                    <h4 class="card-title">Tạo bài viết !</h4>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <div class="user-img">
+                      <img
+                        th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                        alt="userimg"
+                        class="avatar-60 rounded-circle"
+                      />
+                    </div>
 
-</div>
-<div layout:fragment="all-scripts">
-    <script type="module" src="/assets/js/home/home.js"></script>
-</div>
+                    <div
+                      class="post-text ms-3 w-100"
+                      data-bs-toggle="modal"
+                      data-bs-target="#post-modal"
+                      action="javascript:void();"
+                    >
+                      <input
+                        type="text"
+                        id="form-thing"
+                        class="form-control rounded"
+                        th:placeholder="${user.firstName} + ' ơi, bạn đang nghĩ gì thế?'"
+                      />
+                    </div>
+                  </div>
+                  <hr />
+                  <ul
+                    class="post-opt-block d-flex list-inline m-0 p-0 flex-wrap"
+                  >
+                    <li class="me-3 mb-md-0 mb-2">
+                      <a href="#" class="btn btn-soft-primary">
+                        <img
+                          src="../assets/images/small/07.png"
+                          alt="icon"
+                          class="img-fluid me-2"
+                        />
 
-</body>
+                        Photo/Video
+                      </a>
+                    </li>
+                    <li class="me-3 mb-md-0 mb-2">
+                      <a href="#" class="btn btn-soft-primary">
+                        <img
+                          src="../assets/images/small/08.png"
+                          alt="icon"
+                          class="img-fluid me-2"
+                        />
+                        Tag Friend
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  class="modal fade"
+                  id="post-modal"
+                  tabindex="-1"
+                  aria-labelledby="post-modalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-fullscreen-sm-down">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="post-modalLabel">
+                          Tạo bài viết
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          <i class="ri-close-fill"></i>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="d-flex align-items-center">
+                          <div class="user-img">
+                            <img
+                              th:src="${user.avatar != null} ? ${user.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                              alt="userimg"
+                              class="avatar-60 rounded-circle"
+                            />
+                          </div>
+                          <div
+                            class="post-text ms-3 w-100"
+                            action="javascript:void();"
+                          >
+                            <input
+                              type="text"
+                              class="form-control rounded"
+                              placeholder="Write something here..."
+                            />
+                          </div>
+                        </div>
+                        <hr />
+                        <ul
+                          class="d-flex flex-wrap align-items-center list-inline m-0 p-0"
+                        >
+                          <li class="col-md-6 mb-3">
+                            <div
+                              class="bg-soft-primary rounded p-2 pointer me-3"
+                              id="btn-image"
+                            >
+                              <img
+                                src="../assets/images/small/07.png"
+                                alt="icon"
+                                class="img-fluid"
+                              />
+                              <input
+                                type="file"
+                                class="form-control"
+                                id="image"
+                              />
+                              Photo/Video
+                            </div>
+                          </li>
+                        </ul>
+                        <hr />
+                        <div class="other-option">
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                          >
+                            <div class="d-flex align-items-center">
+                              <h6>Người xem</h6>
+                            </div>
+                            <div class="card-post-toolbar">
+                              <div class="dropdown">
+                                <span
+                                  class="dropdown-toggle"
+                                  data-bs-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                  role="button"
+                                >
+                                  <span class="btn btn-primary">Friend</span>
+                                </span>
+                                <div class="dropdown-menu m-0 p-0">
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-save-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Public</h6>
+                                        <p class="mb-0">
+                                          Anyone on or off Facebook
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-close-circle-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Friends</h6>
+                                        <p class="mb-0">
+                                          Your Friend on facebook
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-user-unfollow-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Friends except</h6>
+                                        <p class="mb-0">
+                                          Don't show to some friends
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-notification-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Only Me</h6>
+                                        <p class="mb-0">Only me</p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="submit"
+                          class="btn btn-primary d-block w-100 mt-3"
+                        >
+                          Post
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card" th:if="${recommendUsers.size() > 0}">
+              <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                  <h6 class="card-title">Những người bạn có thể biết</h6>
+                </div>
+              </div>
+              <div class="card-body" id="follow-container">
+                <ul
+                  class="media-story list-inline m-0 p-0"
+                  th:each="recommendUser: ${recommendUsers}"
+                >
+                  <li
+                    class="d-flex mb-3 align-items-center active"
+                    th:data-user-id="${recommendUser.userId}"
+                  >
+                    <img
+                      th:src="${recommendUser.avatar != null} ? ${recommendUser.avatar} : '/assets/images/user/defaul_avatar.jpg'"
+                      alt="story-img"
+                      class="rounded-circle img-fluid"
+                    />
+                    <div class="stories-data ms-2 d-flex flex-column">
+                      <a th:href="'/profile?id='+${recommendUser.userId}">
+                        <h5 th:text="${recommendUser.getFullName()}"></h5>
+                      </a>
+                      <a
+                        href="#"
+                        class="text-primary"
+                        th:text="${recommendUser.department}"
+                        >Primary link</a
+                      >
+                      <button
+                        type="button"
+                        id="btn-follow"
+                        class="btn btn-primary mt-1 badge"
+                      >
+                        theo dõi
+                      </button>
+                      <button
+                        type="button"
+                        id="btn-unfollow"
+                        class="btn btn-secondary mt-1 badge d-none"
+                      >
+                        đang theo dõi 😊
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+                <!--                        <a href="#" class="btn btn-primary d-block mt-3">Xem thêm</a>-->
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 text-center">
+            <img
+              id="load-icon"
+              src="../assets/images/page-img/page-load-loader.gif"
+              alt="loader"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Wrapper End-->
+
+    <div layout:fragment="all-scripts">
+      <script type="module" src="/assets/js/home/home.js"></script>
+    </div>
+  </body>
 </html>

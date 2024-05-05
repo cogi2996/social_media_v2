@@ -21,10 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -40,8 +38,6 @@ public class AuthenticaionController {
     @GetMapping("/login")
     public String getIntoLogin(Model model) {
         AuthenticationRequest request = new AuthenticationRequest();
-        request.setEmail("testUser123@gmail.com");
-        request.setPassword("123456");
         model.addAttribute("request", request);
         return "web/sign-in";
     }
@@ -56,14 +52,25 @@ public class AuthenticaionController {
 
 
     @GetMapping("/register")
-    public String getIntoRegister(Model model) {
+    public String getIntoRegister(Model model,@Param("error") String error) {
         User user = new User();
         model.addAttribute("newUser", user);
+        System.out.println("before");
+        if(error != null){
+            System.out.println("after");
+            model.addAttribute("message",error);
+        }
         return "web/register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User newUser, HttpSession session, @Param("password") String password, @Param("email") String email,Model model) {
+    public String register(@ModelAttribute User newUser, HttpSession session, @Param("password") String password, @Param("email") String email, Model model, RedirectAttributes redirectAttributes) {
+        if(accountRepository.findByEmail(email).isPresent()){
+            System.out.println("Email đã tồn tại");
+            redirectAttributes.addAttribute("message","Email đã tồn tại");
+            return "redirect:/auth/register?error={message}";
+        }
+        System.out.println("bypass");
         //validate pass
         String otp = OTPGenerator.generateOTP();
         session.setAttribute("newAccount",Account.builder()

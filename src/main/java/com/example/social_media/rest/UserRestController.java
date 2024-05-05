@@ -41,7 +41,6 @@ public class UserRestController {
     private final NotificationLikeService notificationLikeService;
     private final NotificationService notificationService;
 
-
     // get current user
     @GetMapping("/current")
     public ResponseEntity<?> getCurrentUser() {

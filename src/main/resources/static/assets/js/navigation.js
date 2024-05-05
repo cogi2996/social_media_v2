@@ -22,8 +22,6 @@ async function getNotifications(pageNum, pageSize = 5) {
       throw new Error("Error");
     }
     [...data].forEach((item) => {
-      console.log(item.notification.type);
-
       if (item.notification.type === "LIKE") renderNotificationsTypeLike(item);
     });
     isFetchingNotifications = false;
@@ -35,9 +33,6 @@ async function getNotifications(pageNum, pageSize = 5) {
 // render notifications from list notifications
 function renderNotificationsTypeLike(data) {
   let { notification: noti, userLiked, post } = data; // Changed 'notification' to 'notiData'
-  console.log("noti here");
-  console.log(noti);
-
   const avatar =
     userLiked.avatar === null
       ? `/assets/images/user/defaul_avatar.jpg`
@@ -80,7 +75,6 @@ function loadInforUser() {
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
-         console.log(data);
         const avatar =
           data.avatar === null
             ? `/assets/images/user/defaul_avatar.jpg`
@@ -113,7 +107,6 @@ function loadRecentRequest() {
     .then(function (response) {
       const { data, status } = response;
       if (status === 200) {
-        // console.log(data);
         document.getElementById("total-pending-request").innerHTML =
           data.length;
         const endElement = `
@@ -122,7 +115,6 @@ function loadRecentRequest() {
         </div>
         `;
         data.push(endElement);
-        // console.log(data);
 
         data.forEach((friend, index) => {
           renderRecentRequest(friend, index === data.length - 1);
@@ -146,7 +138,6 @@ function renderRecentRequest(friend, isEnd = false) {
       ? `/assets/images/user/defaul_avatar.jpg`
       : friend.avatar;
 
-  console.log(container);
   const html = `
       <div class="iq-friend-request" data-user-id="${friend.userId}">
         <div class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
@@ -172,9 +163,6 @@ document
   .addEventListener("click", function (e) {
     // thực hiện accept follow
     if (e.target.closest(".btn-primary")) {
-      // e.preventDefault();
-      console.log(e.target.closest(".btn-primary"));
-
       const sourceId = e.target
         .closest(".btn-primary")
         .closest(".iq-friend-request").dataset.userId;

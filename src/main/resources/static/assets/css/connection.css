@@ -1,0 +1,9 @@
+#loader {
+  height: 100px;
+}
+
+.follow-avatar {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+}

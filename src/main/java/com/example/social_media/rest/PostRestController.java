@@ -68,31 +68,29 @@ public class PostRestController {
         int userId = user.getUserId();
         List<Integer> followingId = user.getFollowingUsers().stream().map(User::getUserId).toList();
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
-        List<Post> posts =  postService.findPostsByUserIdAndFollowerIds(userId, followingId, pageable);
-        ObjectMapper mapper  = new ObjectMapper();
+        List<Post> posts = postService.findPostsByUserIdAndFollowerIds(userId, followingId, pageable);
+        System.out.println("post size: " + posts.size());
+        ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-//        mapper.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         List<ObjectNode> postDTOS = posts.stream().map(post -> {
             int postId = post.getPostId();
-            Boolean liked =likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
+            Boolean liked = likePostService.existsLikedPostByPostIdAndUserId(postId, userId);
             PostDTO postDTO = convertToDTO.convertToDTO(post);
-            System.out.println("postTime:"+ post.getPostCreateTime());
-            System.out.println("postDTOTime:"+ postDTO.getPostCreateTime());
-//            postDTO.setPostCreateTime(post.getPostCreateTime().atZone(ZoneId.of("GMT+7")));
+            System.out.println("postTime:" + post.getPostCreateTime());
+            System.out.println("postDTOTime:" + postDTO.getPostCreateTime());
             postDTO.setCountLike(likePostService.countLikesByPostId(postId));
             UserDTO userDTO = convertToDTO.convertToDTO(post.getUser());
             postDTO.setUserDTO(userDTO);
             ObjectNode node = mapper.valueToTree(postDTO);
-            node.put("liked",liked);
-            System.out.println("count like: "+likePostService.countLikesByPostId(postId));
+            node.put("liked", liked);
+            System.out.println("count like: " + likePostService.countLikesByPostId(postId));
             return node;
         }).toList();
         return ResponseEntity.ok(ResponseDTO.builder()
                 .message("success")
                 .data(postDTOS)
                 .build());
-
     }
 
     @GetMapping("/{postId}/like")
