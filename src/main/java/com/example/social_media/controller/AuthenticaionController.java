@@ -61,8 +61,10 @@ public class AuthenticaionController {
         model.addAttribute("newUser", user);
         return "web/register";
     }
+
     @PostMapping("/register")
     public String register(@ModelAttribute User newUser, HttpSession session, @Param("password") String password, @Param("email") String email,Model model) {
+        //validate pass
         String otp = OTPGenerator.generateOTP();
         session.setAttribute("newAccount",Account.builder()
                 .email(email)

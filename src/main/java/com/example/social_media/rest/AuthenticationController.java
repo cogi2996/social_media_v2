@@ -4,13 +4,10 @@ import com.example.social_media.DTO.*;
 import com.example.social_media.entity.Account;
 import com.example.social_media.entity.User;
 import com.example.social_media.security.IAuthenticationFacade;
-import com.example.social_media.security.Role;
 import com.example.social_media.service.AuthenticationService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,12 +38,13 @@ public class AuthenticationController {
 
 
     @PostMapping("/change-password")
-    public ResponseEntity<ModelMap> changePassword(@RequestBody ChangePassRequest changePassRequest){
-        authenticationService.changePassword(changePassRequest);
+    public ResponseEntity<ModelMap> changePassword(@RequestBody ChangePassRequestDTO changePassRequestDTO){
+        authenticationService.changePassword(changePassRequestDTO);
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("message","Password changed successfully");
         return ResponseEntity.ok(modelMap);
     }
+
 
     private Account convertToAccountEntity(AccountDTO accountDTO){
         return modelMapper.map(accountDTO,Account.class);

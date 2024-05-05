@@ -7,7 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChangePassRequest {
+public class ChangePassRequestDTO {
     String oldPassword;
     String newPassword;
 }
+
+

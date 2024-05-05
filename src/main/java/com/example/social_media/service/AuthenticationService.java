@@ -1,7 +1,7 @@
 package com.example.social_media.service;
 
 import com.example.social_media.DTO.AuthenticationRequest;
-import com.example.social_media.DTO.ChangePassRequest;
+import com.example.social_media.DTO.ChangePassRequestDTO;
 import com.example.social_media.dao.AccountRepository;
 import com.example.social_media.dao.UserRepository;
 import com.example.social_media.entity.Account;
@@ -112,10 +112,10 @@ public class AuthenticationService {
 //        tokenRepository.saveAll(validUserTokens);
 //    }
 
-    public void changePassword(ChangePassRequest changePassRequest) {
+    public void changePassword(ChangePassRequestDTO changePassRequestDTO) {
         String email = authenticationFacade.getAuthentication().getName();
-        String oldPass = changePassRequest.getOldPassword();
-        String newPassword = changePassRequest.getNewPassword();
+        String oldPass = changePassRequestDTO.getOldPassword();
+        String newPassword = changePassRequestDTO.getNewPassword();
         // auth
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email,
                 oldPass);

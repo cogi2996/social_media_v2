@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/alohcmute_v2
     username: root
-    password: 29092003
+    password: ENC(l1V/nG3j2xo7KrX+fjj9OaseS+s2LR5lCC/vT+Hi4b69bLFTLRNvD2lWT0utAq1l)
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     rest:
@@ -12,8 +12,6 @@ spring:
   main:
     banner-mode: "off"
   jpa:
-    #    hibernate:
-    #      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -24,22 +22,13 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: ta84578@gmail.com
-    password: jesq ryxd nhvg mepd
+    password: ENC(ac0UEYsU7ru8imqKYhWEP2cpSTOs6BXDu5tQZVlSTeOzD3/igdXn7MgUXyklxujGJFSMuNqJ/QeFysq20J2BKw==)
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-
 server:
-  port: 8082
-
-
-#logging:
-#  level:
-#    root: warn
-#    org.hibernate.SQL: trace
-#    org.hibernate.orm.jdbc.bind: trace
-#
+  port: 8080
 
