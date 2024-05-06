@@ -25,6 +25,18 @@
                         <i class="las la-users"></i><span>Kết nối</span>
                     </a>
                 </li>
+                <li sec:authorize="hasRole('ADMIN')" class="">
+                    <a th:href="'/admin/userControll?pageNum=0'" class=" ">
+                        <i class="far fa-address-card"></i>
+                        <span>Quản lí người dùng</span>
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN')" class="">
+                    <a href="/admin/postControll?pageNum=0" class="">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i><span>Quản lí bài viết</span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <div class="p-5"></div>

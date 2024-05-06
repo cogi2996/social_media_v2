@@ -29,6 +29,14 @@ spring:
           auth: true
           starttls:
             enable: true
+#server:
+#  port: 8080
+
 server:
-  port: 8080
+  port: 443
+  ssl:
+    key-store: socialmedia.p12
+    key-store-password: socialmedia
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 

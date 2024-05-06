@@ -32,15 +32,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .headers(headers -> headers.contentSecurityPolicy(csp -> csp.policyDirectives(
-                        "script-src 'self' https://unpkg.com/axios@1.6.7/dist/axios.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js https://*.firebaseio.com;" +
+                        "script-src 'self' https://unpkg.com/axios@1.6.7/dist/axios.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js " +
+                                "https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js " +
+                                "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js https://*.firebaseio.com;" +
                                 "form-action 'self';" +
                                 "frame-ancestors 'self';" +
                                 "style-src 'self'  https://fonts.googleapis.com/css https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/*;" +
                                 "img-src 'self' https://firebasestorage.googleapis.com data:;" +
                                 "default-src 'self' https://fonts.gstatic.com/s/poppins/v21//*;" +
                                 "base-uri 'self';" +
-                                "connect-src 'self' wss://*.firebaseio.com;" + // Updated this line
-                                "frame-src 'self' https://*.firebaseio.com;" + // Added this line
+                                "connect-src 'self' wss://*.firebaseio.com;" +
+                                "frame-src 'self' https://*.firebaseio.com;" +
                                 "font-src 'self' https://fonts.gstatic.com data:;"
                 )))
                 .authorizeHttpRequests
