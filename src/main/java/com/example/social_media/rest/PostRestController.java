@@ -42,7 +42,6 @@ public class PostRestController {
 
     // cho phép các domain khác gọi API này
     @PostMapping
-//    @CrossOrigin(origins = "*")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO post) {
         Post newPost = convertToEntity.convertToEntity(post);
         newPost.setStatus(true);

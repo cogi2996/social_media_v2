@@ -69,21 +69,6 @@ public class UserRestController {
                 .build());
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllEmployees(
-            @RequestParam(defaultValue = "0") Integer pageNum,
-            @RequestParam(defaultValue = "2") Integer pageSize,
-            @RequestParam(defaultValue = "userId") String sortBy) {
-
-        Page<User> users = userService.findAll(pageNum, pageSize, sortBy);
-        if (pageNum >= users.getTotalPages()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        return ResponseEntity.ok().body(users.getContent());
-    }
-
-
-
 
     // cur user follow someone
     @PostMapping("/follows/{targetId}")
