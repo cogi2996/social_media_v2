@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class RateLimitFilter implements Filter {
 
     private final ConcurrentHashMap<String, RateLimitEntry> requestCounts = new ConcurrentHashMap<>();
-    private final long rateLimit = 1000; // Maximum requests allowed within the time window
+    private final long rateLimit = 500; // Maximum requests allowed within the time window
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -24,7 +24,7 @@ public class RateLimitFilter implements Filter {
         // Retrieve or create a RateLimitEntry for the IP address
         RateLimitEntry entry = requestCounts.computeIfAbsent(ipAddress, k -> new RateLimitEntry());
 
-        // Check if the request exceeds the rate limit within the current time window
+        // Check if the request exceeds the  rate limit within the current time window
         if (entry.isRequestOverLimit(rateLimit)) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -40,8 +40,7 @@ public class RateLimitFilter implements Filter {
 class RateLimitEntry {
     private final AtomicLong count = new AtomicLong();
     private  long lastResetTime = System.currentTimeMillis();
-    private final long timeWindow = TimeUnit.SECONDS.toMillis(3); // 30-second time window
-
+    private final long timeWindow = TimeUnit.SECONDS.toMillis(3);
     public boolean isRequestOverLimit(long limit) {
         // Check if the time window has elapsed since the last request
         if (isTimeWindowReset()) {

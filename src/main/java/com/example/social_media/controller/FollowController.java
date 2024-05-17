@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -65,14 +62,13 @@ public class FollowController {
     }
 
     // huỷ follow ở trang follow
-    @GetMapping("/deleteFollowPending/{userId}")
+    @PostMapping("/deleteFollowPending/{userId}")
     public String deleteFollowPending(@PathVariable Integer userId) {
         int currentUserId = authenticationFacade.getUser().getUserId();
         User user = userService.findUserById(userId);
         if (user == null) {
             return "web/pages-error";
         }
-        System.out.println("XXX"+userId);
         followService.deleteFollow(FollowId.builder()
                 .sourceId(userId)
                 .targetId(currentUserId)
@@ -80,7 +76,7 @@ public class FollowController {
         return "redirect:/follows";
     }
 
-    @GetMapping("/acceptFollowPending/{userId}")
+    @PostMapping("/acceptFollowPending/{userId}")
     public String acceptFollowPending(@PathVariable Integer userId) {
         int currentUserId = authenticationFacade.getUser().getUserId();
         User user = userService.findUserById(userId);

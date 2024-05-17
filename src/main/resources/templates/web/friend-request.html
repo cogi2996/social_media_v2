@@ -37,16 +37,17 @@
                       </p>
                     </div>
                     <div class="d-flex align-items-center mt-2 mt-md-0">
-                      <a
-                        th:href="'/follows/acceptFollowPending/'+${follower.userId}"
-                        class="me-3 btn btn-primary rounded"
-                        >Chấp nhận</a
-                      >
-                      <a
-                        th:href="'/follows/deleteFollowPending/'+${follower.userId}"
-                        class="btn btn-secondary rounded"
-                        >Xoá</a
-                      >
+<!--                      <a-->
+<!--                        th:href="'/follows/acceptFollowPending/'+${follower.userId}"-->
+<!--                        class="me-3 btn btn-primary rounded"-->
+<!--                        >Chấp nhận</a-->
+<!--                      >-->
+                      <form th:action="'/follows/acceptFollowPending/'+${follower.userId}" method="post">
+                        <button type="submit" class="me-3 btn btn-primary rounded">Chấp nhận</button>
+                      </form>
+                        <form th:action="'/follows/deleteFollowPending/'+${follower.userId}" method="post">
+                            <button type="submit" class="btn btn-secondary rounded">Xoá</button>
+                        </form>
                     </div>
                   </li>
                   <li class="d-block text-center mb-0 pb-0">
