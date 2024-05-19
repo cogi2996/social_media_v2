@@ -91,7 +91,7 @@ public class AuthenticationService {
         sc.setAuthentication(auth);
         // Lấy hoặc tạo HttpSession
         HttpSession session = req.getSession(true);
-        session.setMaxInactiveInterval( 60*60*24); // 1 day
+        session.setMaxInactiveInterval( 60*60*24*60);
         // Lưu SecurityContext vào HttpSession
         session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
     }

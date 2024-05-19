@@ -37,11 +37,6 @@
                       </p>
                     </div>
                     <div class="d-flex align-items-center mt-2 mt-md-0">
-<!--                      <a-->
-<!--                        th:href="'/follows/acceptFollowPending/'+${follower.userId}"-->
-<!--                        class="me-3 btn btn-primary rounded"-->
-<!--                        >Chấp nhận</a-->
-<!--                      >-->
                       <form th:action="'/follows/acceptFollowPending/'+${follower.userId}" method="post">
                         <button type="submit" class="me-3 btn btn-primary rounded">Chấp nhận</button>
                       </form>

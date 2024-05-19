@@ -47,6 +47,7 @@ public class AuthenticaionController {
         authenticationService.baseAuthenticate(request, req);
         User user = accountRepository.findByEmail(request.getEmail()).get().getUser();
         session.setAttribute("user", user);
+
         return "redirect:/home/index";
     }
 
